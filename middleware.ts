@@ -4,6 +4,8 @@ import * as jose from "jose";
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
+  console.log({ token });
+
   const publicUrls = ["/", "/auth/sign-in", "/auth/sign-up"];
 
   if (publicUrls.includes(req.nextUrl.pathname)) {
@@ -26,5 +28,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/genres/:path*", "/me/:path*"],
 };

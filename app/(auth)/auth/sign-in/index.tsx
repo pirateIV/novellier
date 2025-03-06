@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 
 import { Lock, Mail } from "lucide-react";
 import { Form, FormField } from "@/components/ui/form";
@@ -11,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { apiClient } from "@/lib/axios";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 const signInFormSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -19,10 +21,10 @@ const signInFormSchema = z.object({
 type SignInFormData = z.infer<typeof signInFormSchema>;
 
 const SignIn = () => {
+  const router = useRouter();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
-      // username: "",
       email: "",
       password: "",
     },
@@ -31,9 +33,9 @@ const SignIn = () => {
   const onSubmit = async (credentials: SignInFormData) => {
     try {
       const response = await apiClient.post("/signin", credentials);
+      router.push("/me");
 
-      console.log(response)
-       
+      console.log(response);
     } catch (error: any) {
       console.log(error);
       toast("Failed to Sign in", {
@@ -41,16 +43,6 @@ const SignIn = () => {
         duration: 5000,
       });
     }
-    // await signIn(credentials)
-    //   .then(async (data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((e) => {
-    //     toast("Failed to Sign in", {
-    //       description: e,
-    //       duration: 5000,
-    //     });
-    //   });
   };
 
   return (
@@ -89,7 +81,7 @@ const SignIn = () => {
           )}
         />
         <SubmitButton loading={form.formState.isSubmitting}>
-          Verify account
+          Sign in
         </SubmitButton>
       </form>
     </Form>

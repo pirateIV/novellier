@@ -18,7 +18,7 @@ export const emailFormSchema = z.object({
     .min(3, "Username must be at least 3 character(s)")
     .max(20, "Username must be at least 20 character(s)"),
   email: z.string().email("Invalid email address"),
-});
+}); 
 
 export const credentialsFormSchema = z
   .object({

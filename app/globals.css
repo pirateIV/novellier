@@ -123,14 +123,23 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  :root {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
   body {
     @apply bg-background text-foreground;
   }
 
-  h1,
+  /* .font-sans {
+    font-family: var(--font-geist-sans);
+  } */
+
   h2,
   h5,
-  h6, blockquote {
+  h6,
+  blockquote {
     @apply font-[cormorant];
   }
 
@@ -138,28 +147,48 @@
     @apply !rounded-none !border-none !text-sm;
   }
 
-  button:disabled {
-    @apply !cursor-not-allowed;
+  button {
+    @apply cursor-pointer;
   }
-  .animate-text {
-    animation: animate-text 8s linear infinite;
+
+  button:disabled,
+  button[aria-disabled] {
+    @apply !cursor-not-allowed touch-none;
   }
+
   .btn-gradient::before {
-    background: linear-gradient(to bottom,rgba(255,255,255,.32),transparent);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.32),
+      transparent
+    );
     border-radius: inherit;
     content: "";
     inset: 0;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: xor;
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     padding: 1px;
     pointer-events: none;
     position: absolute;
-}
+  }
+
   .btn-gradient {
-    background-image: linear-gradient(135deg, color(display-p3 .5725490196 .4156862745 1 / 1) 0%, color(display-p3 1 .4666666667 .6901960784 / 1) 50%, color(display-p3 1 .7019607843 .4039215686 / 1) 100%)
+    background-image: linear-gradient(
+      135deg,
+      color(display-p3 0.5725490196 0.4156862745 1 / 1) 0%,
+      color(display-p3 1 0.4666666667 0.6901960784 / 1) 50%,
+      color(display-p3 1 0.7019607843 0.4039215686 / 1) 100%
+    );
+  }
+
+  .avatar-fallback {
+    background-image: linear-gradient(90deg, #2a2627, #46444467, #2a2627 89%);
+    animation: animate-text 2s linear infinite;
+    background-size: 200% 200%;
   }
 }
 

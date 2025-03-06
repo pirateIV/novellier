@@ -1,49 +1,18 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Cormorant } from "next/font/google";
+import { Cormorant, Geist } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { Toaster } from "sonner";
+import { interVar } from "@/lib/font";
 import { ThemeProvider } from "../lib/theme-provider";
 import "./globals.css";
 
-import localFont from "next/font/local";
-
-const switzer = localFont({
-  src: [
-    {
-      path: "../public/fonts/Switzer-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Medium.woff",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Semibold.woff",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Bold.woff",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-});
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
 const cormorant = Cormorant({
   variable: "--font-cormorant",
+  subsets: ["latin"],
+});
+
+export const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
@@ -61,7 +30,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={`${switzer.className} ${cormorant.variable}`}
+        className={`${interVar.className} ${cormorant.variable} ${geistSans.variable}`}
         suppressHydrationWarning
       >
         <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">

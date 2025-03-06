@@ -1,9 +1,9 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import Image from "next/image";
 import { history } from "@/lib/books";
 import GenresSidebar from "./_components/GenresSidebar";
+import GenreList from "./_components/GenresList";
 
 const GenresPage = () => {
   return (
@@ -42,27 +42,12 @@ const GenresPage = () => {
         </div>
 
         <div className="mt-7">
-          <div className="py-3">
-            <h4 className=" text-sm font-semibold pb-3 border-b mb-4">
-              HISTORY & BIOGRAPHY
-            </h4>
-
-            <div className="flex flex-wrap items-center gap-3">
-              {history.map((h) => (
-                <div key={h.title} className="bg-zinc-900">
-                  <Image
-                    src={h.imageUrl}
-                    width={150}
-                    height={250}
-                    alt={h.title}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <GenreList title="HISTORY & BIOGRAPHY" genre={history} />
+          <GenreList title="HISTORY & BIOGRAPHY" genre={history} />
+          <GenreList title="HISTORY & BIOGRAPHY" genre={history} />
+          <GenreList title="HISTORY & BIOGRAPHY" genre={history} />
         </div>
       </div>
-
       <GenresSidebar />
     </div>
   );
