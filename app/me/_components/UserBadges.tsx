@@ -18,10 +18,10 @@ const UserBadges = ({ user }: any) => {
         <BookOpen className="size-3 mr-1" />0 Books Read
       </Badge>
       <Badge>
-        <Star className="size-3 mr-1 text-orange-400" />0 Reviews
+        <Star className="size-3 mr-1 text-amber-500" />0 Reviews
       </Badge>
       <div className="flex items-center gap-2 whitespace-nowrap">
-        <span className="mx-1.5">&middot;</span>
+        <span className="mx-1.5 text-neutral-500">&middot;</span>
         <span className="text-xs text-neutral-500">
           Member since{" "}
           <span className="text-neutral-200 font-medium">

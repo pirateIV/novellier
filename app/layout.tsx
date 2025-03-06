@@ -30,7 +30,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={`${interVar.className} ${cormorant.variable} ${geistSans.variable}`}
+        className={`${interVar.className} ${cormorant.variable} ${geistSans.variable} antialiased`}
         suppressHydrationWarning
       >
         <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">

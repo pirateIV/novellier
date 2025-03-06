@@ -5,4 +5,12 @@ const apiClient = axios.create({
   withCredentials: true,
 });
 
+export const buildAuthHeaderToken = (token: string) => {
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+}
+
 export { apiClient };
