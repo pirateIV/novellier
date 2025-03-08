@@ -17,9 +17,9 @@ const Stats = () => {
       >
         <div className="text-4xl font-bold">0</div>
         <div className="mt-2 flex items-center text-xs text-muted-foreground">
-          <TrendingUp className="mr-1 h-3 w-3 text-green-500" />
-          <span className="font-medium text-green-500">+12 books</span>
-          <span className="ml-1">in the last 30 days</span>
+          <TrendingUp className="mr-1 h-3 w-3 dark:text-green-500 text-green-600" />
+          <span className="font-medium text-green-600 dark:text-green-500">+12 books</span>
+          <span className="ml-1 text-gray-600 dark:text-inherit">in the last 30 days</span>
         </div>
       </StatsCard>
 
@@ -29,7 +29,7 @@ const Stats = () => {
         value="0"
         icon={
           <div className="rounded-full bg-amber-500/10 p-2">
-            <Star className="h-4 w-4 text-amber-500" />
+            <Star className="h-4 w-4 text-amber-600 dark:text-amber-500" />
           </div>
         }
       >
@@ -42,7 +42,7 @@ const Stats = () => {
                 <Star key={i} className="h-3 w-3" />
               ))}
           </div>
-          <span>Average rating: <span className="text-white"> 4/5</span></span>
+          <span className="text-gray-600 dark:text-inherit">Average rating: <span className="text-white"> 4/5</span></span>
         </div>
       </StatsCard>
 
@@ -52,7 +52,7 @@ const Stats = () => {
         value="NA"
         icon={
           <div className="rounded-full bg-indigo-500/10 p-2">
-            <BookMarked className="h-4 w-4 text-indigo-500" />
+            <BookMarked className="h-4 w-4 text-indigo-600 dark:text-indigo-500" />
           </div>
         }
       >
@@ -61,7 +61,7 @@ const Stats = () => {
         </div>
         <div className="mt-2 flex items-center text-xs text-muted-foreground">
           <div className="mr-2 h-2 w-2 rounded-full bg-indigo-500"></div>
-          <span>Based on your reading history</span>
+          <span className="text-gray-600 dark:text-inherit">Based on your reading history</span>
         </div>
       </StatsCard>
     </div>

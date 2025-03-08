@@ -7,18 +7,11 @@ import { Home } from "lucide-react";
 
 const UserPage = () => {
   return (
-    <div className="relative">
+    <div className="relative pb-5">
       <ProfileSummary />
       <TabContents />
 
-      <div className="flex gap-1 fixed z-50 bg-black p-10 top-0 rounded-full">
-        <Link href="/">
-          <Home />
-        </Link>
-        <button className="bg-white text-zinc-900 p-3 rounded-full">
-          Add Book
-        </button>
-      </div>
+     
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { Badge as BadgeComponent } from "@/components/ui/badge";
 
 const Badge = ({ children }: { children: React.ReactNode }) => {
   return (
-    <BadgeComponent variant="outline" className="font-sans text-gray-300">
+    <BadgeComponent variant="outline" className="font-sans text-gray-800 dark:text-gray-300">
       {children}
     </BadgeComponent>
   );
@@ -18,13 +18,13 @@ const UserBadges = ({ user }: any) => {
         <BookOpen className="size-3 mr-1" />0 Books Read
       </Badge>
       <Badge>
-        <Star className="size-3 mr-1 text-amber-500" />0 Reviews
+        <Star className="size-3 mr-1 text-amber-600 dark:text-amber-500" />0 Reviews
       </Badge>
       <div className="flex items-center gap-2 whitespace-nowrap">
         <span className="mx-1.5 text-neutral-500">&middot;</span>
-        <span className="text-xs text-neutral-500">
+        <span className="text-xs text-zinc-500 dark:text-neutral-500">
           Member since{" "}
-          <span className="text-neutral-200 font-medium">
+          <span className="text-neutral-800 dark:text-neutral-200 font-semibold">
             {formatDate(user.createdAt)}
           </span>
         </span>

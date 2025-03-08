@@ -126,6 +126,7 @@
 
   :root {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    interpolate-size: allow-keywords;
   }
 
   body {
@@ -136,9 +137,6 @@
     font-family: var(--font-geist-sans);
   } */
 
-  h2,
-  h5,
-  h6,
   blockquote {
     @apply font-[cormorant];
   }
@@ -184,12 +182,6 @@
       color(display-p3 1 0.7019607843 0.4039215686 / 1) 100%
     );
   }
-
-  .avatar-fallback {
-    background-image: linear-gradient(90deg, #2a2627, #46444467, #2a2627 89%);
-    animation: animate-text 2s linear infinite;
-    background-size: 200% 200%;
-  }
 }
 
 @layer components {
@@ -207,5 +199,21 @@
   }
   to {
     background-position: 200% center;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .avatar-fallback {
+    background-image: linear-gradient(90deg, #ffffff, #c4c4c496, #ffffff 89%);
+    animation: animate-text 2s linear infinite;
+    background-size: 200% 200%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .avatar-fallback {
+    background-image: linear-gradient(90deg, #2a2627, #46444467, #2a2627 89%);
+    animation: animate-text 2s linear infinite;
+    background-size: 200% 200%;
   }
 }

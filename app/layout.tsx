@@ -3,7 +3,7 @@ import { Cormorant, Geist } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { Toaster } from "sonner";
 import { interVar } from "@/lib/font";
-import { ThemeProvider } from "../lib/theme-provider";
+import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -36,7 +36,7 @@ export default function RootLayout({
         <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="light"
             disableTransitionOnChange
             enableSystem
           >

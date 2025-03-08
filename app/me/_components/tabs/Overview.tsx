@@ -8,14 +8,13 @@ const OverviewTab = () => {
   return (
     <>
       <Stats />
-      {/* <div className="relative p-2 border rounded-[20px] bg-neutral-950 border-white/5 mt-4"> */}
-      <div className="relative p-2 border rounded-[20px] bg-neutral-950 border-white/5 shadow-lg mt-4">
-        <Card className="bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
+      <div className="relative p-2 border rounded-[20px] bg-neutral-200/30 dark:bg-neutral-950 border-white/5 mt-4">
+        <Card className="bg-white dark:bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
           <CardHeader className="p-6 border-b border-white/10">
-            <h1 className="text-2xl font-semibold text-white">
+            <h1 className="text-2xl font-semibold dark:text-white">
               Recent Activity
             </h1>
-            <p className="text-sm text-neutral-400 mt-1">
+            <p className="text-sm text-neutral-700  dark:text-neutral-400 mt-1">
               Your latest reading activities, reviews, and progress
             </p>
           </CardHeader>
@@ -61,7 +60,7 @@ const OverviewTab = () => {
           </CardContent>
         </Card>
       </div>
-      <div className="relative p-2 border rounded-[20px] bg-neutral-950 border-white/5 mt-6 shadow-lg">
+      <div className="relative p-2 border rounded-[20px] bg-neutral-200/10 dark:bg-neutral-950 border-white/5 mt-6">
         <Card className="bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
           <CardHeader className="p-6 border-b border-white/10">
             <h1 className="text-2xl font-semibold text-white">Reading Goals</h1>

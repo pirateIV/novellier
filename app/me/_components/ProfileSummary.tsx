@@ -17,7 +17,7 @@ const user = {
 
 const ProfileSummary = () => {
   return (
-    <div className="bg-gradient-to-r bg-[#0f0f0f] pt-8 pb-16 flex items-start justify-between">
+    <div className="bg-gradient-to-r bg-white dark:bg-[#0f0f0f] pt-8 pb-16 flex items-start justify-between">
       <div className="size-full mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-center md:justify-between">
         <UserDetails user={user} />
 
