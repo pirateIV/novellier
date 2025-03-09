@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         pathname: "/images/**",
       },
+      {
+        hostname: "covers.openlibrary.org",
+        protocol: "https",
+        pathname: "/b/**",
+      }
     ],
   },
 };

@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-grotesque-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -137,6 +137,14 @@
     font-family: var(--font-geist-sans);
   } */
 
+  h1,
+  h2,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans;
+  }
+
   blockquote {
     @apply font-[cormorant];
   }
@@ -216,4 +224,8 @@
     animation: animate-text 2s linear infinite;
     background-size: 200% 200%;
   }
+}
+
+.genre {
+  view-transition-name: genre-title;
 }

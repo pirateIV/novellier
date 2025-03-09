@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant, Geist } from "next/font/google";
+import { Cormorant, Geist,Bricolage_Grotesque } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { Toaster } from "sonner";
 import { interVar } from "@/lib/font";
@@ -11,8 +11,8 @@ const cormorant = Cormorant({
   subsets: ["latin"],
 });
 
-export const geistSans = Geist({
-  variable: "--font-geist-sans",
+export const grotesqueSans = Bricolage_Grotesque({
+  variable: "--font-grotesque-sans",
   subsets: ["latin"],
 });
 
@@ -27,10 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
       <html
         lang="en"
-        className={`${interVar.className} ${cormorant.variable} ${geistSans.variable} antialiased`}
+        className={`${interVar.className} ${cormorant.variable} ${grotesqueSans.variable} antialiased`}
         suppressHydrationWarning
       >
         <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">
@@ -47,6 +46,5 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
-    </ViewTransitions>
   );
 }
