@@ -26,6 +26,9 @@ const GenresPage = async () => {
     query: GET_BOOKS_DATA,
   });
 
+  // console.log(data)
+
+
   return (
     <>
       <div className="max-w-[1440px] grid md:grid-cols-[auto_50px_350px] mx-auto">

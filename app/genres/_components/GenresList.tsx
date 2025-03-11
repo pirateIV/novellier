@@ -46,16 +46,8 @@ const GenreList = ({
               <Image
                 width={100}
                 height={180}
-                src={
-                  work.cover_id
-                    ? `https://covers.openlibrary.org/b/id/${work.cover_id}-M.jpg`
-                    : "/placeholder-book-cover.jpg" // Fallback image
-                }
-                blurDataURL={
-                  work.cover_id
-                    ? `https://covers.openlibrary.org/b/id/${work.cover_id}-S.jpg`
-                    : "/placeholder-book-cover.jpg"
-                }
+                src={`https://covers.openlibrary.org/b/id/${work.cover_id}-M.jpg`}
+                blurDataURL={`https://covers.openlibrary.org/b/id/${work.cover_id}-S.jpg`}
                 className="object-cover w-full h-full"
                 placeholder="blur"
                 alt={`Cover of ${work.title}`}

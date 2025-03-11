@@ -1,6 +1,4 @@
-import { sub } from "date-fns";
-
-const subjects = ["history", "fantasy", "science", "romance"];
+const subjects = ["history", "fantasy", "fiction", "romance"];
 
 // Reuse your existing fetch logic in a reusable function
 export async function fetchOpenLibraryData() {
@@ -20,7 +18,7 @@ export async function fetchOpenLibraryData() {
   }
 }
 
-export async function getBookById(id: string) {
+export async function getBook(id: string) {
   try {
     const response = await fetch(`https://openlibrary.org/works/${id}.json`);
     const data = await response.json();
@@ -32,6 +30,18 @@ export async function getBookById(id: string) {
         ? data.first_publish_date.toString()
         : "",
     };
+  } catch (error) {
+    console.error("Error fetching Open Library data:", error);
+    throw new Error("Failed to fetch Open Library data");
+  }
+}
+
+export async function getAuthor(id: string) {
+  try {
+    const response = await fetch(`https://openlibrary.org/authors/${id}.json`);
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     console.error("Error fetching Open Library data:", error);
     throw new Error("Failed to fetch Open Library data");

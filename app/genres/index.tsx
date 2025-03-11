@@ -30,7 +30,7 @@ const GenresPage = async () => {
     query: GET_GENRE_DATA,
   });
 
-  console.log(data);
+  console.log({ data });
   return (
     <div className=" grid md:grid-cols-[1fr_50px_300px_50px] gap-8 p">
       <div className="pt-12 mx-auto max-w-4xl">
