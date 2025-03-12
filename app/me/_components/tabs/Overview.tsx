@@ -14,7 +14,7 @@ const OverviewTab = () => {
             <h1 className="text-2xl font-semibold dark:text-white">
               Recent Activity
             </h1>
-            <p className="text-sm text-neutral-700  dark:text-neutral-400 mt-1">
+            <p className="text-sm text-neutral-700  dark:text-gray-400 mt-1">
               Your latest reading activities, reviews, and progress
             </p>
           </CardHeader>
@@ -29,14 +29,14 @@ const OverviewTab = () => {
                   style={{ width: "32%" }}
                 ></div>
               </div>
-              <span className="text-neutral-500 text-sm font-medium mt-4">
+              <span className="text-neutral-500 text-sm dark:text-gray-400 font-medium mt-4">
                 No recent activity. Start reading to see your progress!
               </span>
             </div>
             {/* <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between p-4 bg-neutral-900 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <Book className="size-5 text-neutral-400" />
+                  <Book className="size-5 text-gray-400" />
                   <span className="text-sm text-neutral-300">
                     "The Great Gatsby"
                   </span>
@@ -64,7 +64,7 @@ const OverviewTab = () => {
         <Card className="bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
           <CardHeader className="p-6 border-b border-white/10">
             <h1 className="text-2xl font-semibold text-white">Reading Goals</h1>
-            <p className="text-sm text-neutral-400 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               Track your progress toward your reading goals
             </p>
           </CardHeader>

@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { apiClient } from "@/lib/axios";
 import EmailVerficationForm from "../../components/email-verification-form";
 import CredentialsForm from "../../components/credentials-form";
-import Quotes from "@/app/shared/components/quotes";
 
 export const emailFormSchema = z.object({
   username: z

@@ -149,7 +149,7 @@
     @apply font-[cormorant];
   }
 
-  input {
+  input.custom {
     @apply !rounded-none !border-none !text-sm;
   }
 
@@ -210,22 +210,54 @@
   }
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) { */
   .avatar-fallback {
     background-image: linear-gradient(90deg, #ffffff, #c4c4c496, #ffffff 89%);
     animation: animate-text 2s linear infinite;
     background-size: 200% 200%;
   }
-}
+/* } */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .avatar-fallback {
     background-image: linear-gradient(90deg, #2a2627, #46444467, #2a2627 89%);
     animation: animate-text 2s linear infinite;
     background-size: 200% 200%;
   }
-}
+} */
 
 .genre {
   view-transition-name: genre-title;
+}
+
+/* Custom scrollbar for modern browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #777;
 }

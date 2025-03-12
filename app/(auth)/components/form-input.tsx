@@ -17,11 +17,9 @@ interface FormInputProps {
 const FormInput = ({ icon: Icon, label, children }: FormInputProps) => {
   return (
     <FormItem className="relative">
-      <FormLabel>
-        {label} *
-      </FormLabel>
+      <FormLabel>{label} *</FormLabel>
       <FormControl>
-        <div className="group flex rounded-md overflow-hidden border focus-within:ring-2 focus-within:ring-zinc-900 dark:focus-within:ring-zinc-100">
+        <div className="group flex rounded-md overflow-hidden border focus-within:inset-ring-2 focus-within:inset-ring-zinc-900 dark:focus-within:inset-ring-zinc-100">
           <div className="p-3 flex items-center justify-center bg-zinc-200  dark:bg-zinc-800 h-full group-focus-within:text-white dark:group-focus-within:text-zinc-950 group-focus-within:bg-zinc-900 dark:group-focus-within:bg-zinc-100">
             <Icon className="size-4" />
           </div>

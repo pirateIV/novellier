@@ -1,4 +1,15 @@
+import { Bricolage_Grotesque, Cormorant } from "next/font/google";
 import localFont from "next/font/local";
+
+export const cormorant = Cormorant({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+});
+
+export const grotesqueSans = Bricolage_Grotesque({
+  variable: "--font-grotesque-sans",
+  subsets: ["latin"],
+});
 
 export const interVar = localFont({
   src: [

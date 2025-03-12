@@ -42,7 +42,7 @@ export const CredentialsForm: React.FC<CredentialsFormProps> = ({
             <FormInput label="First Name" icon={User}>
                 <Input
                   placeholder="John"
-                  className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                  className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                   {...field}
                 />
               </FormInput>
@@ -56,7 +56,7 @@ export const CredentialsForm: React.FC<CredentialsFormProps> = ({
               <FormInput label="Last Name" icon={User}>
                 <Input
                   placeholder="Doe"
-                  className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                  className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                   {...field}
                 />
               </FormInput>
@@ -71,7 +71,7 @@ export const CredentialsForm: React.FC<CredentialsFormProps> = ({
             <FormInput label="Password" icon={Lock}>
               <Input
                 type="password"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 placeholder="••••••••"
                 {...field}
               />
@@ -86,7 +86,7 @@ export const CredentialsForm: React.FC<CredentialsFormProps> = ({
             <FormInput label="Confirm Password" icon={Lock}>
               <Input
                 type="password"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 placeholder="••••••••"
                 {...field}
               />

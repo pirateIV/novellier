@@ -35,7 +35,7 @@ const EmailVerficationForm = ({ onSubmit }: EmailVerficationFormProps) => {
             <FormInput label="Username" icon={AtSign}>
               <Input
                 placeholder="johndoe"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 {...field}
               />
             </FormInput>
@@ -49,7 +49,7 @@ const EmailVerficationForm = ({ onSubmit }: EmailVerficationFormProps) => {
             <FormInput label="Email" icon={Mail}>
               <Input
                 placeholder="Enter your email address"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 {...field}
               />
             </FormInput>

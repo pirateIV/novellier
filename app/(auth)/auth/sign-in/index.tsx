@@ -60,7 +60,7 @@ const SignIn = () => {
               <Input
                 type="email"
                 placeholder="Enter your email address"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 {...field}
               />
             </FormInput>
@@ -75,7 +75,7 @@ const SignIn = () => {
               <Input
                 type="password"
                 placeholder="••••••••••••"
-                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full"
+                className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none h-full custom"
                 {...field}
               />
             </FormInput>

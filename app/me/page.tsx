@@ -1,19 +1,15 @@
-"use client";
-import type React from "react";
 import ProfileSummary from "./_components/ProfileSummary";
 import TabContents from "./_components/TabContents";
-import Link from "next/link";
-import { Home } from "lucide-react";
+import Nav from "./_components/Nav";
 
-const UserPage = () => {
+const DashboardLayout = () => {
   return (
-    <div className="relative pb-5">
+    <div className="relative bg-neutral-50 dark:bg-background">
+      <Nav />
       <ProfileSummary />
       <TabContents />
-
-     
     </div>
   );
 };
 
-export default UserPage;
+export default DashboardLayout;

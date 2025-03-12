@@ -8,7 +8,7 @@ import * as z from "zod"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { BookDetailsSection } from "./book-details-section"
+import { BookDetailsSection } from "./book-details"
 import { BookReviewSection } from "./book-review-section"
 
 // Define the form schema

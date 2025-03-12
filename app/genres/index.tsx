@@ -28,6 +28,7 @@ const GET_GENRE_DATA = gql`
 const GenresPage = async () => {
   const { data, error } = await client.query({
     query: GET_GENRE_DATA,
+    fetchPolicy: "cache-first",
   });
 
   console.log({ data });

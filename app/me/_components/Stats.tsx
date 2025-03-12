@@ -15,7 +15,7 @@ const Stats = () => {
           </div>
         }
       >
-        <div className="text-4xl font-bold">0</div>
+        <div className="text-4xl font-bold font-sans">0</div>
         <div className="mt-2 flex items-center text-xs text-muted-foreground">
           <TrendingUp className="mr-1 h-3 w-3 dark:text-green-500 text-green-600" />
           <span className="font-medium text-green-600 dark:text-green-500">+12 books</span>
@@ -33,7 +33,7 @@ const Stats = () => {
           </div>
         }
       >
-        <div className="text-4xl font-bold">18</div>
+        <div className="text-4xl font-bold font-sans">18</div>
         <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
           <div className="flex">
             {Array(5)
@@ -56,8 +56,8 @@ const Stats = () => {
           </div>
         }
       >
-        <div className="text-2xl font-bold">
-          <span className="text-muted-foreground">NA</span>
+        <div className="text-4xl font-bold font-sans">
+          <span className="text-muted-foreground/70">NA</span>
         </div>
         <div className="mt-2 flex items-center text-xs text-muted-foreground">
           <div className="mr-2 h-2 w-2 rounded-full bg-indigo-500"></div>

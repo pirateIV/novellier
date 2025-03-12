@@ -22,9 +22,9 @@ const UserBadges = ({ user }: any) => {
       </Badge>
       <div className="flex items-center gap-2 whitespace-nowrap">
         <span className="mx-1.5 text-neutral-500">&middot;</span>
-        <span className="text-xs text-zinc-500 dark:text-neutral-500">
+        <span className="text-xs text-zinc-500 dark:text-gray-400">
           Member since{" "}
-          <span className="text-neutral-800 dark:text-neutral-200 font-semibold">
+          <span className="text-neutral-800 dark:text-gray-200 font-semibold">
             {formatDate(user.createdAt)}
           </span>
         </span>

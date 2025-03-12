@@ -2,20 +2,39 @@ import React from "react";
 import UserDetails from "./UserDetails";
 import { Button } from "@/components/ui/button";
 import { Edit3 } from "lucide-react";
+import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const user = {
-  _id: "67c80851b881d52efbb788d7",
-  firstName: "Benjamin",
-  lastName: "Abolade",
-  username: "benabolade",
-  email: "benabolade@gmail.com",
+// const user = {
+//   _id: "67c80851b881d52efbb788d7",
+//   firstName: "Benjamin",
+//   lastName: "Abolade",
+//   username: "benabolade",
+//   email: "benabolade@gmail.com",
 
-  books: [],
-  createdAt: "2025-03-05T08:16:17.503+00:00",
-  updatedAt: "2025-03-05T08:16:17.503+00:00",
-};
+//   books: [],
+//   createdAt: "2025-03-05T08:16:17.503+00:00",
+//   updatedAt: "2025-03-05T08:16:17.503+00:00",
+// };
 
-const ProfileSummary = () => {
+const ProfileSummary = async () => {
+  const token = (await cookies()).get("token")?.value;
+
+  const getUserData = async () => {
+    try {
+      const { data } = await apiClient.get(
+        "/user-details",
+        buildAuthHeaderToken(token!)
+      );
+      return data;
+    } catch (error) {
+      redirect("/auth/sign-in");
+    }
+  };
+
+  const user = await getUserData();
+
   return (
     <div className="bg-gradient-to-r bg-white dark:bg-[#0f0f0f] pt-8 pb-16 flex items-start justify-between">
       <div className="size-full mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-center md:justify-between">
