@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 
-const reviewSchema = new mongoose.Schema(
+type IReview = {
+  content: string;
+  rating: number;
+  book: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
+};
+
+const reviewSchema = new mongoose.Schema<IReview>(
   {
     content: { type: String, required: true },
     rating: { type: Number, min: 1, max: 5, required: true },

@@ -50,7 +50,7 @@ const Error = () => {
           {loading ? (
             <>
               <LoaderCircle className="animate-spin" />
-              <span>Retrying</span>
+              <span className="text-gray-400">Retrying...</span>
             </>
           ) : (
             <span>Retry</span>

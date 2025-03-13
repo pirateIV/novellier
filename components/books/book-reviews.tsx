@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { z } from "zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
-import { Textarea } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -19,9 +18,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import { Textarea } from "../ui/textarea";
 
 const reviewSchema = z.object({
   review: z.string().min(1, "Your review must not be empty"),
+  rating: z.number().min(1, "Rating must be at least 1"),
 });
 
 type ReviewFormData = z.infer<typeof reviewSchema>;
@@ -31,11 +32,16 @@ const BookReviews = () => {
     resolver: zodResolver<ReviewFormData>(reviewSchema),
     defaultValues: {
       review: "",
+      rating: 1,
     },
   });
 
-  const onSubmit = (value: ReviewFormData) => {
-    console.log(value);
+  const rating = form.watch("rating");
+  const [hoverRating, setHoverRating] = useState<number | null>(null);
+
+  const onSubmit = async (value: ReviewFormData) => {
+    const { review, rating } = value;
+    // await Book.create({ review, rating });
   };
 
   return (
@@ -79,24 +85,40 @@ const BookReviews = () => {
                   What do you think about this book?
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Username
-                  </Label>
-                  <Input
-                    name="username"
-                    className="col-span-full inset-ring disabled:inset-ring-gray-500 disabled:placeholder:text-gray-400 disabled:cursor-not-allowed"
-                    disabled
-                  />
-                </div>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid items-center gap-2">
+                      <Label htmlFor="username" className="text-right">
+                        Username
+                      </Label>
+                      <Input
+                        name="username"
+                        value="@benabolade"
+                        className="col-span-full inset-ring disabled:inset-ring-gray-700 disabled:placeholder:text-gray-500 disabled:cursor-not-allowed"
+                        disabled
+                      />
+                    </div>
 
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Form {...form}>
-                    <form
-                      className="col-span-full"
-                      onSubmit={form.handleSubmit(onSubmit)}
-                    >
+                    <div className="flex justify-end">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <button
+                          key={i}
+                          className={`text-white ${
+                            (hoverRating ?? rating) > i
+                              ? "text-yellow-300"
+                              : "text-gray-300"
+                          }`}
+                          onClick={() => form.setValue("rating", i + 1)}
+                          onMouseOver={() => setHoverRating(i + 1)}
+                          onMouseLeave={() => setHoverRating(null)}
+                        >
+                          &#9733;
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="grid items-center gap-2">
                       <Label htmlFor="username" className="text-right">
                         Review
                       </Label>
@@ -105,19 +127,23 @@ const BookReviews = () => {
                         control={form.control}
                         render={({ field }) => (
                           <Textarea
-                            className="w-full border rounded-lg"
-                            rows={5}
+                            className="w-full  text-sm border"
+                            placeholder="Write your review here..."
+                            rows={7}
                             {...field}
                           />
                         )}
                       />
-                    </form>
-                  </Form>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
+                    </div>
+                  </div>
+
+                  <DialogFooter>
+                    <Button type="submit" className="font-semibold">
+                      Add review
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
             </DialogContent>
           </Dialog>
         </div>

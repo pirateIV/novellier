@@ -1,3 +1,5 @@
+import { genres } from "../books";
+
 const subjects = ["history", "fantasy", "fiction", "romance"];
 
 // Reuse your existing fetch logic in a reusable function
@@ -18,14 +20,23 @@ export async function fetchOpenLibraryData() {
   }
 }
 
+const defaultGenres = genres.map((genre) => genre.name);
+
 export async function getBook(id: string) {
   try {
     const response = await fetch(`https://openlibrary.org/works/${id}.json`);
     const data = await response.json();
 
+    console.log(data)
+
+    const filteredGenres = data.subjects.filter((subject: string) =>
+      defaultGenres.includes(subject)
+    );
+
     return {
       ...data,
       description: data.description.value || data.description,
+      subjects: filteredGenres,
       first_publish_date: data.first_publish_date
         ? data.first_publish_date.toString()
         : "",

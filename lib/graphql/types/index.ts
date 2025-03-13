@@ -2,6 +2,7 @@ export type BookResponse = {
   title: string;
   description: string;
   first_publish_date: string;
+  subjects: [string];
   links: {
     title: string;
     url: string;

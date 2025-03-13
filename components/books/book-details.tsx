@@ -2,15 +2,20 @@
 
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { MDXProvider } from "@mdx-js/react";
+import { components, markdownToHtml } from "@/lib/mdx";
+import { useBookContext } from "@/context/book-context";
 import { Badge } from "../ui/badge";
 import BookResources from "./book-resources";
-import { useBookContext } from "@/context/book-context";
 
-const BookDetails = () => {
+const BookDetails = async () => {
   const { book, author } = useBookContext();
   const { description, first_publish_date, links, title } = book;
 
-  let genre = "Adventure";
+  // Convert markdown description to HTML
+  const descriptionHtml = await markdownToHtml(description);
+
+  let genre = book?.subjects[0];
 
   return (
     <div className="w-full md:order-0 md:w-2/3">
@@ -52,9 +57,14 @@ const BookDetails = () => {
 
       <div className="mb-6">
         <h3 className="mb-3 text-xl font-semibold">About this book</h3>
-        <p className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm">
-          {description || "No description available for this book."}
-        </p>
+        <div className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm whitespace-pre-line">
+          <MDXProvider components={components}>
+            <div
+              className="[&:has(a)_a]:text-blue-500 [&:has(a)_a]:underline"
+              dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+            />
+          </MDXProvider>
+        </div>
       </div>
 
       <BookResources links={links} />

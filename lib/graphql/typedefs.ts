@@ -15,6 +15,7 @@ export const typeDefs = gql`
     first_publish_date: String
     authors: [BookAuthor]
     links: [BookLink]
+    subjects: [String]
     # covers: [Int]
   }
 

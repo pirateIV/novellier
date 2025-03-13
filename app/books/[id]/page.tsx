@@ -24,7 +24,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
 
   if (!book) return notFound();
 
-  console.log({book})
+  console.log({ book });
 
   const authorId = book.authors[0].author.key.replace("/authors/", "");
 
@@ -42,6 +42,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
 
   return (
     <BookProvider {...props}>
+      <title>{book.title}</title>
       <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <BookHeader />
