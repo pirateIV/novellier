@@ -4,12 +4,9 @@ import React from "react";
 import { Icons } from "../icons";
 import { useBookContext } from "@/context/book-context";
 
-const BookResources = ({
-  links,
-}: {
-  links: { title: string; url: string }[];
-}) => {
+const BookResources = () => {
   const { book } = useBookContext();
+  const {links, title} = book;
   return (
     <div className="relative p-4 mb-6 bg-gray-50 rounded-lg border border-dashed border-gray-200 dark:bg-zinc-900/55 dark:border-zinc-800">
       <div className="flex items-center justify-between">
@@ -23,7 +20,7 @@ const BookResources = ({
             className="p-1 -mt-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full"
             onClick={() =>
               window.open(
-                `https://en.wikipedia.org/wiki/${book.title.replace(/ /g, "_")}`
+                `https://en.wikipedia.org/wiki/${title.replace(/ /g, "_")}`
               )
             }
           >
@@ -33,7 +30,7 @@ const BookResources = ({
             title="Google search"
             className="p-1 -mt-1 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full"
             onClick={() =>
-              window.open(`https://www.google.com/search?q=${book.title}`)
+              window.open(`https://www.google.com/search?q=${title}`)
             }
           >
             <Icons.Google className="size-[18px] fill-black dark:fill-white" />

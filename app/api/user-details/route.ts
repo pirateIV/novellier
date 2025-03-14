@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/shared/models/User";
-import jwt from "jsonwebtoken";
+import { getUserByToken } from "@/app/shared/utils";
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
@@ -27,18 +26,3 @@ export async function GET(req: NextRequest) {
     );
   }
 }
-
-const getUserByToken = async (token: string) => {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
-  return await User.findById(decoded.id);
-};
-
-const sendJsonResponse = async ({
-  data,
-  statusCode,
-}: {
-  data: any;
-  statusCode?: number;
-}) => {
-  return NextResponse.json({ data }, { status: statusCode });
-};

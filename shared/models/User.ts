@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema<IUser>(
     username: { type: String, default: "", unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    totalReviews: { type: Number, default: 0 },
     books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
   },
   { timestamps: true, versionKey: false }

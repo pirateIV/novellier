@@ -27,8 +27,6 @@ export async function getBook(id: string) {
     const response = await fetch(`https://openlibrary.org/works/${id}.json`);
     const data = await response.json();
 
-    console.log(data)
-
     const filteredGenres = data.subjects.filter((subject: string) =>
       defaultGenres.includes(subject)
     );

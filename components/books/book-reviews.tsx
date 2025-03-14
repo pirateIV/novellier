@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { z } from "zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useBookContext } from "@/context/book-context";
+import { apiClient } from "@/lib/axios";
+import { cn } from "@/lib/utils";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Form, FormField } from "../ui/form";
 import { Button } from "../ui/button";
+import { Form, FormField } from "../ui/form";
 import {
   Dialog,
   DialogContent,
@@ -21,28 +25,44 @@ import {
 import { Textarea } from "../ui/textarea";
 
 const reviewSchema = z.object({
-  review: z.string().min(1, "Your review must not be empty"),
+  content: z.string().min(1, "Your review must not be empty"),
   rating: z.number().min(1, "Rating must be at least 1"),
 });
 
 type ReviewFormData = z.infer<typeof reviewSchema>;
 
 const BookReviews = () => {
+  const params = useParams();
+  const { author, book } = useBookContext();
   const form = useForm({
     resolver: zodResolver<ReviewFormData>(reviewSchema),
     defaultValues: {
-      review: "",
-      rating: 1,
+      content: "",
+      rating: 3,
     },
   });
 
   const rating = form.watch("rating");
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
-  const onSubmit = async (value: ReviewFormData) => {
-    const { review, rating } = value;
-    // await Book.create({ review, rating });
+  const onSubmit = async (values: ReviewFormData) => {
+    try {
+      const response = await apiClient.post("/reviews/add", {
+        review: values,
+        book: {
+          bookId: params.id,
+          author: author.name,
+          authorId: author.authorId,
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    form.reset();
   };
+
+  const submitting = form.formState.isSubmitting;
 
   return (
     <div className="pt-8 mt-12 border-t">
@@ -100,20 +120,21 @@ const BookReviews = () => {
                       />
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-center gap-2">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <button
                           key={i}
-                          className={`text-white ${
+                          className={cn(
+                            "text-2xl",
                             (hoverRating ?? rating) > i
-                              ? "text-yellow-300"
+                              ? "text-amber-500"
                               : "text-gray-300"
-                          }`}
+                          )}
                           onClick={() => form.setValue("rating", i + 1)}
                           onMouseOver={() => setHoverRating(i + 1)}
                           onMouseLeave={() => setHoverRating(null)}
                         >
-                          &#9733;
+                          {(hoverRating ?? rating) > i ? "★" : "☆"}
                         </button>
                       ))}
                     </div>
@@ -123,13 +144,12 @@ const BookReviews = () => {
                         Review
                       </Label>
                       <FormField
-                        name="review"
+                        name="content"
                         control={form.control}
                         render={({ field }) => (
                           <Textarea
-                            className="w-full  text-sm border"
+                            className="w-full text-sm border row-span-6 min-h-24"
                             placeholder="Write your review here..."
-                            rows={7}
                             {...field}
                           />
                         )}
@@ -138,8 +158,12 @@ const BookReviews = () => {
                   </div>
 
                   <DialogFooter>
-                    <Button type="submit" className="font-semibold">
-                      Add review
+                    <Button
+                      type="submit"
+                      className="font-semibold"
+                      disabled={submitting}
+                    >
+                      {submitting ? "Submitting..." : "Submit"}
                     </Button>
                   </DialogFooter>
                 </form>

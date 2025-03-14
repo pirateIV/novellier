@@ -1,54 +1,47 @@
 import React from "react";
-import client from "@/lib/apollo-client";
 
 import { notFound } from "next/navigation";
+import { markdownToHtml } from "@/lib/mdx";
 import { ParamIdProps } from "@/shared/types";
 import { BookProvider } from "@/context/book-context";
-import { GET_AUTHOR_DATA, GET_BOOK_DATA } from "@/lib/graphql/queries";
-import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
 import BookHeader from "@/components/books/book-header";
 import BookCover from "@/components/books/book-cover";
 import BookReviews from "@/components/books/book-reviews";
 import BookDetails from "@/components/books/book-details";
+import BookDescription from "@/components/books/book-description";
+import BookResources from "@/components/books/book-resources";
+import { fetchBookAndAuthorData } from "@/services/bookService";
 
 const BookDetailsPage = async ({ params }: ParamIdProps) => {
   if (!params?.id) return notFound();
 
-  const {
-    data: { book },
-  } = await client.query<{ book: BookResponse }>({
-    query: GET_BOOK_DATA,
-    variables: { id: params.id },
-    fetchPolicy: "cache-first",
-  });
-
-  if (!book) return notFound();
-
-  console.log({ book });
-
-  const authorId = book.authors[0].author.key.replace("/authors/", "");
-
-  const authorPromise = client.query<{ author: AuthorResponse }>({
-    query: GET_AUTHOR_DATA,
-    variables: { id: authorId },
-    fetchPolicy: "cache-first",
-  });
+  const data = await fetchBookAndAuthorData(params.id);
+  if (!data) return notFound();
 
   const {
-    data: { author: authorData },
-  } = await authorPromise;
+    book: { description, title },
+  } = data;
 
-  const props = { book, author: { ...authorData, authorId } };
+  const descriptionHTML = await markdownToHtml(description)
 
   return (
-    <BookProvider {...props}>
-      <title>{book.title}</title>
-      <div className="mx-auto max-w-5xl px-4 py-8">
+    <BookProvider {...data}>
+      <title>{title}</title>
+      <div className="mx-auto md:max-w-5xl px-4 py-8">
         <div className="mb-8">
           <BookHeader />
-          <div className="flex flex-col gap-8 md:flex-row">
+          <div className="flex flex-col justify-beween gap-8 md:flex-row">
             <BookCover />
-            <BookDetails />
+            <div className="w-full md:order-0 md:w-2/3">
+              <BookDetails />
+              <div className="mb-6">
+                <h3 className="mb-3 text-xl font-semibold">About this book</h3>
+                <div className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm whitespace-pre-line">
+                  <BookDescription description={descriptionHTML} />
+                </div>
+              </div>
+              <BookResources />
+            </div>
           </div>
         </div>
         <BookReviews />

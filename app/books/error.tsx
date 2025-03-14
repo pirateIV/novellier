@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 const Error = () => {
   const params = useParams() as { id: string };
   const { refetch, error: fetchError, loading } = useBook(params.id);
-  // const {book} =
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 3;
 
