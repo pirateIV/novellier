@@ -25,16 +25,10 @@ const bookSchema = new mongoose.Schema<IBook>(
   { timestamps: true, versionKey: false }
 );
 
-// const bookSchema = new mongoose.Schema<IBook>(
-//   {
-//     title: { type: String, default: "", unique: true },
-//     genre: { type: String, required: true },
-//     author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
-//     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-//     ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }],
-//     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
-//   },
-//   { timestamps: true, versionKey: false }
-// );
-
+bookSchema.set("toJSON", {
+  transform: (_: any, returnedObj) => {
+    returnedObj.id = returnedObj._id.toString();
+    delete returnedObj._id;
+  },
+});
 export default mongoose.models.Book || mongoose.model("Book", bookSchema);

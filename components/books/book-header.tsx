@@ -21,7 +21,7 @@ const BookHeader = () => {
       </div>
       <div>
         <button
-          className="flex items-center gap-1 text-sm text-blue-500 font-medium hover:underline"
+          className="flex items-center gap-1 text-sm text-blue-600  dark:text-blue-500 font-medium hover:underline"
           onClick={() =>
             window.open(`https://www.google.com/search?q=${book.title}`)
           }

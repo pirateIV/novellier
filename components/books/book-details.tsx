@@ -8,8 +8,8 @@ import BookDescription from "./book-description";
 
 const BookDetails = () => {
   const { book, author } = useBookContext();
-  const { description, subjects, first_publish_date, links, title } = book;
-
+  
+  const { authors, subjects, first_publish_date, links, title } = book;
   const genre = subjects[0];
 
   return (
@@ -29,7 +29,12 @@ const BookDetails = () => {
           />
         </div>{" "}
         <span className="font-medium text-indigo-600 dark:text-sky-400">
-          {author.name}
+          {author.name}{" "}
+          {authors.length > 1 && (
+            <span className="text-gray-200 text-xs font-Medium">
+              (+{authors.length - 1})
+            </span>
+          )}
         </span>
       </div>
 
@@ -47,7 +52,6 @@ const BookDetails = () => {
           <span className="text-zinc-900 dark:text-zinc-300">4.7</span>
         </div>
       </div>
-
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { AddBookForm } from "@/components/books/add-book-form";
+import { AddBookForm } from "@/components/books/forms/add-book-form";
 import { genres } from "@/lib/books";
 
 export const metadata = {

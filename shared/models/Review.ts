@@ -19,4 +19,11 @@ const reviewSchema = new mongoose.Schema<IReview>(
   { timestamps: true, versionKey: false }
 );
 
+reviewSchema.set("toJSON", {
+  transform: (_: any, returnedObj) => {
+    returnedObj.id = returnedObj._id.toString();
+    delete returnedObj._id;
+  },
+});
+
 export default mongoose.models.Review || mongoose.model("Review", reviewSchema);

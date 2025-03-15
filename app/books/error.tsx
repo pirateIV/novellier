@@ -30,7 +30,7 @@ const Error = () => {
   return (
     <div className="w-full h-screen fixed inset-0 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/30 flex flex-col items-center justify-center overflow-hidden z-[200]">
       <h1 className="mb-2 text-4xl text-center">Oops, couldn't get data...</h1>
-      <div className="text-sm text-red-500">failed to fetch</div>
+      {!loading && <div className="text-sm text-red-500">failed to fetch</div>}
 
       <div className="mt-6 flex items-center justify-center gap-3">
         <Button

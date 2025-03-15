@@ -212,7 +212,8 @@
 
 /* @media (prefers-color-scheme: light) { */
   .avatar-fallback {
-    background-image: linear-gradient(90deg, #ffffff, #c4c4c496, #ffffff 89%);
+    /* background-image: linear-gradient(90deg, #ffffff, #c4c4c496, #ffffff 89%); */
+    @apply bg-[linear-gradient(90deg,#ffffff,#c4c4c496,#ffffff_89%)] dark:bg-[linear-gradient(90deg,#2a2627,#46444467,#2a2627_89%)];
     animation: animate-text 2s linear infinite;
     background-size: 200% 200%;
   }

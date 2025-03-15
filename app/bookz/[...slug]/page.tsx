@@ -11,18 +11,23 @@ import BookDetails from "@/components/books/book-details";
 import BookDescription from "@/components/books/book-description";
 import BookResources from "@/components/books/book-resources";
 import { fetchBookAndAuthorData } from "@/services/bookService";
+import { GetServerSideProps } from "next";
 
-const BookDetailsPage = async ({ params }: ParamIdProps) => {
-  if (!params?.id) return notFound();
+const BookDetailsPage = async ({ params }: { params: { slug: string[] } }) => {
+  if (params) return notFound();
 
-  const data = await fetchBookAndAuthorData(params.id);
-  if (!data) return notFound();
+  console.log(params);
+
+  //   const data = await fetchBookAndAuthorData(params.slug[0]);
+  //   if (!data) return notFound();
+
+  return <></>;
 
   const {
     book: { description, title },
   } = data;
 
-  const descriptionHTML = await markdownToHtml(description)
+  const descriptionHTML = await markdownToHtml(description);
 
   return (
     <BookProvider {...data}>
