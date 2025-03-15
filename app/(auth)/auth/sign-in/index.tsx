@@ -33,7 +33,7 @@ const SignIn = () => {
 
   const onSubmit = async (credentials: SignInFormData) => {
     try {
-      const response = await apiClient.post("/signin", credentials);
+      const response = await apiClient.post("/auth/signin", credentials);
       router.push("/me");
 
       console.log(response);

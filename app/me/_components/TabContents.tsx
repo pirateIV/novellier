@@ -16,7 +16,7 @@ const TabContents = () => {
             {tabs.map((tab) => (
               <Tab
                 key={tab}
-                className="text-center text-sm font-medium rounded text-gray-600 dark:text-gray-300 data-[selected]:text-gray-900 data-[selected]:bg-white dark:data-[selected]:text-gray-50 dark:data-[selected]:bg-zinc-800 data-[selected]:shadow-sm dark:data-[selected]:border-b-zinc-700/60 outline-none"
+                className="text-center text-xs md:text-sm font-medium rounded text-gray-600 dark:text-gray-300 data-[selected]:text-gray-900 data-[selected]:bg-white dark:data-[selected]:text-gray-50 dark:data-[selected]:bg-zinc-800 data-[selected]:shadow-sm dark:data-[selected]:border-b-zinc-700/60 outline-none"
               >
                 {tab}
               </Tab>

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { useBookContext } from "@/context/book-context";
+import { useBookContext } from "@/context/BookContext";
 
 const BookHeader = () => {
   const { book } = useBookContext();

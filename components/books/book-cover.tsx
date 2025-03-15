@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useBookContext } from "@/context/book-context";
+import { useBookContext } from "@/context/BookContext";
 
 const BookCover = () => {
   const { book } = useBookContext();

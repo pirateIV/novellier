@@ -4,7 +4,7 @@ import UserBadges from "./UserBadges";
 
 const UserDetails = ({ user }: any) => {
   return (
-    <div className="flex flex-col justify-center md:flex-row items-center md:item-start md:justify-start gap-6">
+    <div className="flex flex-col justify-center pt-10 xl:pt-0 md:flex-row items-center md:item-start md:justify-start gap-6">
       <Avatar className="size-24 border-4 border-zinc-300 dark:border-zinc-900">
         {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
         <AvatarFallback>

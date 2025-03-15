@@ -44,6 +44,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(error);
   }
 }
-
-
-// axios.get("http:localhost:3000/api/signin")

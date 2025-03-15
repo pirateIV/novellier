@@ -78,7 +78,7 @@ export default function LandingPage() {
                     className="rounded-full shadow-sm shadow-gray-400 dark:bg-zinc-50 bg-purple-600 hover:bg-purple-700"
                     asChild
                   >
-                    <Link href="/create-account">Get Started</Link>
+                    <Link href="/auth/sign-up">Get Started</Link>
                   </Button>
                   {/* <Button
                     size="lg"

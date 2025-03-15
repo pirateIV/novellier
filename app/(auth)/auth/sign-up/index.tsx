@@ -59,7 +59,7 @@ const CreateAccount = () => {
 
   const handleEmailVerification = async (data: EmailFormData) => {
     try {
-      const response = await apiClient.post("/validate-email", data);
+      const response = await apiClient.post("/auth/validate", data);
 
       if (response.data.error) {
         emailForm.setError("username", { message: response.data.error });
@@ -84,7 +84,7 @@ const CreateAccount = () => {
         return;
       }
 
-      await apiClient.post("/create-account", {
+      await apiClient.post("/auth/create-account", {
         ...emailData,
         ...data,
       });

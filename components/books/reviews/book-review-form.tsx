@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useBookContext } from "@/context/book-context";
+import { useBookContext } from "@/context/BookContext";
 import { apiClient } from "@/lib/axios";
 
 const reviewSchema = z.object({
@@ -51,6 +51,7 @@ const BookReviewForm = () => {
           bookId: params.id,
           author: author.name,
           authorId: author.authorId,
+          reviewer: "Anonymous",
           title: book.title,
         },
       });

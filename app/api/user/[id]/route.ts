@@ -5,7 +5,7 @@ import dbConnect from "@/lib/db";
 export async function GET({ params }: { params: Promise<{ id: string }> }) {
   await dbConnect();
 
-  const id = await params?.id;
+  const id = await (await params)?.id;
 
   try {
     const user = await User.findById(id);

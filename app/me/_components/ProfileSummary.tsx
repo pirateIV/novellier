@@ -12,7 +12,7 @@ const ProfileSummary = async () => {
   const getUserData = async () => {
     try {
       const { data } = await apiClient.get(
-        "/user-details",
+        "/auth/me",
         buildAuthHeaderToken(token!)
       );
       return data;

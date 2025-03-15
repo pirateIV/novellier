@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Icons } from "../icons";
-import { useBookContext } from "@/context/book-context";
+import { useBookContext } from "@/context/BookContext";
 
 const BookResources = () => {
   const { book } = useBookContext();

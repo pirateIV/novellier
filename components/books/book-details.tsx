@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useBookContext } from "@/context/book-context";
+import { useBookContext } from "@/context/BookContext";
 import { Badge } from "../ui/badge";
 import BookResources from "./book-resources";
 import BookDescription from "./book-description";

@@ -1,4 +1,4 @@
-import { getUserByToken } from "@/app/shared/utils";
+import { getUserFromToken } from "@/app/shared/utils";
 import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
 import Review from "@/shared/models/Review";
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   console.log("db connected");
 
   try {
-    const user = await getUserByToken(token);
+    const user = await getUserFromToken(token);
 
     if (!user) {
       return NextResponse.json({ error: "No user found" });

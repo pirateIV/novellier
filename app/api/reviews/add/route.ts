@@ -1,4 +1,4 @@
-import { getUserByToken } from "@/app/shared/utils";
+import { getUserFromToken } from "@/app/shared/utils";
 import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
 import Review from "@/shared/models/Review";
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   await dbConnect();
 
   try {
-    const user = await getUserByToken(token);
+    const user = await getUserFromToken(token);
 
     const { review, book } = reviewResponse;
     // console.log(reviewResponse);
