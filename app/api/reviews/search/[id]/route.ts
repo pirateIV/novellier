@@ -11,12 +11,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    console.log({ id });
-
-    // const book = await Book.findOne({ bookId: id });
-    const reviews = await Review.find({ bookId: id });
-
-    // console.log({ reviews });
+    const reviews = await Review.find({ bookId: id }).populate("reviewer");
 
     return NextResponse.json({ reviews });
   } catch (error) {

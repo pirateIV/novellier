@@ -1,10 +1,10 @@
 import React from "react";
-import UserDetails from "./UserDetails";
-import { Button } from "@/components/ui/button";
-import { Edit3 } from "lucide-react";
-import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Edit3 } from "lucide-react";
+import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
+import { Button } from "@/components/ui/button";
+import UserDetails from "./UserDetails";
 
 const ProfileSummary = async () => {
   const token = (await cookies()).get("token")?.value;

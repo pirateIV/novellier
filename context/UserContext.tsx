@@ -1,30 +1,77 @@
-"use client";
+import {
+  createContext,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
+import Cookies from "js-cookie";
 
-import type React from "react";
-import { createContext, useEffect, useState } from "react";
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
+  totalReviews: number;
+  books: any[];
+};
 
-type AuthContextType = {
+type UserContextType = {
+  user: User | null;
+  setUser: (user: User) => void;
   isAuthenticated: boolean;
-  user: any | null;
-  signOut: () => Promise<void>;
   loading: boolean;
 };
 
-const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: false,
+const UserContext = createContext<UserContextType>({
   user: null,
-  signOut: async () => {},
-  loading: false,
+  setUser: () => {},
+  isAuthenticated: false,
+  loading: true,
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const useUserData = () => useContext(UserContext);
+
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const token = Cookies.get("token");
+      if(!token) {
+        setUser(null)
+        setIsAuthenticated(false);
+        setLoading(false);
+        return;
+      }
+      try {
+        const response = await apiClient.get(
+          "/auth/me",
+          buildAuthHeaderToken(token)
+        );
+        const user = (await response.data) as User;
+        setUser(user);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.log("failed to fetch user data", error);
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
-  },[])
+  return (
+    <UserContext.Provider value={{ user, isAuthenticated, setUser, loading }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
-
-export const useAuth = () => {};

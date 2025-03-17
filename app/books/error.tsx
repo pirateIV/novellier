@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Loader, LoaderCircle, RotateCw } from "lucide-react";
+import { LoaderCircle, RotateCw } from "lucide-react";
 import { useBook } from "@/lib/graphql/hooks";
 import { Button } from "@/components/ui/button";
 
@@ -23,7 +23,7 @@ const Error = () => {
       console.log("refetching...");
       handleRefetch();
     }
-  }, [fetchError]);
+  }, [fetchError, handleRefetch, retryCount]);
 
   console.log(fetchError?.message);
 

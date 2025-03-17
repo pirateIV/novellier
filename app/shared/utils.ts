@@ -4,7 +4,7 @@ import User from "@/shared/models/User";
 
 export const getUserFromToken = async (token: string) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
-  return await User.findById(decoded.id);
+  return await User.findById(decoded.id).select("-password");
 };
 
 export const getTokenFromCookies = (req: NextRequest) => {

@@ -12,7 +12,7 @@ const Nav = () => {
         <Icons.BookMarkIcon />
       </Link>
       <Link
-        href="/new"
+        href="/"
         className="group inline-flex *:shrink-0 w-7 whitespace-nowrap overflow-x-clip items-center text-sm p-1 rounded-full [&>span]:text-transparent hover:[&>span]:text-white hover:text-white dark:hover:[&>span]:text-gray-900 dark:hover:text-gray-900 hover:bg-neutral-900 dark:hover:bg-white  transition-[width,colors,background-color_0.35s_cubic-bezier(0.68,-0.55,0.27,1.55)] hover:w-max focus-visible:w-max"
       >
         <Icons.Plus />

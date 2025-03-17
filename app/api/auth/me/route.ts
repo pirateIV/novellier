@@ -3,6 +3,9 @@ import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
 
 export async function GET(req: NextRequest) {
   const token = getTokenFromCookies(req);
+
+  console.log("token", token);
+  console.log({ token });
   if (!token) {
     console.log("token not found!");
     return NextResponse.json({ error: "authentication failed" });
@@ -10,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const user = await getUserFromToken(token);
-    console.log(user);
+    console.log({ user });
     if (!user) {
       return NextResponse.json({ error: "authentication failed", user });
     }

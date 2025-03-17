@@ -3,8 +3,6 @@
 import Image from "next/image";
 import { useBookContext } from "@/context/BookContext";
 import { Badge } from "../ui/badge";
-import BookResources from "./book-resources";
-import BookDescription from "./book-description";
 
 const BookDetails = () => {
   const { book, author } = useBookContext();
@@ -14,7 +12,7 @@ const BookDetails = () => {
 
   return (
     <>
-      <h1 className="mb-2 text-4xl font-semibold tracking-tight md:text-5xl">
+      <h1 className="mb-2 text-3xl sm:text-4xl font-semibold tracking-tight md:text-5xl">
         {title}
       </h1>
 

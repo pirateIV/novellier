@@ -59,6 +59,7 @@ export const interVar = localFont({
       style: "black",
     },
   ],
+  variable: "--font-inter",
 });
 
 export const switzer = localFont({

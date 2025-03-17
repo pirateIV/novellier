@@ -32,10 +32,10 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
           <BookHeader />
           <div className="flex flex-col justify-beween gap-8 md:flex-row">
             <BookCover />
-            <div className="w-full md:order-0 md:w-2/3">
+            <div className="w-full md:order-2 md:w-2/3">
               <BookDetails />
               <div className="mb-6">
-                <h3 className="mb-3 text-xl font-semibold">About this book</h3>
+                <h3 className="mb-3 text-lg sm:text-xl font-semibold">About this book</h3>
                 <div className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm whitespace-pre-line">
                   <BookDescription description={descriptionHTML} />
                 </div>

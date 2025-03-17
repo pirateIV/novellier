@@ -29,7 +29,7 @@ import {
 } from "../../ui/dialog";
 import { Textarea } from "../../ui/textarea";
 
-const BookReviewForm = () => {
+const BookReviewForm = ({children}: {children: React.ReactNode}) => {
   const params = useParams();
   const { author, book } = useBookContext();
   const form = useForm({
@@ -66,12 +66,7 @@ const BookReviewForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="group-2 border-t border-t-blue-500 bg-blue-600 rounded-sm dark:text-white hover:bg-blue-700 hover:brightness-90">
-          Write a Review{" "}
-          <span className="text-indigo-200 transition-transform group-2-hover:translate-x-0.5">
-            &rarr;
-          </span>
-        </Button>
+       {children}
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

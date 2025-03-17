@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Lock, Mail } from "lucide-react";
 import { Form, FormField } from "@/components/ui/form";
@@ -34,13 +34,21 @@ const SignIn = () => {
   const onSubmit = async (credentials: SignInFormData) => {
     try {
       const response = await apiClient.post("/auth/signin", credentials);
-      router.push("/me");
+      if (response.status === 200) {
+        router.push("/me");
+      } else {
+        toast("Failed to Sign in", {
+          description: response.data.error,
+          duration: 5000,
+        });
+      }
 
       console.log(response);
     } catch (error: any) {
       console.log(error);
       toast("Failed to Sign in", {
-        description: error.response.data.error,
+        description:
+          error.response?.data?.error || "An unexpected error occurred",
         duration: 5000,
       });
     }

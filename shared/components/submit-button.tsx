@@ -6,11 +6,15 @@ type SubmitButtonProps = React.ComponentProps<"button"> & { loading: boolean };
 
 const SubmitButton = ({ children, loading, ...props }: SubmitButtonProps) => {
   return (
-    <Button type="submit" className="relative btn-gradient dark:text-white" {...props}>
+    <Button
+      type="submit"
+      className="relative btn-gradient dark:text-white"
+      disabled={loading}
+      {...props}
+    >
       {loading ? <Loader className="animate-spin" /> : children}
     </Button>
   );
 };
 
 export default SubmitButton;
-    

@@ -33,14 +33,14 @@ const GenresPage = async () => {
 
   console.log({ data });
   return (
-    <div className=" grid md:grid-cols-[1fr_50px_300px_50px] gap-8 p">
+    <div className=" grid md:grid-cols-[1fr_50px_250px_50px] gap-8 p">
       <div className="pt-12 mx-auto max-w-4xl">
         <div className="relative rounded-xl overflow-hidden mb-10">
           <div className="flex flex-col justify-center z-20">
             <h1 className="text-6xl tracking-tight dark:text-white mb-4 text-pretty">
               Explore Genres
             </h1>
-            <p className="max-w-xl text-lg text-gray-600 dark:text-white/70">
+            <p className="max-w-xl text-lg text-gray-600 dark:text-gray-500">
               Discover new books across different genres and expand your reading
               horizons.
             </p>
