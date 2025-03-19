@@ -1,10 +1,7 @@
 import axios from "axios";
+import { baseURL } from "@/shared/config";
 
-const apiClient = axios.create({
-  baseURL:
-    process.env.NODE === "development" ? "http://localhost:3000/api" : "/api",
-  withCredentials: true,
-});
+const apiClient = axios.create({ baseURL, withCredentials: true });
 
 export const buildAuthHeaderToken = (token: string | undefined) => {
   return {

@@ -4,6 +4,7 @@ import { GET_BOOKS_DATA } from "@/lib/graphql/queries";
 
 import GenresSidebar from "./_components/GenresSidebar";
 import GenreList from "./_components/GenresList";
+import { Button } from "@/components/ui/button";
 
 const GenresPage = async () => {
   let data: null | any = null;
@@ -19,7 +20,7 @@ const GenresPage = async () => {
   }
 
   if (!data) {
-    return <div>Unable to load data. Please try again later.</div>;
+    return <div>Unable to load data. Please refresh the page.</div>;
   }
 
   return (

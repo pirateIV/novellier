@@ -6,8 +6,9 @@ import { Badge } from "../ui/badge";
 
 const BookDetails = () => {
   const { book, author } = useBookContext();
-  
-  const { authors, subjects, first_publish_date, links, title } = book;
+
+  const { authors, subjects, first_publish_date, links, title } =
+    book;
   const genre = subjects[0];
 
   return (
@@ -47,7 +48,9 @@ const BookDetails = () => {
         <span>&middot;</span>
         <div className="flex items-center gap-1">
           <span className="text-amber-600 text-base">☆</span>
-          <span className="text-zinc-900 dark:text-zinc-300">4.7</span>
+          <span className="text-zinc-900 dark:text-zinc-300">
+            4.7 <span className="text-zinc-400">(0)</span>
+          </span>
         </div>
       </div>
     </>

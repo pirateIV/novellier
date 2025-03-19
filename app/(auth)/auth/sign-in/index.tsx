@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Lock, Mail } from "lucide-react";
 import { Form, FormField } from "@/components/ui/form";
@@ -23,6 +23,7 @@ type SignInFormData = z.infer<typeof signInFormSchema>;
 
 const SignIn = () => {
   const router = useRouter();
+  const [signedIn, setSignedIn] = useState(false);
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -35,8 +36,10 @@ const SignIn = () => {
     try {
       const response = await apiClient.post("/auth/signin", credentials);
       if (response.status === 200) {
+        setSignedIn(true);
         router.push("/me");
       } else {
+        setSignedIn(false);
         toast("Failed to Sign in", {
           description: response.data.error,
           duration: 5000,
@@ -89,8 +92,8 @@ const SignIn = () => {
             </FormInput>
           )}
         />
-        <SubmitButton loading={form.formState.isSubmitting}>
-          Sign in
+        <SubmitButton signedIn={signedIn} loading={form.formState.isSubmitting}>
+          {signedIn ? "Please wait..." : "Sign in"}
         </SubmitButton>
       </form>
     </Form>

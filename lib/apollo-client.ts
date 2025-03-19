@@ -5,7 +5,7 @@ const opts = {
   uri:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/graphql"
-      : "/api/graphql",
+      : "https://novellier.vercel.app/api/graphql",
 };
 const client = new ApolloClient(opts);
 

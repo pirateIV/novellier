@@ -9,8 +9,12 @@ export async function generateStaticParams() {
   }));
 }
 
-const GenrePage = async ({ params }: { params: { genre: string } }) => {
-  const { genre } = params;
+const GenrePage = async ({
+  params,
+}: {
+  params: Promise<{ genre: string }>;
+}) => {
+  const { genre } = await params;
   const books = await getBooksByGenre(genre);
 
   const genreData = genres.find((g) => g.slug === genre);

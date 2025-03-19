@@ -1,27 +1,16 @@
 import React from "react";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Edit3 } from "lucide-react";
-import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
+import { getUserData } from "@/shared/auth";
 import { Button } from "@/components/ui/button";
 import UserDetails from "./UserDetails";
 
 const ProfileSummary = async () => {
-  const token = (await cookies()).get("token")?.value;
-
-  const getUserData = async () => {
-    try {
-      const { data } = await apiClient.get(
-        "/auth/me",
-        buildAuthHeaderToken(token!)
-      );
-      return data;
-    } catch (error) {
-      redirect("/auth/sign-in");
-    }
-  };
-
   const user = await getUserData();
+
+  if (user.error) {
+    redirect("/auth/sign-in");
+  }
 
   return (
     <div className="bg-gradient-to-r bg-white dark:bg-[#0f0f0f] pt-8 pb-16 flex items-start justify-between">

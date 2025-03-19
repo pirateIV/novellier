@@ -1,22 +1,22 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 type IBook = {
   title: string;
   bookId: string;
-  // genre: string;
-  user: mongoose.Schema.Types.ObjectId;
   author: string;
   authorId: string;
+  averageRating: number;
+  user: mongoose.Schema.Types.ObjectId;
   reviews: mongoose.Schema.Types.ObjectId[];
 };
 
 const bookSchema = new mongoose.Schema<IBook>(
   {
+    author: { type: String, required: true },
+    authorId: { type: String, required: true },
+    averageRating: { type: Number, default: 0 },
     bookId: { type: String, default: "", unique: true },
     title: { type: String, default: "", unique: true },
-    // author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
-    authorId: { type: String, required: true },
-    author: { type: String, required: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true, versionKey: false }
@@ -26,6 +26,7 @@ bookSchema.set("toJSON", {
   transform: (_: any, returnedObj) => {
     returnedObj.id = returnedObj._id.toString();
     returnedObj.rated = returnedObj.reviews.length > 0;
+    returnedObj.totalReviews = returnedObj.reviews.length;
     delete returnedObj._id;
   },
 });

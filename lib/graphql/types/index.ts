@@ -3,6 +3,7 @@ export type BookResponse = {
   description: string;
   first_publish_date: string;
   subjects: [string];
+  totalReviews: number;
   links: {
     title: string;
     url: string;

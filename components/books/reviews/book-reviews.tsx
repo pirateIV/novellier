@@ -19,13 +19,13 @@ const ReviewItem = ({ review }: { review: any }) => {
     <div key={review?.id}>
       <div className="relative flex items-start py-4 space-x-4 hover:bg-gray-50 dark:hover:bg-white/[.04] p-2 rounded-lg">
         <div className="avatar-fallback size-10 overflow-hidden rounded-full border shrink-0">
-          <Image
+          {/* <Image
             src={null}
             alt={review?.user?.name}
             height="100"
             width="100"
             className="size-full bg-cover"
-          />
+          /> */}
         </div>
         <div className="flex flex-col">
           <p className="font-semibold text-gray-900 dark:text-white">
@@ -60,8 +60,8 @@ const ReviewItem = ({ review }: { review: any }) => {
             </p>
           </div>
         </div>
-        <span className="absolute inset-0">
-          <Link className="size-full" href={`/reviews/${review?.id}`} />
+        <span className="absolute inset-0 w-full h-full">
+          <Link className="block size-full" href={`/reviews/${review?.id}`} />
         </span>
       </div>
     </div>
@@ -93,7 +93,7 @@ const BookReviews = () => {
 
   const reviewCount = reviews?.length || 0;
 
-  console.log(reviews)
+  console.log(reviews);
 
   if (error) {
     return (
@@ -110,7 +110,7 @@ const BookReviews = () => {
 
       {isLoading ? (
         <div className="text-center py-12 flex justify-center">
-            <Loader className="animate-spin"/>
+          <Loader className="animate-spin" />
         </div>
       ) : reviews?.length > 0 ? (
         <div className="relative rounded-(--card-radius) outline dark:outline-zinc-800 -outline-offset-1 p-(--card-padding) [--card-padding:--spacing(3)] [--card-radius:var(--radius-4xl)] bg-gray-50/30 dark:bg-neutral-900/50">

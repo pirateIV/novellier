@@ -15,9 +15,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       enableSystem
     >
       <ApolloProvider client={client}>
-        <UserProvider>
-          {children}
-          </UserProvider>
+        <UserProvider>{children}</UserProvider>
       </ApolloProvider>
     </ThemeProvider>
   );

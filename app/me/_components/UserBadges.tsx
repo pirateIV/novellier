@@ -19,7 +19,7 @@ const UserBadges = ({ user }: any) => {
     <div className="flex items-center gap-2 mt-4">
       <Badge>
         <BookOpen className="size-3 mr-1" />
-        {user.books.length} Books Read
+        0 Books Read
       </Badge>
       <Badge>
         <Star className="size-3 mr-1 text-amber-600 dark:text-amber-500" />

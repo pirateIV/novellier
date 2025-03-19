@@ -13,6 +13,7 @@ export const typeDefs = gql`
     title: String
     description: String
     first_publish_date: String
+    totalReviews: Int
     authors: [BookAuthor]
     links: [BookLink]
     subjects: [String]
@@ -35,7 +36,6 @@ export const typeDefs = gql`
   type AuthorLinks {
     title: String
     url: String
-
   }
 
   type BookAuthor {
@@ -46,7 +46,7 @@ export const typeDefs = gql`
     title: String
     url: String
   }
-  
+
   type AuthorKey {
     key: String
   }
