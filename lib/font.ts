@@ -1,4 +1,4 @@
-import { Bricolage_Grotesque, Cormorant } from "next/font/google";
+import { Bricolage_Grotesque, Cormorant, Work_Sans } from "next/font/google";
 import localFont from "next/font/local";
 
 export const cormorant = Cormorant({
@@ -85,4 +85,9 @@ export const switzer = localFont({
       style: "normal",
     },
   ],
+});
+
+export const workSans = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-work-sans",
 });

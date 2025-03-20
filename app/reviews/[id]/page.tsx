@@ -1,9 +1,11 @@
 import React from "react";
-import { Star, StarIcon, User } from "lucide-react";
+import Link from "next/link";
+import { Star, StarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { apiClient } from "@/lib/axios";
 import client from "@/lib/apollo-client";
 import { GET_BOOK_DATA } from "@/lib/graphql/queries";
+import { getBookCoverId } from "@/lib/api/openLibrary";
 
 const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -16,15 +18,24 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       query: GET_BOOK_DATA,
       variables: { id: review.bookId },
     });
+
     const book = bookResult.data.book;
+    const coverId = await getBookCoverId(review.bookId);
 
     return (
-      <div className="flex justify-center items-center min-h-screen p-6">
-        <div className="max-w-xl">
+      <div className="flex flex-col items-center min-h-screen w-full p-6">
+        <div className="max-w-2xl p-5">
+          <div className="mb-4">
+            <Link
+              href={`/books/${review.bookId}?title=${book.title}&book_cover_id=${coverId}`}
+              className="group text-sm"
+            >
+              <span className="text-gray-400">&larr;</span>{" "}
+              <span className="group-hover:underline">Back to book</span>
+            </Link>
+          </div>
           <h2 className="text-2xl font-semibold mb-4">{book.title}</h2>
-          {/* <p className="text-gray-600 mb-4">{book.description}</p> */}
 
-    
           <div className="mb-4">
             <div className="flex items-center mb-2">
               {[...Array(review.rating)].map((_, index) => (
@@ -36,6 +47,7 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               {[...Array(5 - review.rating)].map((_, index) => (
                 <StarIcon key={index} className="size-3 text-gray-500" />
               ))}
+              <span className="text-gray-400 text-xs">({review.rating}/5)</span>
             </div>
           </div>
 
@@ -44,7 +56,7 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="text-gray-400 text-sm text-right">
             by{" "}
             <span className="text-indigo-600 dark:text-sky-400 font-medium">
-              {review.reviewer.fullName} 
+              {review.reviewer.fullName}
             </span>
           </div>
 
@@ -63,7 +75,7 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   } catch (error) {
     console.error("Error fetching review or book data:", error);
     return (
-      <div className="flex justify-center items-center min-h-screen p-6">
+      <div className="flex justify-center items-center min-h-screen w-full p-6">
         <p className="text-red-500">Error loading review.</p>
       </div>
     );

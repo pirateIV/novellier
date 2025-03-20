@@ -56,3 +56,15 @@ export async function getAuthor(id: string) {
     throw new Error("Failed to fetch Open Library data");
   }
 }
+
+export async function getBookCoverId(query: string) {
+  try {
+    const response = await fetch(
+      `https://openlibrary.org/search.json?q=${query}`
+    );
+    const data = await response.json();
+    return data.docs[0].cover_i;
+  } catch (error) {
+    return null;
+  }
+}

@@ -15,7 +15,7 @@ const users = [
     },
     {
       username: "@ada",
-      password: "ANALYTICALENG",
+      password: "analyticalEng",
       email: "alovelace@example.com",
       firstName: "Ada",
       lastName: "Lovelace",
@@ -105,3 +105,114 @@ const users = [
       lastName: "Skywalker",
     },
   ];
+
+  const users2 = [
+    {
+      username: "ade_boss",
+      password: "naijaKing",
+      email: "adewale@example.com",
+      firstName: "Adewale",
+      lastName: "Ogunleye",
+    },
+    {
+      username: "chioma_q",
+      password: "queenChi",
+      email: "chioma@example.com",
+      firstName: "Chioma",
+      lastName: "Okonkwo",
+    },
+    {
+      username: "tunde_xo",
+      password: "babaTunde123",
+      email: "tunde@example.com",
+      firstName: "Tunde",
+      lastName: "Balogun",
+    },
+    {
+      username: "zubby_don",
+      password: "Zubby2024",
+      email: "zubby@gmail.com",
+      firstName: "Zubairu",
+      lastName: "Nwankwo",
+    },
+    {
+      username: "yemi_cool",
+      password: "yemiLagos",
+      email: "yemi@example.com",
+      firstName: "Yemi",
+      lastName: "Adesanya",
+    },
+    {
+      username: "faithy_p",
+      password: "GodIsGreat",
+      email: "faith@example.com",
+      firstName: "Faith",
+      lastName: "Eze",
+    },
+    {
+      username: "olamide_rock",
+      password: "badooBoss",
+      email: "olamide@example.com",
+      firstName: "Olamide",
+      lastName: "Olowo",
+    },
+    {
+      username: "bello_hustle",
+      password: "hustleHard",
+      email: "bello@example.com",
+      firstName: "Bello",
+      lastName: "Musa",
+    },
+    {
+      username: "tosin_vibes",
+      password: "tosin123",
+      email: "tosin@example.com",
+      firstName: "Tosin",
+      lastName: "Adeyemi",
+    },
+    {
+      username: "ife_star",
+      password: "ifeLove",
+      email: "ife@example.com",
+      firstName: "Ifeoma",
+      lastName: "Okafor",
+    },
+    {
+      username: "emma_fresh",
+      password: "emmaJaga",
+      email: "emma@example.com",
+      firstName: "Emmanuel",
+      lastName: "Uche",
+    },
+    {
+      username: "amaka_wow",
+      password: "AmakaRules",
+      email: "amaka@example.com",
+      firstName: "Amaka",
+      lastName: "Obi",
+    },
+    {
+      username: "segun_coder",
+      password: "devSegun",
+      email: "segun@example.com",
+      firstName: "Segun",
+      lastName: "Adebayo",
+    },
+    {
+      username: "halima_g",
+      password: "HalimaGold",
+      email: "halima@example.com",
+      firstName: "Halima",
+      lastName: "Bello",
+    },
+    {
+      username: "uche_money",
+      password: "ucheEgo",
+      email: "uche@example.com",
+      firstName: "Uche",
+      lastName: "Nnaji",
+    },
+  ];
+  
+  console.log(users);
+  

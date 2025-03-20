@@ -1,5 +1,6 @@
 import type React from "react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { User } from "@/shared/types";
 import OverviewTab from "./tabs/Overview";
 import MyBooksTab from "./tabs/MyBooks";
 import ReviewsTab from "./tabs/Reviews";
@@ -7,7 +8,7 @@ import SettingsTab from "./tabs/Settings";
 
 const tabs = ["Overview", "My Books", "Reviews", "Settings"];
 
-const TabContents = () => {
+const TabContents = ({user}: {user: User}) => {
   return (
     <div className="-mt-8 container mx-auto px-4 md:px-6">
       <TabGroup>

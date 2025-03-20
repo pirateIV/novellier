@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
+import { BookOpen } from "lucide-react";
 
 const Nav = () => {
   return (
@@ -8,8 +9,8 @@ const Nav = () => {
       <Link href="/" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
         <Icons.HomeIcon />
       </Link>
-      <Link href="/" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
-        <Icons.BookMarkIcon />
+      <Link href="/books" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
+        <BookOpen className="size-5"/>
       </Link>
       <Link
         href="/"
