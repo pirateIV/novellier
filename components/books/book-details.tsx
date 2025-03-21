@@ -13,7 +13,7 @@ const BookDetails = () => {
 
   return (
     <>
-      <h1 className="mb-2 text-3xl sm:text-4xl font-semibold tracking-tight md:text-5xl">
+      <h1 className="mb-2 text-3xl sm:text-4xl font-medium tracking-tight md:text-5xl">
         {title}
       </h1>
 

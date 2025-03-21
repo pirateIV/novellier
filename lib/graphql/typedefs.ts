@@ -5,6 +5,7 @@ export const typeDefs = gql`
     title: String
     authors: [Author]
     first_publish_year: Int
+    description: String
     cover_id: Int
     key: String
   }
@@ -59,11 +60,32 @@ export const typeDefs = gql`
     key: String
     name: String
     works: [Genre]
+    work_count: Int
   }
 
+  type SubjectAuthor {
+    author: Author
+  }
+
+  type Author {
+    name: String
+  }
+
+  type SubjectDetails {
+    cover_id: Int
+    description: String
+    first_publish_year: Int
+    authors: [SubjectAuthor]
+  }
+
+  type SubjectResponse {
+    works_count: Int
+    works: [SubjectDetails]
+  }
   type Query {
     author(id: ID!): Author
     book(id: ID!): Book
     genre: [Response]
+    subject(subject: String!): SubjectResponse
   }
 `;

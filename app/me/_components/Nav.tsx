@@ -9,7 +9,7 @@ const Nav = () => {
       <Link href="/" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
         <Icons.HomeIcon />
       </Link>
-      <Link href="/books" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
+      <Link href="/genres" className="p-1  rounded-full hover:bg-gray-300 dark:hover:bg-zinc-700">
         <BookOpen className="size-5"/>
       </Link>
       <Link

@@ -11,10 +11,12 @@ export async function GET(
     return NextResponse.json({ error: "Review ID not found!" });
   }
 
+  console.log({ id });
+
   try {
     await dbConnect();
 
-    const review = await Review.findById(id).populate('reviewer');
+    const review = await Review.findById(id).populate("reviewer");
     return NextResponse.json({ review });
   } catch (error) {
     return NextResponse.json(error);

@@ -8,7 +8,7 @@ import SettingsTab from "./tabs/Settings";
 
 const tabs = ["Overview", "My Books", "Reviews", "Settings"];
 
-const TabContents = ({user}: {user: User}) => {
+const TabContents = ({ user }: { user: User }) => {
   return (
     <div className="-mt-8 container mx-auto px-4 md:px-6">
       <TabGroup>
@@ -26,7 +26,7 @@ const TabContents = ({user}: {user: User}) => {
         </TabList>
         <TabPanels className="mt-6">
           <TabPanel>
-            <OverviewTab />
+            <OverviewTab user={user} />
           </TabPanel>
           <TabPanel>
             <MyBooksTab />

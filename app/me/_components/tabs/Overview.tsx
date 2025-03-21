@@ -3,11 +3,12 @@ import Stats from "../Stats";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Activity, Book, BookOpen, Eye, Star } from "lucide-react";
+import { User } from "@/shared/types";
 
-const OverviewTab = () => {
+const OverviewTab = ({ user }: { user: User }) => {
   return (
     <>
-      <Stats />
+      <Stats user={user} />
       <div className="relative p-2 border rounded-[20px] bg-neutral-200/30 dark:bg-neutral-950 border-white/5 mt-4">
         <Card className="bg-white dark:bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
           <CardHeader className="p-6 border-b border-white/10">

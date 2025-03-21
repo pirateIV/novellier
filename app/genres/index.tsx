@@ -37,7 +37,7 @@ const GenresPage = async () => {
       <div className="pt-12 mx-auto max-w-4xl">
         <div className="relative rounded-xl overflow-hidden mb-10">
           <div className="flex flex-col justify-center z-20">
-            <h1 className="text-6xl tracking-tight dark:text-white mb-4 text-pretty">
+            <h1 className="text-6x font-inter tracking-tight dark:text-white mb-4 text-pretty">
               Explore Genres
             </h1>
             <p className="max-w-xl text-lg text-gray-600 dark:text-gray-500">

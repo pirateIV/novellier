@@ -19,10 +19,6 @@ type GenreListProps = {
 };
 
 const getPreviewLink = (work: Work) => {
-  // return `/bookz/${work.key.replace("/works/", "")}/${work.title.replace(
-  //   / /g,
-  //   "_"
-  // )}?book_cover_id=${work.cover_id}`;
   return `/books/${work.key.replace("/works/", "")}?title=${encodeURIComponent(
     work.title
   )}&book_cover_id=${work.cover_id}`;

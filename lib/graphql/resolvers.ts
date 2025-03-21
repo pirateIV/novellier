@@ -1,4 +1,9 @@
-import { fetchOpenLibraryData, getAuthor, getBook } from "../api/openLibrary";
+import {
+  fetchOpenLibraryData,
+  getAuthor,
+  getBook,
+  getSubjects,
+} from "../api/openLibrary";
 
 export const resolvers = {
   Query: {
@@ -11,6 +16,9 @@ export const resolvers = {
     },
     genre: async () => {
       return await fetchOpenLibraryData();
+    },
+    subject: async (_: any, { subject }: { subject: string }) => {
+      return await getSubjects(subject);
     },
   },
 };

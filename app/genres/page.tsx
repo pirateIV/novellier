@@ -25,7 +25,7 @@ const GenresPage = async () => {
 
   return (
     <>
-      <div className="max-w-[1440px] grid md:grid-cols-[auto_50px_300px] mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="p-8">
           <div>
             <h1 className="text-4xl font-bold tracking-tight dark:text-white mb-4 text-pretty">
@@ -43,8 +43,6 @@ const GenresPage = async () => {
             ))}
           </div>
         </div>
-        <GenresSidebar />
-        <div className="col-start-2 row-span-full max-sm:hidden text-gray-950/5 dark:text-white/10 border-x border-x-current bg-fixed bg-[size:10px_10px] bg-[image:repeating-linear-gradient(315deg,currentColor_0,currentColor_1px,_transparent_0,_transparent_50%)]"></div>
       </div>
     </>
   );

@@ -52,3 +52,13 @@ export const GET_AUTHOR_DATA = gql`
     }
   }
 `;
+
+export const SUBJECT_DATA = gql`
+  query Subject($subject: String!) {
+    subject(subject: $subject) {
+      works {
+        title
+      }
+    }
+  }
+`;
