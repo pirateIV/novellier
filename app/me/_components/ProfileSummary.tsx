@@ -1,14 +1,10 @@
-"use client";
-
 import React from "react";
 import { Edit3 } from "lucide-react";
 import { User } from "@/shared/types";
 import { Button } from "@/components/ui/button";
 import UserDetails from "./UserDetails";
-import { signOut } from "@/shared/auth";
 
 const ProfileSummary = ({ user }: { user: User }) => {
-  const handleSignOut = () => {};
   return (
     <div className="bg-gradient-to-r bg-white dark:bg-[#0f0f0f] pt-8 pb-16 flex items-start justify-between">
       <div className="size-full mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-center md:justify-between">
@@ -18,14 +14,6 @@ const ProfileSummary = ({ user }: { user: User }) => {
           <Button size="sm" className="text-[13px] py-4 !rounded-sm">
             <Edit3 className="size-[14px] mr-0.5" />
             Edit Profile
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={handleSignOut}
-            className="text-[13px] text-red-500 py-4 !rounded-sm hover:!bg-zinc-950 hover:!text-red-600"
-          >
-            Sign out
           </Button>
         </div>
       </div>

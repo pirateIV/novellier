@@ -16,7 +16,3 @@ export const getUserData = async () => {
   }
 };
 
-export const signOut = async () => {
-  (await cookies()).delete("token");
-  redirect("/auth/sign-in");
-};

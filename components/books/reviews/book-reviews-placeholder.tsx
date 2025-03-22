@@ -20,12 +20,12 @@ const BookReviewsPlaceholder = () => {
         </p>
 
         <BookReviewForm>
-        <Button className="group-2 border-t border-t-blue-500 bg-blue-600 rounded-sm dark:text-white hover:bg-blue-700 hover:brightness-90">
-          Write a Review{" "}
-          <span className="text-indigo-200 transition-transform group-2-hover:translate-x-0.5">
-            &rarr;
-          </span>
-        </Button>
+          <Button className="group-2 border-t border-t-blue-500 bg-blue-600 rounded-sm dark:text-white hover:bg-blue-700 hover:brightness-90">
+            Write a Review{" "}
+            <span className="text-indigo-200 transition-transform group-2-hover:translate-x-0.5">
+              &rarr;
+            </span>
+          </Button>
         </BookReviewForm>
       </div>
     </div>

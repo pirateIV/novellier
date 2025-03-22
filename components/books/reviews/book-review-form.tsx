@@ -29,7 +29,13 @@ import {
 } from "../../ui/dialog";
 import { Textarea } from "../../ui/textarea";
 
-const BookReviewForm = ({children}: {children: React.ReactNode}) => {
+const BookReviewForm = ({
+  children,
+  bookId = "",
+}: {
+  children: React.ReactNode;
+  bookId?: string;
+}) => {
   const params = useParams();
   const { author, book } = useBookContext();
   const form = useForm({
@@ -48,10 +54,9 @@ const BookReviewForm = ({children}: {children: React.ReactNode}) => {
       const response = await apiClient.post("/reviews/add", {
         review: values,
         book: {
-          bookId: params.id,
+          bookId: params.id || bookId,
           author: author.name,
           authorId: author.authorId,
-          reviewer: "Anonymous",
           title: book.title,
         },
       });
@@ -65,9 +70,7 @@ const BookReviewForm = ({children}: {children: React.ReactNode}) => {
   const submitting = form.formState.isSubmitting;
   return (
     <Dialog>
-      <DialogTrigger asChild>
-       {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -75,11 +78,16 @@ const BookReviewForm = ({children}: {children: React.ReactNode}) => {
           <DialogDescription className="dark:text-gray-300">
             What do you think about this book?
           </DialogDescription>
+          <div>
+            <h1 className="font-semibold text-center mt-2 font-sans dark:text-white text-base">
+              {book.title}
+            </h1>
+          </div>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
-              <div className="grid items-center gap-2">
+              {/* <div className="grid items-center gap-2">
                 <Label htmlFor="username" className="text-right">
                   Username
                 </Label>
@@ -89,7 +97,7 @@ const BookReviewForm = ({children}: {children: React.ReactNode}) => {
                   className="col-span-full inset-ring disabled:inset-ring-gray-700 disabled:placeholder:text-gray-500 disabled:cursor-not-allowed"
                   disabled
                 />
-              </div>
+              </div> */}
 
               <div className="flex justify-center gap-2">
                 {Array.from({ length: 5 }).map((_, i) => (

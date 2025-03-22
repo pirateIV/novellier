@@ -201,7 +201,7 @@ const users = [
     {
       username: "halima_g",
       password: "HalimaGold",
-      email: "halima@example.com",
+      email: "halima@gmail.com",
       firstName: "Halima",
       lastName: "Bello",
     },
@@ -214,5 +214,7 @@ const users = [
     },
   ];
   
+
+  //pasword: abc12345
   console.log(users);
   

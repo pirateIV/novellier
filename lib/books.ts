@@ -31,11 +31,6 @@ export const genres: Genre[] = [
       description: "Business literature encompasses works on commerce, economics, management, entrepreneurship, leadership, marketing, and organizational behavior. This genre includes practical guides for professional development, case studies of successful companies, theoretical frameworks for organizational strategy, and personal accounts from industry leaders. Business books aim to provide readers with insights, models, and actionable advice to improve performance, drive innovation, understand market dynamics, enhance leadership skills, and navigate the complexities of modern economic systems and workplace environments." 
     },
     { 
-      slug: "chick-lit", 
-      name: "Chick Lit", 
-      description: "Chick Lit emerged in the 1990s as a genre primarily focusing on the personal and professional experiences of modern women. Characterized by a humorous, light-hearted tone and first-person narrative, these novels typically feature protagonists in their 20s or 30s navigating career challenges, romantic relationships, friendships, and self-discovery. While often containing romantic elements, Chick Lit distinguishes itself from traditional romance by emphasizing the heroine's personal growth and independence alongside any romantic plot. Popular authors include Helen Fielding, Sophie Kinsella, and Candace Bushnell." 
-    },
-    { 
       slug: "childrens", 
       name: "Children's", 
       description: "Children's literature comprises books specifically created for readers from infancy through adolescence. This diverse genre includes picture books, early readers, chapter books, middle-grade novels, and educational texts, all tailored to different developmental stages. Children's books often feature age-appropriate themes, simplified language, illustrative elements, and narrative structures designed to engage young minds. Beyond entertainment, they serve crucial roles in literacy development, moral education, cultural socialization, and inspiring imagination while introducing children to the wider world through accessible stories and characters." 
@@ -85,16 +80,16 @@ export const genres: Genre[] = [
       name: "Fiction", 
       description: "Fiction encompasses imaginative storytelling that, while potentially inspired by real events or environments, presents narratives that are primarily invented rather than factual. This broad category includes numerous genres and subgenres, from literary fiction to genre fiction like mystery, romance, or science fiction. Fiction employs elements like character development, plot, setting, theme, and conflict to create engaging narratives that may entertain, educate, or provide insight into human experience. Through invented scenarios and characters, fiction allows writers to explore complex ideas, emotions, and possibilities in ways that can resonate deeply with readers despite—or often because of—its departure from strict reality." 
     },
-    { 
-      slug: "graphic-novels", 
-      name: "Graphic Novels", 
-      description: "Graphic novels are extended comics that present complete narratives through the combination of sequential art and text. Distinguished from traditional comic books by their longer format, self-contained stories, and often more complex themes, graphic novels span diverse genres including memoir, historical fiction, fantasy, and literary adaptation. The medium uses visual storytelling techniques where illustration and layout work in concert with dialogue and narration to convey plot, character, and theme. Since the 1980s, graphic novels have gained critical recognition as a sophisticated literary and artistic form capable of addressing mature subjects with nuance while offering readers a visually immersive narrative experience." 
-    },
-    { 
-      slug: "historical-fiction", 
-      name: "Historical Fiction", 
-      description: "Historical fiction blends factual historical settings, events, or figures with fictional characters and narratives. Set in the past, these novels recreate specific time periods with attention to social conditions, cultural attitudes, and historical details, while weaving imagined elements throughout. Authors research extensively to accurately portray historical contexts, from ancient civilizations to the recent past, while using creative license to fill gaps in historical record or to personalize larger events through individual stories. The genre allows readers to experience history through immersive storytelling, often providing emotional and sensory dimensions that purely factual accounts might lack, while potentially illuminating lesser-known historical perspectives." 
-    },
+    // { 
+    //   slug: "graphic-novels", 
+    //   name: "Graphic Novels", 
+    //   description: "Graphic novels are extended comics that present complete narratives through the combination of sequential art and text. Distinguished from traditional comic books by their longer format, self-contained stories, and often more complex themes, graphic novels span diverse genres including memoir, historical fiction, fantasy, and literary adaptation. The medium uses visual storytelling techniques where illustration and layout work in concert with dialogue and narration to convey plot, character, and theme. Since the 1980s, graphic novels have gained critical recognition as a sophisticated literary and artistic form capable of addressing mature subjects with nuance while offering readers a visually immersive narrative experience." 
+    // },
+    // { 
+    //   slug: "historical-fiction", 
+    //   name: "Historical Fiction", 
+    //   description: "Historical fiction blends factual historical settings, events, or figures with fictional characters and narratives. Set in the past, these novels recreate specific time periods with attention to social conditions, cultural attitudes, and historical details, while weaving imagined elements throughout. Authors research extensively to accurately portray historical contexts, from ancient civilizations to the recent past, while using creative license to fill gaps in historical record or to personalize larger events through individual stories. The genre allows readers to experience history through immersive storytelling, often providing emotional and sensory dimensions that purely factual accounts might lack, while potentially illuminating lesser-known historical perspectives." 
+    // },
     { 
       slug: "history", 
       name: "History", 
@@ -105,11 +100,11 @@ export const genres: Genre[] = [
       name: "Horror", 
       description: "Horror literature aims to evoke fear, dread, disgust, or existential terror in readers by exploring disturbing concepts, supernatural threats, or psychological fears. Dating back to Gothic novels, this genre has evolved to encompass diverse subgenres from supernatural horror featuring monsters and paranormal entities to psychological horror delving into human psyche and bodily horror examining physical corruption. Horror often functions as social commentary, using terrifying narratives to reflect cultural anxieties, taboos, and societal fears. Through suspense, atmosphere, and unflinching examination of the macabre, horror provides both visceral thrills and a safe space to confront the darker aspects of human experience." 
     },
-    { 
-      slug: "humor-and-comedy", 
-      name: "Humor and Comedy", 
-      description: "Humor and comedy in literature encompass works primarily intended to amuse and entertain through wit, situational comedy, satire, parody, or absurdist elements. This diverse genre includes humorous essays, comedic novels, satirical works, parodies, and joke collections that employ literary devices like irony, exaggeration, and wordplay to generate laughter or amusement. Beyond entertainment, comedic literature often serves deeper purposes: social criticism through satire, emotional release through humor during difficult times, or exploration of serious themes through comedic frameworks. The genre reflects cultural contexts, as humor varies across societies and eras, while connecting readers through the universal human experience of laughter." 
-    },
+    // { 
+    //   slug: "humor-and-comedy", 
+    //   name: "Humor and Comedy", 
+    //   description: "Humor and comedy in literature encompass works primarily intended to amuse and entertain through wit, situational comedy, satire, parody, or absurdist elements. This diverse genre includes humorous essays, comedic novels, satirical works, parodies, and joke collections that employ literary devices like irony, exaggeration, and wordplay to generate laughter or amusement. Beyond entertainment, comedic literature often serves deeper purposes: social criticism through satire, emotional release through humor during difficult times, or exploration of serious themes through comedic frameworks. The genre reflects cultural contexts, as humor varies across societies and eras, while connecting readers through the universal human experience of laughter." 
+    // },
     { 
       slug: "manga", 
       name: "Manga", 
@@ -130,11 +125,11 @@ export const genres: Genre[] = [
       name: "Mystery", 
       description: "Mystery fiction centers on the investigation and resolution of puzzling events, typically crimes, where characters work to uncover hidden information and solve the central enigma. Featuring detectives (professional or amateur), complex plotting, strategic revelation of clues, red herrings, and suspense, mysteries engage readers in an intellectual challenge alongside the protagonist. The genre encompasses various subgenres like traditional whodunits, cozy mysteries, hardboiled detective fiction, and police procedurals, each with distinctive conventions. Mystery novels rely on logical problem-solving, character psychology, and narrative tension as investigators navigate motives, alibis, and evidence toward the ultimate revelation that resolves the central question driving the narrative." 
     },
-    { 
-      slug: "non-fiction", 
-      name: "Non-Fiction", 
-      description: "Non-fiction encompasses written works based on facts, real events, and actual people rather than imagined scenarios. This vast category includes diverse formats such as biographies, memoirs, historical accounts, academic texts, essays, journalism, self-help books, travel writing, and instructional works. Non-fiction aims to inform, analyze, explain, or persuade through factual accuracy, research, and real-world observation, though presentation styles range from objective reporting to personal narrative. These works provide knowledge, insight, and perspective on everything from historical events and scientific discoveries to personal experiences and practical skills, helping readers better understand the actual world around them." 
-    },
+    // { 
+    //   slug: "non-fiction", 
+    //   name: "Non-Fiction", 
+    //   description: "Non-fiction encompasses written works based on facts, real events, and actual people rather than imagined scenarios. This vast category includes diverse formats such as biographies, memoirs, historical accounts, academic texts, essays, journalism, self-help books, travel writing, and instructional works. Non-fiction aims to inform, analyze, explain, or persuade through factual accuracy, research, and real-world observation, though presentation styles range from objective reporting to personal narrative. These works provide knowledge, insight, and perspective on everything from historical events and scientific discoveries to personal experiences and practical skills, helping readers better understand the actual world around them." 
+    // },
     { 
       slug: "nonfiction", 
       name: "Nonfiction", 
@@ -327,14 +322,12 @@ export const history = [
   }
 ];
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function getBooksByGenre(genreSlug: string) {
-  // await delay(300);
   return books.filter((book) => book.genre === genreSlug);
 }
 
 export async function getGenres() {
-  await delay(300);
   return genres;
 }

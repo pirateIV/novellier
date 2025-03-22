@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { Button } from "../ui/button";
 
 const HeaderContent = () => {
   return (
@@ -18,7 +17,7 @@ const HeaderContent = () => {
           <button className="p-1 flex bg-gray-100 rounded-full outline-gray-300 outline transition duration-300 *:transition hover:scale-105 *:active:scale-[1.04] dark:bg-white/20 dark:outline-gray-400/50 dark:focus-within:ring-2 dark:focus-within:ring-gray-400">
             <Link
               href="/auth/sign-up"
-              className="relative text-sm shadow-xs shadow-gray-300 font-semibold outline -outline-offset-1 btn-gradient py-2.5 px-6 rounded-full hover:brightness-105 dark:text-white dark:bg-white dark:shadow-neutral-800"
+              className="relative text-sm shadow-xs text-white shadow-gray-300 font-semibold outline -outline-offset-1 btn-gradient py-2.5 px-6 rounded-full hover:brightness-105 dark:text-white dark:bg-white dark:shadow-neutral-800"
             >
               Get Started
             </Link>

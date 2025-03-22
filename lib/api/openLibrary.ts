@@ -1,98 +1,92 @@
 import { Subject } from "@/shared/types";
 import { genres } from "../books";
 
-// Type Definitions
 interface Description {
   key: string;
-  description: string | { value: string } | undefined;
+  description: {
+    value?: string;
+  };
 }
 
-interface BookData {
-  subjects: string[];
-  description: string | { value: string };
-  first_publish_date?: string;
-  [key: string]: any;
-}
+const subjects = ["history", "fantasy", "fiction", "romance"];
 
-// Constants
-const SUBJECTS = ["history", "fantasy", "fiction", "romance"] as const;
-const DEFAULT_GENRES = genres.map((genre) => genre.name);
-const DEFAULT_LIMIT = 20;
-
-// Utility Functions
-const handleFetchError = (error: unknown, message: string) => {
-  console.error(message, error);
-  throw new Error(message);
-};
-
-const fetchJson = async <T>(url: string): Promise<T> => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  return response.json();
-};
-
-// Main API Functions
+// Reuse your existing fetch logic in a reusable function
 export async function fetchOpenLibraryData() {
   try {
-    return await Promise.all(
-      SUBJECTS.map((subject) =>
-        fetchJson<Subject>(
-          `https://openlibrary.org/subjects/${subject}.json?limit=${DEFAULT_LIMIT}&offset=20`
-        )
-      )
+    const response = await Promise.all(
+      subjects.map(async (subject) => {
+        const response = await fetch(
+          `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
+        );
+        return await response.json();
+      })
     );
+    return response;
   } catch (error) {
-    handleFetchError(error, "Failed to fetch Open Library data");
+    console.error("Error fetching Open Library data:", error);
+    throw new Error("Failed to fetch Open Library data");
   }
 }
+
+const defaultGenres = genres.map((genre) => genre.name);
 
 export async function getBook(id: string) {
   try {
-    const data = await fetchJson<BookData>(`https://openlibrary.org/works/${id}.json`);
-    
-    const filteredGenres = data.subjects.filter((subject) =>
-      DEFAULT_GENRES.includes(subject)
+    const response = await fetch(`https://openlibrary.org/works/${id}.json`);
+    const data = await response.json();
+
+    const filteredGenres = data.subjects.filter((subject: string) =>
+      defaultGenres.includes(subject)
     );
+
+    console.log("get book here...", { data });
 
     return {
       ...data,
-      description: typeof data.description === "object" 
-        ? data.description.value 
-        : data.description || "",
+      description: data.description.value || data.description,
       subjects: filteredGenres,
-      first_publish_date: data.first_publish_date?.toString() || "",
+      first_publish_date: data.first_publish_date
+        ? data.first_publish_date.toString()
+        : "",
     };
   } catch (error) {
-    handleFetchError(error, "Failed to fetch book data");
+    console.error("Error fetching Open Library data:", error);
+    throw new Error("Failed to fetch Open Library data");
   }
 }
 
 export async function getAuthor(id: string) {
   try {
-    return await fetchJson(`https://openlibrary.org/authors/${id}.json`);
+    const response = await fetch(`https://openlibrary.org/authors/${id}.json`);
+    const data = await response.json();
+
+    return data;
   } catch (error) {
-    handleFetchError(error, "Failed to fetch author data");
+    console.error("Error fetching Open Library data:", error);
+    throw new Error("Failed to fetch Open Library data");
   }
 }
 
-export async function getSubjects(subject: string, options = { limit: DEFAULT_LIMIT, offset: 0 }) {
+export async function getSubjects(subject: string) {
   try {
-    const { limit, offset } = options;
-    const url = `https://openlibrary.org/subjects/${subject}.json?limit=${limit}&offset=${offset}`;
-    const data = await fetchJson<Subject>(url);
-    
+    const response = await fetch(
+      `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0`
+    );
+
+    const data = (await response.json()) as Subject;
+    const keys = data.works.map((work) => work.key);
+
     const descriptions = await Promise.all(
-      data.works.map((work) =>
-        fetchJson<Description>(`https://openlibrary.org/${work.key}.json`)
-          .then((desc) => ({
-            key: work.key,
-            description: desc.description && typeof desc.description === "object"
-              ? desc.description.value
-              : desc.description || "",
-          }))
-      )
+      keys.map(async (key: string) => {
+        const response = await fetch(`https://openlibrary.org/${key}.json`);
+        const data = (await response.json()) as Description;
+        return {
+          key,
+          description: data.description?.value
+            ? data.description?.value
+            : data.description || "",
+        };
+      })
     );
 
     return data.works.map((work) => {
@@ -101,24 +95,145 @@ export async function getSubjects(subject: string, options = { limit: DEFAULT_LI
         works_count: data.work_count,
         works: {
           ...work,
-          first_publish_year: work.first_publish_year?.toString() || "",
-          description: description?.description || "",
+          first_publish_year: work.first_publish_year.toString(),
+          description: description?.description,
         },
       };
     });
   } catch (error) {
-    handleFetchError(error, "Failed to fetch subjects data");
+    console.error("Error fetching Open Library data:", error);
+    throw new Error("Failed to fetch Open Library data");
   }
 }
 
 export async function getBookCoverId(query: string) {
   try {
-    const data = await fetchJson<{ docs: { cover_i: number }[] }>(
+    const response = await fetch(
       `https://openlibrary.org/search.json?q=${query}`
     );
-    return data.docs[0]?.cover_i ?? null;
+    const data = await response.json();
+    return data.docs[0].cover_i;
   } catch (error) {
-    console.error("Error fetching book cover:", error);
     return null;
   }
 }
+
+//
+
+// import { Subject } from "@/shared/types";
+// import { genres } from "../books";
+
+// interface Description {
+//   key: string;
+//   description: {
+//     value?: string;
+//   };
+// }
+
+// const subjects = ["history", "fantasy", "fiction", "romance"];
+
+// // Reuse your existing fetch logic in a reusable function
+// export async function fetchOpenLibraryData() {
+//   try {
+//     const response = await Promise.all(
+//       subjects.map(async (subject) => {
+//         const response = await fetch(
+//           `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
+//         );
+//         return await response.json();
+//       })
+//     );
+//     return response;
+//   } catch (error) {
+//     console.error("Error fetching Open Library data:", error);
+//     throw new Error("Failed to fetch Open Library data");
+//   }
+// }
+
+// const defaultGenres = genres.map((genre) => genre.name);
+
+// export async function getBook(id: string) {
+//   try {
+//     const response = await fetch(`https://openlibrary.org/works/${id}.json`);
+//     const data = await response.json();
+
+//     const filteredGenres = data.subjects.filter((subject: string) =>
+//       defaultGenres.includes(subject)
+//     );
+
+//     return {
+//       ...data,
+//       description: data.description.value || data.description,
+//       subjects: filteredGenres,
+//       first_publish_date: data.first_publish_date
+//         ? data.first_publish_date.toString()
+//         : "",
+//     };
+//   } catch (error) {
+//     console.error("Error fetching Open Library data:", error);
+//     throw new Error("Failed to fetch Open Library data");
+//   }
+// }
+
+// export async function getAuthor(id: string) {
+//   try {
+//     const response = await fetch(`https://openlibrary.org/authors/${id}.json`);
+//     const data = await response.json();
+
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching Open Library data:", error);
+//     throw new Error("Failed to fetch Open Library data");
+//   }
+// }
+
+// export async function getSubjects(subject: string) {
+//   try {
+//     const response = await fetch(
+//       `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0`
+//     );
+
+//     const data = (await response.json()) as Subject;
+//     const keys = data.works.map((work) => work.key);
+
+//     const descriptions = await Promise.all(
+//       keys.map(async (key: string) => {
+//         const response = await fetch(`https://openlibrary.org/${key}.json`);
+//         const data = (await response.json()) as Description;
+//         return {
+//           key,
+//           description: data.description?.value
+//             ? data.description?.value
+//             : data.description || "",
+//         };
+//       })
+//     );
+
+//     return data.works.map((work) => {
+//       const description = descriptions.find((desc) => desc.key === work.key);
+//       return {
+//         works_count: data.work_count,
+//         works: {
+//           ...work,
+//           first_publish_year: work.first_publish_year.toString(),
+//           description: description?.description,
+//         },
+//       };
+//     });
+//   } catch (error) {
+//     console.error("Error fetching Open Library data:", error);
+//     throw new Error("Failed to fetch Open Library data");
+//   }
+// }
+
+// export async function getBookCoverId(query: string) {
+//   try {
+//     const response = await fetch(
+//       `https://openlibrary.org/search.json?q=${query}`
+//     );
+//     const data = await response.json();
+//     return data.docs[0].cover_i;
+//   } catch (error) {
+//     return null;
+//   }
+// }

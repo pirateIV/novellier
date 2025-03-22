@@ -28,8 +28,41 @@ export interface Work {
   key: string;
   title: string;
   first_publish_year: string | number;
+  description:
+    | {
+        value?: string;
+      }
+    | string
+    | undefined;
+
   cover_id: string | number;
   authors: {
     name: string;
+    key: string;
   }[];
+}
+
+export interface Reviewer {
+  fullName: string;
+}
+
+export interface Review {
+  bookId: string;
+  rating: number;
+  content: string;
+  createdAt: string;
+  reviewer: Reviewer;
+}
+
+export interface Book {
+  title: string;
+}
+
+export interface Params {
+  id: string;
+}
+
+export interface BookData {
+  book: Book;
+  coverId: string;
 }

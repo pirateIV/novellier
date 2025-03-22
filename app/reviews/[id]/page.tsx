@@ -1,29 +1,37 @@
 import React from "react";
 import Link from "next/link";
-import { Star, StarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { apiClient } from "@/lib/axios";
 import client from "@/lib/apollo-client";
 import { GET_BOOK_DATA } from "@/lib/graphql/queries";
 import { getBookCoverId } from "@/lib/api/openLibrary";
-import Image from "next/image";
+import BookCover from "@/components/reviews/BookCover";
+import RatingStars from "@/components/reviews/RatingStars";
+import ReviewMeta from "@/components/reviews/ReviewMeta";
+import type { Book, BookData, Params, Review } from "@/shared/types";
 
-const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+async function fetchReviewData(id: string) {
+  const response = await apiClient.get(`/reviews/${id}`);
+  return (await response.data.review) as Review;
+}
+
+async function fetchBookData(review: Review) {
+  const bookResult = await client.query<{ book: Book }>({
+    query: GET_BOOK_DATA,
+    variables: { id: review.bookId },
+  });
+  const coverId = await getBookCoverId(review.bookId);
+  return {
+    book: bookResult.data.book,
+    coverId,
+  };
+}
+
+const ReviewsPage = async ({ params }: { params: Promise<Params> }) => {
   const { id } = await params;
 
   try {
-    const response = await apiClient.get(`/reviews/${id}`);
-    const { review } = response.data;
-
-    const bookResult = await client.query({
-      query: GET_BOOK_DATA,
-      variables: { id: review.bookId },
-    });
-
-    const book = bookResult.data.book;
-    const coverId = await getBookCoverId(review.bookId);
-
-    console.log(review, bookResult);
+    const review = await fetchReviewData(id);
+    const { book, coverId }: BookData = await fetchBookData(review);
 
     return (
       <div className="w-full min-h-screen flex flex-col items-center p-6">
@@ -38,33 +46,14 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             </Link>
           </div>
           <div className="flex items-start gap-5">
-            <Image
-              src={`https://covers.openlibrary.org/b/id/${coverId}-S.jpg`}
-              width="100"
-              height="175"
-              alt={`${book.title}'s cover`}
-            />
+            <BookCover coverId={coverId} title={book.title} />
             <div>
               <h2 className="mb-4 text-2xl font-semibold">{book.title}</h2>
               <div className="mb-4">
-                <div className="flex items-center mb-2">
-                  {[...Array(review.rating)].map((_, index) => (
-                    <Star
-                      key={index}
-                      className="size-3 text-amber-500 fill-amber-500"
-                    />
-                  ))}
-                  {[...Array(5 - review.rating)].map((_, index) => (
-                    <StarIcon key={index} className="size-3 text-gray-500" />
-                  ))}
-                  <span className="text-xs text-gray-400">
-                    ({review.rating}/5)
-                  </span>
-                </div>
+                <RatingStars rating={review.rating} />
               </div>
             </div>
           </div>
-
           <div className="pt-5">
             <p className="font-sans">{review.content}</p>
 
@@ -74,16 +63,7 @@ const ReviewsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
                 {review.reviewer.fullName}
               </span>
             </div>
-
-            <div className="mt-3 text-sm text-gray-400">
-              <span>
-                {new Date(review.createdAt).toLocaleTimeString("en-US", {
-                  timeStyle: "short",
-                })}
-              </span>
-              <span className="mx-2">&middot;</span>
-              <span>{format(new Date(review.createdAt), "MMMM dd, yyyy")}</span>
-            </div>
+            <ReviewMeta review={review} />
           </div>
         </div>
       </div>

@@ -11,14 +11,14 @@ const DashboardLayout = async () => {
     redirect("/auth/sign-in");
   }
 
-  console.log(user)
+  console.log(user);
 
   return (
-    <div className="relative bg-neutral-50 dark:bg-background">
+    <div className="relative bg-neutral-800 dark:bg-background pb-5">
       <Nav />
       <ProfileSummary user={user} />
       <TabContents user={user} />
-  </div>
+    </div>
   );
 };
 

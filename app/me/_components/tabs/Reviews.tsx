@@ -30,7 +30,7 @@ const ReviewsTab = () => {
         variant="outline"
       >
         <Edit className="size-4" />
-        Write Your First Review
+        Write a Review
       </Button>
     </div>
   );
