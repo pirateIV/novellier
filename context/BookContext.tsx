@@ -4,8 +4,18 @@ import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
 import { createContext, useContext } from "react";
 
 interface BookContextProps {
-  book: BookResponse;
-  author: AuthorResponse;
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+      };
+  author:
+    | AuthorResponse
+    | {
+        name: string;
+        authorId: string;
+      };
 }
 
 const BookContext = createContext<BookContextProps | null>(null);
@@ -15,8 +25,18 @@ export const BookProvider = ({
   author,
   children,
 }: {
-  book: BookResponse;
-  author: AuthorResponse;
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+      };
+  author:
+    | AuthorResponse
+    | {
+        name: string;
+        authorId: string;
+      };
   children: React.ReactNode;
 }) => {
   return (

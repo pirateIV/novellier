@@ -3,7 +3,7 @@ import Review from "@/shared/models/Review";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(
-  _: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const id = (await params).id;
@@ -16,9 +16,10 @@ export async function GET(
   try {
     await dbConnect();
 
-    const review = await Review.findById(id).populate("reviewer");
+    const review = await Review.findById(id).populate("reviewer", "-password -books",);
+    console.log({ review });
     return NextResponse.json({ review });
-  } catch (error) {
+  } catch (error) { 
     return NextResponse.json(error);
   }
 }

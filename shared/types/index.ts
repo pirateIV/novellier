@@ -21,7 +21,7 @@ export interface User {
 export interface Subject {
   name: string;
   work_count: number;
-  works: Work[];
+  works: Work;
 }
 
 export interface Work {

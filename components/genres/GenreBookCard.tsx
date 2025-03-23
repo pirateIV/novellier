@@ -46,19 +46,20 @@ const GenreBookCard = ({ works }: { works: Work }) => {
   //   TODO: maybe include the bookimage in the review
   return (
     <BookProvider book={book} author={author}>
-      <div className="relative flex gap-4 p-3 rounded-lg group hover:bg-gray-100 dark:hover:bg-white/5">
+      <div className="relative flex gap-4 p-3 group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg">
         <Image
           src={`https://covers.openlibrary.org/b/id/${works.cover_id}-M.jpg`}
           className="rounded-md"
           height={200}
           width={100}
-          loading="lazy"
           alt={`${works.title} image`}
         />
         <div className="flex flex-col flex-1 justify-between">
           <div>
             <div className="flex justify-between items-baseline">
-              <h3 className="mb-2 font-medium dark:font-normal">{works.title}</h3>
+              <h3 className="mb-2 font-semibold dark:font-normal">
+                {works.title}
+              </h3>
               {works.description && (
                 <BookReviewForm bookId={getBookId(works.key)}>
                   <Button
@@ -66,13 +67,13 @@ const GenreBookCard = ({ works }: { works: Work }) => {
                     variant="link"
                     size="sm"
                   >
-                    <PenLine className="size-4"/>
+                    <PenLine className="size-4" />
                     Review
                   </Button>
                 </BookReviewForm>
               )}
             </div>
-            <p className="font-worksans text-sm line-clamp-2 dark:text-gray-400">
+            <p className="font-worksans text-sm line-clamp-4 dark:text-gray-400">
               {works.description ? (
                 typeof works.description === "string" ? (
                   works.description

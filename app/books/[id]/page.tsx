@@ -47,7 +47,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
             </div>
           </div>
         </div>
-        <BookReviews />
+        <BookReviews id={id} />
       </div>
     </BookProvider>
   );

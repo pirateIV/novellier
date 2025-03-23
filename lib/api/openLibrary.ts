@@ -1,4 +1,4 @@
-import { Subject } from "@/shared/types";
+import { Subject, Work } from "@/shared/types";
 import { genres } from "../books";
 
 interface Description {
@@ -73,36 +73,52 @@ export async function getSubjects(subject: string) {
       `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0`
     );
 
-    const data = (await response.json()) as Subject;
-    const keys = data.works.map((work) => work.key);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Check if data.works exists and is an array; otherwise, return an empty array
+    if (!data?.works || !Array.isArray(data.works)) {
+      console.warn(`No works found for subject: ${subject}`);
+      return [];
+    }
+
+    const keys = data.works.map((work: Work) => work.key);
 
     const descriptions = await Promise.all(
       keys.map(async (key: string) => {
-        const response = await fetch(`https://openlibrary.org/${key}.json`);
-        const data = (await response.json()) as Description;
-        return {
-          key,
-          description: data.description?.value
-            ? data.description?.value
-            : data.description || "",
-        };
+        try {
+          const response = await fetch(`https://openlibrary.org/${key}.json`);
+          const data = await response.json();
+          return {
+            key,
+            description: data.description?.value
+              ? data.description.value
+              : data.description || "",
+          };
+        } catch (error) {
+          console.error(`Error fetching description for key ${key}:`, error);
+          return { key, description: "" }; // Fallback for individual failures
+        }
       })
     );
 
-    return data.works.map((work) => {
+    return data.works.map((work: Work) => {
       const description = descriptions.find((desc) => desc.key === work.key);
       return {
         works_count: data.work_count,
         works: {
           ...work,
-          first_publish_year: work.first_publish_year.toString(),
-          description: description?.description,
+          first_publish_year: work.first_publish_year?.toString() || "",
+          description: description?.description || "",
         },
       };
     });
   } catch (error) {
     console.error("Error fetching Open Library data:", error);
-    throw new Error("Failed to fetch Open Library data");
+    return []; // Return empty array instead of throwing error
   }
 }
 

@@ -7,13 +7,13 @@ import { getSubjects } from "@/lib/api/openLibrary";
 import GenreHeader from "@/components/genres/GenreHeader";
 import GenreBookCard from "@/components/genres/GenreBookCard";
 
-export async function generateStaticParams() {
-  const genres = await getGenres();
+// export async function generateStaticParams() {
+//   const genres = await getGenres();
 
-  return genres.map((genre) => ({
-    genre: genre.slug,
-  }));
-}
+//   return genres.map((genre) => ({
+//     genre: genre.slug,
+//   }));
+// }
 
 const GenrePage = async ({
   params,
@@ -32,9 +32,9 @@ const GenrePage = async ({
   return (
     <div className="px-7 py-5">
       <GenreHeader name={name} description={description} />
-      <div className="mt-5">
+      <div className="mt-5 divide-y divide-slate-950/[.07] dark:divide-white/10">
         {subjectData ? (
-          subjectData.map(({ works }) => (
+          subjectData.map(({ works }: SubjectResponse) => (
             <GenreBookCard key={works.key} works={works} />
           ))
         ) : (
