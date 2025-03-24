@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { useBookContext } from "@/context/BookContext";
 import { Badge } from "../ui/badge";
+import { Star } from "lucide-react";
 
 const BookDetails = () => {
   const { book, author } = useBookContext();
 
-  const { authors, subjects, first_publish_date, links, title } =
-    book;
-  const genre = subjects[0];
+  //@ts-ignore
+  const { authors, subjects, first_publish_date, links, title } = book;
+  // const genre = subjects.slice(0,3).map((sub: any) => sub).join(", ");
 
   return (
     <>
@@ -38,16 +39,30 @@ const BookDetails = () => {
       </div>
 
       <div className="flex items-center gap-2.5 text-xs text-gray-500 mb-6 font-medium">
-        <div className="flex items-center gap-2.5">
-          <span className="text-zinc-900 dark:text-zinc-300">
-            {first_publish_date}
-          </span>
-          <span>&middot;</span>
+        {first_publish_date && (
+          <div className="flex items-center gap-2.5">
+            <span className="text-zinc-900 dark:text-zinc-300">
+              {first_publish_date}
+            </span>
+            <span>&middot;</span>
+          </div>
+        )}
+        <div className="*:not-first:border-l *:not-first:border-l-gray-300 *:dark:not-first:border-l-background">
+          {subjects.slice(0, 3).map((sub: string) => (
+            <Badge
+              key={sub}
+              variant="secondary"
+              className="rounded-none first-of-type:rounded-l-sm last-of-type:rounded-e-sm"
+            >
+              {sub}
+            </Badge>
+          ))}
         </div>
-        <Badge variant="secondary">{genre}</Badge>
         <span>&middot;</span>
         <div className="flex items-center gap-1">
-          <span className="text-amber-600 text-base">☆</span>
+          <span className="text-amber-600 text-base">
+            <Star className="size-3 fill-amber-600" />
+          </span>
           <span className="text-zinc-900 dark:text-zinc-300">
             4.7 <span className="text-zinc-400">(0)</span>
           </span>

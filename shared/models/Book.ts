@@ -14,7 +14,7 @@ const bookSchema = new mongoose.Schema<IBook>(
   {
     author: { type: String, required: true },
     authorId: { type: String, required: true },
-    averageRating: { type: Number, default: 0 },
+    // averageRating: { type: Number, default: 0 },
     bookId: { type: String, default: "", unique: true },
     title: { type: String, default: "", unique: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],

@@ -1,8 +1,8 @@
-import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
+import { cookies } from "next/headers";
+import { type NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Review from "@/shared/models/Review";
-import User from "@/shared/models/User";
-import { type NextRequest, NextResponse } from "next/server";
+import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
 
 export async function GET(
   req: NextRequest,
@@ -11,8 +11,12 @@ export async function GET(
   await dbConnect();
   try {
     const { id } = await params;
+
+    // const token = (await cookies()).get("token")?.value; - For testing on (postman)
     const token = getTokenFromCookies(req);
     const user = await getUserFromToken(token!);
+
+    console.log({ token });
 
     if (!id) {
       return NextResponse.json(
@@ -21,7 +25,10 @@ export async function GET(
       );
     }
 
-    const reviews = await Review.find({ bookId: id }).populate("reviewer");
+    const reviews = await Review.find({ bookId: id }).populate(
+      "reviewer",
+      "-password -books -email"
+    );
     // const users = await Promise.all([
     //   ...reviews.map(
     //     async (review) =>
@@ -34,12 +41,15 @@ export async function GET(
     const hasReviewAvailable = !!reviews.find((review) =>
       user.reviews.includes(review.id)
     );
-    const totalReviews = reviews.length * 5;
-    const averageReviews = (
-      reviews.reduce((acc, review) => acc + review.rating, 0) / 5
-    ).toFixed(1);
+    const totalReviews = reviews.length;
+    const totalRatings = reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0
+    );
+    const averageRating =
+      totalReviews > 0 ? (totalRatings / totalReviews).toFixed(1) : 0;
 
-    return NextResponse.json({ reviews, hasReviewAvailable, averageReviews });
+    return NextResponse.json({ reviews, hasReviewAvailable, averageRating });
   } catch (error) {
     return NextResponse.json(error);
   }

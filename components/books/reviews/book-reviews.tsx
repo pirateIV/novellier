@@ -85,8 +85,10 @@ const BookReviews = async ({ id }: { id: string }) => {
       `/reviews/search/${id}`,
       buildAuthHeaderToken(token)
     );
-    const { reviews, hasReviewAvailable, averageReviews } = response.data;
-    console.log(reviews, hasReviewAvailable, averageReviews);
+    const { reviews, hasReviewAvailable, averageRating } = response.data;
+
+    console.log(response.data);
+    console.log(reviews, hasReviewAvailable, averageRating);
 
     const reviewsCount = reviews.length || 0;
 
