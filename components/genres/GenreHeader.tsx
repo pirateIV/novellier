@@ -13,7 +13,7 @@ const GenreHeader = ({ name, description }: GenreHeaderProps) => {
           {name}
         </h1>
       </div>
-      <p className="font-worksans text-sm font-medium text-gray-600 whitespace-pre-line dark:font-normal dark:text-slate-300">
+      <p className="text-sm font-medium text-gray-600 whitespace-pre-line dark:font-normal dark:text-slate-300">
         {description}
       </p>
     </>

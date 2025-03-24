@@ -35,7 +35,7 @@ const ScrollRestorationWrapper: React.FC<ScrollRestorationWrapperProps> = ({ chi
   return (
     <div
       ref={containerRef}
-      className="w-full min-h-screen flex flex-col *:w-full items-center overflow-y-auto max-h-[calc(100vh-3rem)]"
+      className="w-full min-h-screen flex flex-col *:w-full items-center overflow-y-auto max-h-[calc(100vh-3rem)] overflow-x-hidden"
     >
       {children}
     </div>
