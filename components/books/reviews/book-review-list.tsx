@@ -21,7 +21,7 @@ const BookReviewList = ({
         <div>
           <div className="divide-y divide-slate-950/[.07] dark:divide-white/10">
             {reviews.map((review: any) => (
-              <BookReviewItem key={review?.id} review={review} />
+              <BookReviewItem key={review?.id} review={review}/>
             ))}
           </div>
           {!hasReviewAvailable && (

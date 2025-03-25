@@ -18,7 +18,6 @@ type ReviewFormData = z.infer<typeof reviewSchema>;
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { Form, FormField } from "../../ui/form";
 import {
@@ -62,6 +61,10 @@ const BookReviewForm = ({
           title: book.title,
         },
       });
+
+      if (response.data.data) {
+        window.location.reload();
+      }
       console.log(response.data);
     } catch (error) {
       console.log(error);

@@ -11,15 +11,16 @@ export async function GET(
     return NextResponse.json({ error: "Review ID not found!" });
   }
 
-  console.log({ id });
-
   try {
     await dbConnect();
 
-    const review = await Review.findById(id).populate("reviewer", "-password -books",);
+    const review = await Review.findById(id).populate(
+      "reviewer",
+      "-password -books"
+    );
     console.log({ review });
     return NextResponse.json({ review });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(error);
   }
 }

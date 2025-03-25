@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const BookReviewItem = ({ review }: { review: any }) => {
+  const params = useParams() as { id: string };
+
   return (
     <div
       key={review?.id}
@@ -52,7 +55,10 @@ const BookReviewItem = ({ review }: { review: any }) => {
         </div>
       </div>
       <span className="w-full h-full absolute inset-0">
-        <Link className="size-full block" href={`/reviews/${review?.id}`} />
+        <Link
+          className="size-full block"
+          href={`/reviews/${params.id}/${review?.id}`}
+        />
       </span>
     </div>
   );
