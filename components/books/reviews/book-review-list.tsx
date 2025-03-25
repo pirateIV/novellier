@@ -6,8 +6,15 @@ import BookReviewsPlaceholder from "./book-reviews-placeholder";
 import BookReviewForm from "./book-review-form";
 import { Button } from "@/components/ui/button";
 import { PenLine } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const BookReviewList = ({ reviews }: { reviews: any }) => {
+const BookReviewList = ({
+  reviews,
+  hasReviewAvailable,
+}: {
+  reviews: any;
+  hasReviewAvailable: boolean;
+}) => {
   return (
     <>
       {reviews?.length > 0 ? (
@@ -17,15 +24,19 @@ const BookReviewList = ({ reviews }: { reviews: any }) => {
               <BookReviewItem key={review?.id} review={review} />
             ))}
           </div>
-          <BookReviewForm>
-            <Button
-              size="icon"
-              className="ml-auto w-fit absolute font-medium right-5 bottom-5 px-3 mt-3 text-xs"
-            >
-              <PenLine />
-              Review
-            </Button>
-          </BookReviewForm>
+          {!hasReviewAvailable && (
+            <BookReviewForm>
+              <Button
+                size="icon"
+                className={cn(
+                  "ml-auto w-fit absolute font-medium right-5 bottom-5 px-3 mt-3 text-xs"
+                )}
+              >
+                <PenLine />
+                Review
+              </Button>
+            </BookReviewForm>
+          )}
         </div>
       ) : (
         <BookReviewsPlaceholder />

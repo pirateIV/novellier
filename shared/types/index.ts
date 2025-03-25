@@ -3,6 +3,7 @@ export interface ParamIdProps {
 }
 
 export interface User {
+  averageRating: ReactNode;
   id: string;
   firstName: string;
   lastName: string;

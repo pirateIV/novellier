@@ -9,6 +9,7 @@ import { PenLine } from "lucide-react";
 import { Children } from "react";
 import BookReviewList from "./book-review-list";
 import { cookies } from "next/headers";
+import { getBook } from "@/lib/api/openLibrary";
 
 //  const BookReviews = async () => {
 //   const params = useParams();
@@ -85,17 +86,15 @@ const BookReviews = async ({ id }: { id: string }) => {
       `/reviews/search/${id}`,
       buildAuthHeaderToken(token)
     );
-    const { reviews, hasReviewAvailable, averageRating } = response.data;
+    const data = response.data;
 
-    console.log(response.data);
-    console.log(reviews, hasReviewAvailable, averageRating);
-
+    const { reviews } = data;
     const reviewsCount = reviews.length || 0;
 
     return (
       <div className="pt-8 mt-12 border-t">
         <BookReviewsHeader reviews={reviewsCount} />
-        <BookReviewList reviews={reviews} />
+        <BookReviewList {...data} />
       </div>
     );
   } catch (error) {

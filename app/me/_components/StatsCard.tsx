@@ -26,7 +26,7 @@ const StatsCard = ({
 }) => {
   return (
     <div className="relative p-2 border rounded-[20px] bg-neutral-200/5 dark:bg-neutral-950  border-white/5 *:h-full">
-      <Card className="relative overflow-hidden border  transition-all duration-200 bg-white dark:bg-[#0f0f0f] shadow-none">
+      <Card className="relative overflow-hidden border dark:border-none  transition-all duration-200 bg-white dark:bg-[#0f0f0f] shadow-none">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             {icon}

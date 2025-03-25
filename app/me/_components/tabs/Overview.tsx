@@ -79,46 +79,6 @@ const OverviewTab = ({ user }: OverviewTabProps) => {
           </CardContent>
         </Card>
       </div>
-
-      {/* <div className="relative p-2 border rounded-[20px] bg-neutral-200/5 dark:bg-neutral-950 border-white/5">
-        <Card className="bg-white dark:bg-[#0f0f0f] border-none rounded-[16px] overflow-hidden">
-          <CardHeader className="p-6 border-b border-white/10">
-            <h1 className="text-2xl font-bold tracking-tight dark:text-white">
-              Reading Goals
-            </h1>
-            <p className="text-sm text-neutral-700 dark:text-gray-400 mt-1">
-              Track your progress toward your reading goals
-            </p>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="py-8 flex flex-col items-center justify-center text-center">
-              <Activity
-                className="size-32 text-neutral-700 dark:text-neutral-500"
-                aria-hidden="true"
-              />
-              <div className="w-full max-w-[200px] h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full mt-4 overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-green-500 to-teal-500 transition-all duration-300"
-                  style={{ width: `${user?.readingGoalProgress || 0}%` }}
-                />
-              </div>
-              <span className="text-neutral-500 dark:text-gray-400 text-sm font-medium mt-4">
-                {user?.readingGoalProgress
-                  ? `You're ${user.readingGoalProgress}% toward your goal!`
-                  : "Set a reading goal to track your progress!"}
-              </span>
-            </div>
-            <Button
-              className="text-sm w-full mt-6 flex items-center justify-center gap-2"
-              variant="outline"
-              aria-label="Set or view reading goals"
-            >
-              <Book className="size-4" />
-              {user?.readingGoalProgress ? "View Goals" : "Set a Goal"}
-            </Button>
-          </CardContent>
-        </Card>
-      </div> */}
     </div>
   );
 };

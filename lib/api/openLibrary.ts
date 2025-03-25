@@ -1,5 +1,6 @@
-import { Subject, Work } from "@/shared/types";
+import { apiClient } from "../axios";
 import { genres } from "../books";
+import { Subject, Work } from "@/shared/types";
 
 interface Description {
   key: string;
@@ -32,18 +33,23 @@ const defaultGenres = genres.map((genre) => genre.name);
 
 export async function getBook(id: string) {
   try {
-    const response = await fetch(`https://openlibrary.org/works/${id}.json`);
-    const data = await response.json();
+    const [bookResponse, bookStatsResponse] = await Promise.all([
+      await fetch(`https://openlibrary.org/works/${id}.json`),
+      await apiClient.get(`/books/rating/${id}`),
+    ]);
+    // const response = await fetch(`https://openlibrary.org/works/${id}.json`);
+    // const bookStatsRes = await apiClient.get(`/books/rating/${id}`);
+    const data = await bookResponse.json();
+    const bookStats = bookStatsResponse.data;
 
     const filteredGenres = data.subjects.filter((subject: string) =>
       defaultGenres.includes(subject)
     );
 
-    console.log("get book here...", { data });
-
     return {
       ...data,
-      description: data.description.value || data.description,
+      stats: bookStats,
+      description: data.description?.value || data.description,
       subjects: filteredGenres,
       first_publish_date: data.first_publish_date
         ? data.first_publish_date.toString()

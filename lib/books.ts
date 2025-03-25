@@ -11,6 +11,7 @@ export interface Book {
   description: string;
   genre: string;
   tags: string[];
+  subjects?: any[]
 }
 
 // prettier-ignore
@@ -279,48 +280,48 @@ const books: Book[] = [
   },
 ];
 
-export const history = [
-  {
-    title: "Gentlemen of the Woods: Manhood, Myth, and the American Lumberjack",
-    author: "Willa Hammitt Brown",
-    imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1718979838l/212342368._SX318_.jpg",
-    rating: "5.00 avg rating — 3 ratings",
-    publicationYear: "2025",
-    description: "The men, the myth, and the making of an American legend. The folk hero Paul Bunyan, burly, bearded, wielding his big ax, stands astride the story of the upper Midwest—a manly symbol of the labor that cleared the vast north woods for the march of industrialization while somehow also maintaining an aura of pristine nature. This idea, celebrated in popular culture with songs and folktales, receives a long overdue and thoroughly revealing correction in Gentlemen of the Woods, a cultural history of the life and lore of the real lumberjack and his true place in American history."
-  },
-  {
-    title: "Between Two Rivers",
-    author: "Moudhy Al-Rashid",
-    imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1739294683l/190862826.jpg",
-    rating: "4.75 avg rating — 12 ratings",
-    publicationYear: "2025",
-    description: "Ancient Mesopotamia, a land between two rivers, is known as the 'cradle of civilisation'. At the height of its influence, this region saw the birth of the world's first cities, the first writing system, the first historical records, as well as myths, medicine, literature, astronomy and religion that went on to revolutionise societies around the world."
-  },
-  {
-    title: "Accidental Tyrant: The Life of Kim Il-sung",
-    author: "Fyodor Tertitskiy",
-    imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1709239158l/209318777._SY475_.jpg",
-    rating: "5.00 avg rating — 1 rating",
-    publicationYear: "2025",
-    description: "Kim Il-sung was the enigmatic architect of North Korea. His life is an extraordinary tale of improbable once a barely educated guerrilla fighter, he rose to lead the nation at the young age of 33. Against all odds, he established a horrifyingly stable dictatorial regime, one that still struggles to provide for its people, yet could obliterate Hollywood, Silicon Valley and much of East Asia in nuclear strikes."
-  },
-  {
-    title: "Paris Undercover",
-    author: "Matthew Goodman",
-    imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1722135018l/212807703._SY475_.jpg",
-    rating: "4.20 avg rating — 106 ratings",
-    publicationYear: "2025",
-    description: "Two women in Nazi-occupied Paris created a daring escape line that rescued dozens of Allied servicemen. With one in a German prison camp, the other wrote a book about it—a memoir that was built on lies. Now the bestselling author of Eighty Days shares their incredible, never-before-told full story."
-  },
-  {
-    title: "The Age of Choice: A History of Freedom in Modern Life",
-    author: "Sophia Rosenfeld",
-    imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1721685139l/213878918._SY475_.jpg",
-    rating: "3.70 avg rating — 10 ratings",
-    publicationYear: "2025",
-    description: "A sweeping history of the rise of personal choice in the modern world and how it became equated with freedom. Choice touches virtually every aspect of our lives, from what to buy and where to live to whom to love, what profession to practice, and even what to believe."
-  }
-];
+// export const history = [
+//   {
+//     title: "Gentlemen of the Woods: Manhood, Myth, and the American Lumberjack",
+//     author: "Willa Hammitt Brown",
+//     imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1718979838l/212342368._SX318_.jpg",
+//     rating: "5.00 avg rating — 3 ratings",
+//     publicationYear: "2025",
+//     description: "The men, the myth, and the making of an American legend. The folk hero Paul Bunyan, burly, bearded, wielding his big ax, stands astride the story of the upper Midwest—a manly symbol of the labor that cleared the vast north woods for the march of industrialization while somehow also maintaining an aura of pristine nature. This idea, celebrated in popular culture with songs and folktales, receives a long overdue and thoroughly revealing correction in Gentlemen of the Woods, a cultural history of the life and lore of the real lumberjack and his true place in American history."
+//   },
+//   {
+//     title: "Between Two Rivers",
+//     author: "Moudhy Al-Rashid",
+//     imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1739294683l/190862826.jpg",
+//     rating: "4.75 avg rating — 12 ratings",
+//     publicationYear: "2025",
+//     description: "Ancient Mesopotamia, a land between two rivers, is known as the 'cradle of civilisation'. At the height of its influence, this region saw the birth of the world's first cities, the first writing system, the first historical records, as well as myths, medicine, literature, astronomy and religion that went on to revolutionise societies around the world."
+//   },
+//   {
+//     title: "Accidental Tyrant: The Life of Kim Il-sung",
+//     author: "Fyodor Tertitskiy",
+//     imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1709239158l/209318777._SY475_.jpg",
+//     rating: "5.00 avg rating — 1 rating",
+//     publicationYear: "2025",
+//     description: "Kim Il-sung was the enigmatic architect of North Korea. His life is an extraordinary tale of improbable once a barely educated guerrilla fighter, he rose to lead the nation at the young age of 33. Against all odds, he established a horrifyingly stable dictatorial regime, one that still struggles to provide for its people, yet could obliterate Hollywood, Silicon Valley and much of East Asia in nuclear strikes."
+//   },
+//   {
+//     title: "Paris Undercover",
+//     author: "Matthew Goodman",
+//     imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1722135018l/212807703._SY475_.jpg",
+//     rating: "4.20 avg rating — 106 ratings",
+//     publicationYear: "2025",
+//     description: "Two women in Nazi-occupied Paris created a daring escape line that rescued dozens of Allied servicemen. With one in a German prison camp, the other wrote a book about it—a memoir that was built on lies. Now the bestselling author of Eighty Days shares their incredible, never-before-told full story."
+//   },
+//   {
+//     title: "The Age of Choice: A History of Freedom in Modern Life",
+//     author: "Sophia Rosenfeld",
+//     imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1721685139l/213878918._SY475_.jpg",
+//     rating: "3.70 avg rating — 10 ratings",
+//     publicationYear: "2025",
+//     description: "A sweeping history of the rise of personal choice in the modern world and how it became equated with freedom. Choice touches virtually every aspect of our lives, from what to buy and where to live to whom to love, what profession to practice, and even what to believe."
+//   }
+// ];
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

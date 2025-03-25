@@ -1,20 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { useBookContext } from "@/context/BookContext";
 import { Badge } from "../ui/badge";
 import { Star } from "lucide-react";
+import BadgeGroup from "@/shared/components/badge-group";
 
 const BookDetails = () => {
   const { book, author } = useBookContext();
 
   //@ts-ignore
-  const { authors, subjects, first_publish_date, links, title } = book;
+  const { authors, subjects, first_publish_date, stats, title } = book;
   // const genre = subjects.slice(0,3).map((sub: any) => sub).join(", ");
 
   return (
     <>
-      <h1 className="mb-2 text-3xl sm:text-4xl font-medium tracking-tight md:text-5xl">
+      <h1 className="mb-2 text-3xl font-medium tracking-tight md:text-5xl sm:text-4xl">
         {title}
       </h1>
 
@@ -31,7 +33,7 @@ const BookDetails = () => {
         <span className="font-medium text-indigo-600 dark:text-sky-400">
           {author.name}{" "}
           {authors.length > 1 && (
-            <span className="text-gray-200 text-xs font-Medium">
+            <span className="font-Medium text-xs text-gray-200">
               (+{authors.length - 1})
             </span>
           )}
@@ -47,24 +49,24 @@ const BookDetails = () => {
             <span>&middot;</span>
           </div>
         )}
-        <div className="*:not-first:border-l *:not-first:border-l-gray-300 *:dark:not-first:border-l-background">
-          {subjects.slice(0, 3).map((sub: string) => (
-            <Badge
-              key={sub}
-              variant="secondary"
-              className="rounded-none first-of-type:rounded-l-sm last-of-type:rounded-e-sm"
-            >
-              {sub}
-            </Badge>
-          ))}
-        </div>
+        <BadgeGroup list={subjects} />
         <span>&middot;</span>
         <div className="flex items-center gap-1">
-          <span className="text-amber-600 text-base">
-            <Star className="size-3 fill-amber-600" />
+          <span className="text-base text-amber-500 dark:text-amber-600">
+            <Star className="size-3 fill-amber-500 dark:fill-amber-600" />
           </span>
-          <span className="text-zinc-900 dark:text-zinc-300">
-            4.7 <span className="text-zinc-400">(0)</span>
+          <span className="font-semibold text-zinc-900 dark:text-zinc-300">
+            {stats.averageRating}{" "}
+            <span className="text-gray-600 dark:text-zinc-400 font-medium">
+              (
+              <span className="text-gray-800 font-semibold dark:text-zinc-300">
+                {stats.totalReviews}
+              </span>{" "}
+              <Link href="#reviews" className="underline text-blue-500">
+                reviews
+              </Link>
+              )
+            </span>
           </span>
         </div>
       </div>

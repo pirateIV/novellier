@@ -18,7 +18,7 @@ export const typeDefs = gql`
     authors: [BookAuthor]
     links: [BookLink]
     subjects: [String]
-    # covers: [Int]
+    stats: BookStats
   }
 
   type Author {
@@ -46,6 +46,12 @@ export const typeDefs = gql`
   type BookLink {
     title: String
     url: String
+  }
+
+  type BookStats {
+    averageRating: String
+    totalReviews: Int
+    # hasReviewAvailable: Boolean
   }
 
   type AuthorKey {

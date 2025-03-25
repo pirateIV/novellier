@@ -8,7 +8,7 @@ export const fetchBookAndAuthorData = async (bookId: string) => {
   } = await client.query<{ book: BookResponse }>({
     query: GET_BOOK_DATA,
     variables: { id: bookId },
-    fetchPolicy: "cache-first",
+    // fetchPolicy: "cache-first",
   });
 
   if (!book) return null;
@@ -20,7 +20,7 @@ export const fetchBookAndAuthorData = async (bookId: string) => {
   } = await client.query<{ author: AuthorResponse }>({
     query: GET_AUTHOR_DATA,
     variables: { id: authorId },
-    fetchPolicy: "cache-first",
+    // fetchPolicy: "cache-first",
   });
 
   return { book, author: { ...author, authorId } };

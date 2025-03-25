@@ -10,7 +10,7 @@ const tabs = ["Overview", "My Books", "Reviews", "Settings"];
 
 const TabContents = ({ user }: { user: User }) => {
   return (
-    <div className="-mt-8 container mx-auto px-4 md:px-6">
+    <div className="-mt-8 lg:container mx-auto px-4 md:px-6">
       <TabGroup>
         <TabList className="p-1.5 rounded-md bg-white dark:bg-zinc-950">
           <div className="grid grid-cols-4 justify-between gap-0.5 bg-neutral-100 dark:bg-[#0f0f0f] p-1 *:py-2.5 rounded-md">

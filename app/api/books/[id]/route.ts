@@ -9,7 +9,7 @@ export async function GET(
 ) {
   const { id } = await params;
 
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+  if (!id) {
     return NextResponse.json(
       { error: "Missing or invalid id" },
       { status: 404 }
@@ -17,7 +17,11 @@ export async function GET(
   }
   try {
     await dbConnect();
-    const book = await Book.findById(id).populate("reviews", "rating");
+    // const book = await Book.findById(id).populate("reviews", "rating");
+    const book = await Book.findOne({ bookId: id }).populate(
+      "reviews",
+      "rating"
+    );
 
     const totalReviews = book.reviews.length;
     const totalRatings = book.reviews.reduce(

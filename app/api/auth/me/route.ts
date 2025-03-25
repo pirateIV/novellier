@@ -29,7 +29,9 @@ export async function GET(req: NextRequest) {
       0
     );
     const averageRating =
-      totalReviews > 0 ? (noOfRatings / totalReviews).toFixed(2) : 0;
+      totalReviews > 0
+        ? parseFloat((noOfRatings / totalReviews).toFixed(1))
+        : 0;
 
     const user = {
       ...userData._doc,

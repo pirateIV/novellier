@@ -7,6 +7,10 @@ export const GET_BOOK_DATA = gql`
       description
       first_publish_date
       subjects
+      stats {
+        averageRating
+        totalReviews
+      }
       authors {
         author {
           key

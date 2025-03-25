@@ -14,14 +14,14 @@ const BookHeader = () => {
         <span className="dark:text-gray-400">&larr;</span>
         <Link
           href="/genres"
-          className="text-sm font-medium text-zinc-600 hover:underline dark:text-white"
+          className="text-sm font-semibold text-zinc-900 hover:underline dark:text-white"
         >
           Back to Genres
         </Link>
       </div>
       <div>
         <button
-          className="flex items-center gap-1 text-sm text-blue-600  dark:text-blue-500 font-medium hover:underline"
+          className="flex items-center gap-1 text-sm text-blue-500 font-semibold   hover:underline"
           onClick={() =>
             window.open(`https://www.google.com/search?q=${book.title}`)
           }

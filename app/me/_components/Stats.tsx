@@ -2,10 +2,12 @@ import React from "react";
 import { BookMarked, BookOpen, Star, TrendingUp } from "lucide-react";
 import StatsCard from "./StatsCard";
 import { User } from "@/shared/types";
+import Image from "next/image";
+import StarRating from "@/shared/components/StarRating";
 
 const Stats = ({ user }: { user: User }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
       {/* Total Books Read Card */}
       <StatsCard
         title="Total Books Read"
@@ -40,16 +42,12 @@ const Stats = ({ user }: { user: User }) => {
       >
         <div className="text-4xl font-bold font-sans">{user.totalReviews}</div>
         <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-          <div className="flex">
-            {Array(5)
-              .fill(null)
-              .map((_, i) => (
-                <Star key={i} className="h-3 w-3" />
-              ))}
+          <div className="relative w-fit flex -space-x-0.5">
+            <StarRating rating={user.averageRating} />
           </div>
           <span className="text-gray-600 dark:text-inherit">
             Average rating:{" "}
-            <span className="text-white"> {user.noOfRatings / 5}/5</span>
+            <span className="text-white"> {user.averageRating}/5</span>
           </span>
         </div>
       </StatsCard>

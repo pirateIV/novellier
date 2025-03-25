@@ -18,7 +18,7 @@ export function AppSidebar() {
   const params = useParams() as { genre: string };
 
   return (
-    <Sidebar className="*:bg-zinc-950">
+    <Sidebar className="dark:*:bg-zinc-950">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Genres List</SidebarGroupLabel>
