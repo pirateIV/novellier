@@ -57,7 +57,8 @@ const BookReviewItem = ({ review }: { review: any }) => {
       <span className="w-full h-full absolute inset-0">
         <Link
           className="size-full block"
-          href={`/reviews/${params.id}/${review?.id}`}
+          // href={`/reviews/${params.id}/${review?.id}`}
+          href={`/reviews/${params.id}`}
         />
       </span>
     </div>

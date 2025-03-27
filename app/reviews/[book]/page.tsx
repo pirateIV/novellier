@@ -6,6 +6,7 @@ import Link from "next/link";
 import ReviewActionButtons from "../_components/review-action-buttons";
 import client from "@/lib/apollo-client";
 import { GET_BOOK_DATA, GET_BOOK_REVIEWS_DATA } from "@/lib/graphql/queries";
+import { cn } from "@/lib/utils";
 
 type RatingsProps = {
   rating: number;
@@ -89,6 +90,7 @@ const Review = () => {
 interface ReviewResponse {
   title: string;
   description: string;
+  characters: string[];
   first_publish_date: string | number;
   subjects: string[];
   stats: {
@@ -99,29 +101,38 @@ interface ReviewResponse {
 
 const ReviewsPage = async ({ params }: ReviewPageProps) => {
   const { book } = await params;
+  let reviewData: ReviewResponse | null = null;
+  let errorRes: null | unknown = null;
+
+  try {
+    const { data, error } = await client.query<{ book: ReviewResponse }>({
+      query: GET_BOOK_REVIEWS_DATA,
+      variables: { id: book },
+    });
+
+    reviewData = data.book;
+  } catch (error) {
+    console.log(error);
+    errorRes = error;
+  }
+
+  console.table(reviewData);
 
   const {
-    data: { bookReview },
-    error,
-  } = await client.query<{ bookReview: ReviewResponse }>({
-    query: GET_BOOK_REVIEWS_DATA,
-    variables: { id: book },
-  });
-
-  console.log(bookReview)
-
-  // if (!bookReview || error) {
-  //   return <div>This page could not be loaded</div>;
-  // }
-
-  // const { title } = bookReview;
+    title,
+    description,
+    subjects,
+    stats: { averageRating, totalReviews },
+    first_publish_date,
+    characters,
+  } = reviewData!;
 
   return (
     <div className="w-full min-h-screen">
       <div className="mx-auto max-w-[90%] md:max-w-3xl lg:max-w-4xl xl:max-w-6xl pt-4 md:px-4 md:pt-5 mt-4">
         <header>
           <h1 className="text-xl font-semibold tracking-tight lg:text-3xl md:text-2xl">
-            {/* {title} */}
+            {title}
           </h1>
           <p className="text-xs dark:text-gray-400 md:text-sm">
             A book by{" "}
@@ -139,7 +150,7 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
                 <Star />
               </span>
               <span className="text-xs font-medium dark:text-gray-300 md:text-sm">
-                4.3/5
+                {averageRating}/5
               </span>
             </div>
 
@@ -148,23 +159,35 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
                 Audience rating summary
               </h3>
 
-              <div className="flex gap-3 mb-4 md:gap-4">
+              <div
+                className={cn(
+                  "relative flex gap-3 mb-4 md:gap-4",
+                  !totalReviews ? "*:not-last:brightness-[25%]" : ""
+                )}
+              >
                 <RatingLines
                   ratings={bookRatings}
-                  aria-label="Rated 4.3 out of 5"
+                  aria-label={`Rated ${averageRating} of 5`}
                 />
                 <div className="flex flex-col justify-between items-center">
                   <h1
                     className="text-4xl font-semibold lg:text-6xl md:text-5xl"
-                    aria-label="The average rating is 4.3 of 5"
+                    aria-label={`The average rating is ${averageRating} of 5`}
                   >
-                    4.3
+                    {averageRating}
                   </h1>
-                  <StarRating rating={4.5} />
+                  <StarRating rating={averageRating} />
                   <p className="text-xs dark:text-gray-400 md:text-sm">
-                    <span className="font-medium text-gray-200">15</span>{" "}
+                    <span className="font-medium text-gray-200">
+                      {totalReviews || 0}
+                    </span>{" "}
                     ratings
                   </p>
+                </div>
+
+                {/* Fallback info */}
+                <div className="absolute inset-0 size-full flex items-center justify-center z-10 text-sm">
+                  <p className="text-zinc-200 italic">No Review available...</p>
                 </div>
               </div>
             </div>
@@ -184,12 +207,21 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
                 <div className="relative flex justify-center mt-3 before:bg-secondary before:-z-10 before:w-full before:h-px before:absolute before:inset-y-1/2 md:mt-4">
                   <Button
                     variant="secondary"
-                    className="px-8 py-2 text-sm rounded-full group hover:bg-secondary hover:brightness-110 md:px-10 md:text-[15px]"
+                    className={cn(
+                      totalReviews
+                        ? "hover:brightness-110"
+                        : "brightness-75 cursor-not-allowed hover:brightness-50",
+                      "px-8 py-2 text-sm rounded-full group hover:bg-secondary md:text-[15px] md:px-10"
+                    )}
                   >
-                    More Audience Reviews (15){" "}
-                    <span className="dark:text-gray-400 group-hover:text-gray-200 group-hover:translate-x-1.5 transition">
-                      →
-                    </span>
+                    {totalReviews
+                      ? `More Audience Reviews (${totalReviews - 1})`
+                      : "No Reviews available"}
+                    {totalReviews && (
+                      <span className="dark:text-gray-400 group-hover:text-gray-200 group-hover:translate-x-1.5 transition">
+                        →
+                      </span>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -202,54 +234,37 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
 
               <div className="mt-3 line-clamp-5 md:mt-4">
                 <p className="font-worksans text-xs dark:text-gray-400 md:text-sm">
-                  A Tale of Two Cities is a historical novel published in 1859
-                  by Charles Dickens, set in London and Paris before and during
-                  the French Revolution. The novel tells the story of the French
-                  Doctor Manette, his 18-year-long imprisonment in the Bastille
-                  in Paris, and his release to live in London with his daughter
-                  Lucie whom he had never met. The story is set against the
-                  conditions that led up to the French Revolution and the Reign
-                  of Terror. In the Introduction to the Encyclopedia of
-                  Adventure Fiction, critic Don D'Ammassa argues that it is an
-                  adventure novel because the protagonists are in constant
-                  danger of being imprisoned or killed.
+                  {description}
                 </p>
               </div>
 
               <div className="py-3 mt-2 md:py-4">
                 <ul className="space-y-2 text-xs md:space-y-3 md:text-sm">
-                  <li className="font-semibold *:font-normal *:text-gray-500">
-                    Originally Published: <span>26 November 1859</span>
+                  <li className="font-semibold *:font-normal *:text-gray-400">
+                    First Published Date: <span>{first_publish_date}</span>
                   </li>
                   <li className="font-semibold *:font-normal *:text-blue-500">
                     Author: <Link href="#">Charles Dickens</Link>
                   </li>
                   <li className="font-semibold *:font-normal">
                     Genre:{" "}
-                    {["Novel", "Historical Fiction", "historical novel"].map(
-                      (genre, index, arr) => (
-                        <React.Fragment key={index}>
-                          <Link
-                            href="#"
-                            className="text-blue-500 hover:underline"
-                          >
-                            {genre}
-                          </Link>
-                          {index < arr.length - 1 && (
-                            <span className="dark:text-gray-300">, </span>
-                          )}
-                        </React.Fragment>
-                      )
-                    )}
+                    {subjects.map((genre, index, arr) => (
+                      <React.Fragment key={index}>
+                        <Link
+                          href={`/genres/${genre.toLowerCase()}`}
+                          className="text-blue-500 hover:underline"
+                        >
+                          {genre}
+                        </Link>
+                        {index < arr.length - 1 && (
+                          <span className="dark:text-gray-300">, </span>
+                        )}
+                      </React.Fragment>
+                    ))}
                   </li>
                   <li className="font-semibold *:font-normal">
                     Characters:{" "}
-                    {[
-                      "Charles Darnay",
-                      "Madame Defarge",
-                      "Sydney Carton",
-                      "MORE",
-                    ].map((char, index, arr) => (
+                    {characters.map((char, index, arr) => (
                       <React.Fragment key={index}>
                         <Link
                           href="#"

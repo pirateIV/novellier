@@ -42,11 +42,13 @@ export const GET_BOOKS_DATA = gql`
 `;
 
 export const GET_BOOK_REVIEWS_DATA = gql`
-  query BookReview($id: ID!) {
-    bookReview(id: $id) {
+  query Book($id: ID!) {
+    book(id: $id) {
       title
+      subjects
       characters
-      # description
+      first_publish_date
+      description
       authors {
         author {
           key

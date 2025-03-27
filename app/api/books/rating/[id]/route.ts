@@ -33,7 +33,8 @@ export async function GET(
 
     console.log(book);
 
-    const totalReviews = book.reviews.length > 0 ? book.reviews.length : 0;
+    const totalReviews =
+      (book.reviews.length > 0 ? book.reviews.length : 0) || 0;
     const totalRatings = book.reviews.reduce(
       (acc: number, review: { rating: number }) => acc + review.rating,
       0
@@ -47,7 +48,6 @@ export async function GET(
 
     const averageRating =
       totalReviews > 0 ? (totalRatings / totalReviews).toFixed(1) : 0;
-
 
     return NextResponse.json({
       averageRating,

@@ -19,7 +19,7 @@ const GenresPage = async () => {
   return (
     <>
       <div className="mx-auto max-w-7xl">
-        <div className="p-4 md:p-8">
+        <div className="p-4 md:p-8 ">
           <div>
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-pretty dark:text-white sm:text-4xl">
               Explore <span className="genre">Genres</span>
