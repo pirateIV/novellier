@@ -1,5 +1,4 @@
 import React from "react";
-
 import { notFound } from "next/navigation";
 import { markdownToHtml } from "@/lib/mdx";
 import { ParamIdProps } from "@/shared/types";
@@ -28,7 +27,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
   return (
     <BookProvider {...data}>
       <title>{title}</title>
-      <div className="mx-auto md:max-w-5xl px-3 md:px-4 py-8">
+      <div className="mx-auto md:max-w-5xl w-full px-3 md:px-4 py-8">
         <div className="mb-8">
           <BookHeader />
           <div className="flex flex-col-reverse justify-beween gap-8 md:flex-row">

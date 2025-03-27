@@ -54,7 +54,7 @@ const Quotes = () => {
           exit="exit"
           className="text-gray-700 dark:text-gray-400 text-center italic max-w-2xl mx-auto"
         >
-          <p className="text-sm md:text-base lg:text-lg font-serif leading-relaxed">
+          <p className="text-sm font-serif leading-relaxed">
             "{quotes[currentQuote].text}"
           </p>
           <span className="block text-sm md:text-[17px] font-serif font-semibold mt-2 dark:text-sky-400 text-gray-900">

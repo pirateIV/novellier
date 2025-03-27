@@ -133,7 +133,7 @@ const BookReviewForm = ({
                   render={({ field }) => (
                     <Textarea
                       className="w-full text-sm border row-span-6 min-h-24"
-                      placeholder="Write your review here..."
+                      placeholder="Your feedback help others decidee with books to read."
                       {...field}
                     />
                   )}

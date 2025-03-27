@@ -77,7 +77,7 @@ export async function getAuthor(id: string) {
 export async function getSubjects(subject: string) {
   try {
     const response = await fetch(
-      `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0`
+      `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
     );
 
     if (!response.ok) {
@@ -97,7 +97,7 @@ export async function getSubjects(subject: string) {
     const descriptions = await Promise.all(
       keys.map(async (key: string) => {
         try {
-          const response = await fetch(`https://openlibrary.org/${key}.json`);
+          const response = await fetch(`https://openlibrary.org${key}.json`);
           const data = await response.json();
           return {
             key,

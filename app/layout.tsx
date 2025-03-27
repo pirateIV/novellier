@@ -3,6 +3,7 @@ import Providers from "@/components/providers";
 import { cormorant, grotesqueSans, interVar, workSans } from "@/lib/font";
 import { Toaster } from "@/components/ui/sonner";
 import ScrollRestorationWrapper from "@/components/scroll-restoration";
+import NextTopLoader from "nextjs-toploader";
 
 import "./globals.css";
 
@@ -27,6 +28,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">
+        <NextTopLoader
+          height={3}
+          showSpinner={false}
+          color="linear-gradient(to right, #0EA5E9, #14B8A6)"
+        />
         <Providers>
           <ScrollRestorationWrapper>
             <main>
