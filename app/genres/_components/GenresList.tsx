@@ -32,7 +32,7 @@ const GenreList = ({
   genre: GenreListProps;
 }) => {
   return (
-    <div className="py-6">
+    <div className="@container py-6">
       {/* Section Title */}
       <h4 className="capitalize text-lg font-bold pb-3 border-b mb-6">
         {title}

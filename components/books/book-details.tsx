@@ -46,27 +46,30 @@ const BookDetails = () => {
             <span className="text-zinc-900 dark:text-zinc-300">
               {first_publish_date}
             </span>
-            <span>&middot;</span>
+            <span>·</span>
           </div>
         )}
         <BadgeGroup list={subjects} />
-        <span>&middot;</span>
+        <span>·</span>
         <div className="flex items-center gap-1">
           <span className="text-base text-amber-500 dark:text-amber-600">
             <Star className="size-3 fill-amber-500 dark:fill-amber-600" />
           </span>
+
           <span className="font-semibold text-zinc-900 dark:text-zinc-300">
             {stats.averageRating}{" "}
-            <span className="text-gray-600 dark:text-zinc-400 font-medium">
-              (
-              <span className="text-gray-800 font-semibold dark:text-zinc-300">
-                {stats.totalReviews}
-              </span>{" "}
-              <Link href="#reviews" className="underline text-blue-500">
-                reviews
-              </Link>
-              )
-            </span>
+            {stats.totalReviews && (
+              <span className="text-gray-600 dark:text-zinc-400 font-medium">
+                (
+                <span className="text-gray-800 font-semibold dark:text-zinc-300">
+                  {stats.totalReviews || 0}
+                </span>{" "}
+                <Link href="#reviews" className="underline text-blue-500">
+                  reviews
+                </Link>
+                )
+              </span>
+            )}
           </span>
         </div>
       </div>

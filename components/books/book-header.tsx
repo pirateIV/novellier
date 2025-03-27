@@ -11,17 +11,17 @@ const BookHeader = () => {
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="inline-flex items-center gap-1">
-        <span className="dark:text-gray-400">&larr;</span>
+        <span className="dark:text-gray-400">←</span>
         <Link
           href="/genres"
-          className="text-sm font-semibold text-zinc-900 hover:underline dark:text-white"
+          className="text-[13px] md:text-sm font-medium text-zinc-900 dark:text-white hover:underline md:font-semibold"
         >
           Back to Genres
         </Link>
       </div>
       <div>
         <button
-          className="flex items-center gap-1 text-sm text-blue-500 font-semibold   hover:underline"
+          className="flex items-center gap-1 text-[13px] md:text-sm font-medium text-blue-500 hover:underline md:font-semibold"
           onClick={() =>
             window.open(`https://www.google.com/search?q=${book.title}`)
           }

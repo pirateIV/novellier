@@ -26,7 +26,7 @@ const UserBadges = ({ user }: any) => {
         {user.totalReviews} Reviews
       </Badge>
       <div className="flex items-center gap-2 whitespace-nowrap">
-        <span className="mx-1.5 text-neutral-500">&middot;</span>
+        <span className="mx-1.5 text-neutral-500">·</span>
         <span className="text-xs text-zinc-500 dark:text-gray-400">
           Member since{" "}
           <span className="text-neutral-800 dark:text-gray-200 font-semibold">

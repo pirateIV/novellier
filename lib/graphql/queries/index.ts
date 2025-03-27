@@ -41,6 +41,25 @@ export const GET_BOOKS_DATA = gql`
   }
 `;
 
+export const GET_BOOK_REVIEWS_DATA = gql`
+  query BookReview($id: ID!) {
+    bookReview(id: $id) {
+      title
+      characters
+      # description
+      authors {
+        author {
+          key
+        }
+      }
+      stats {
+        averageRating
+        totalReviews
+      }
+    }
+  }
+`;
+
 export const GET_AUTHOR_DATA = gql`
   query Author($id: ID!) {
     author(id: $id) {

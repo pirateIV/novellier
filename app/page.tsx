@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <div className="min-h-full flex flex-col">
       <nav className="fixed w-full inset-x-0 top-0 backdrop-blur  supports-[backdrop-filter]:bg-transparent z-20">
-        <ul className="py-5 flex items-center justify-end gap-8 pe-8">
+        <ul className="py-3 md:py-5 flex items-center justify-end gap-8 pe-8">
           <li>
             <Link href="/genres" className="text-sm font-medium">
               Genres

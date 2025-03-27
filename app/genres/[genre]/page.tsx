@@ -30,7 +30,7 @@ const GenrePage = async ({
   const subjectData = await getSubjects(genre);
 
   return (
-    <div className="px-7 py-5">
+    <div className="px-2 sm:px-4 md:px-7 py-5 max-w-full">
       <GenreHeader name={name} description={description} />
       <div className="mt-5 divide-y divide-slate-950/[.07] dark:divide-white/10">
         {subjectData ? (

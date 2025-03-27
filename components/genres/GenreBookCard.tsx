@@ -10,99 +10,106 @@ import { BookProvider } from "@/context/BookContext";
 import { Button } from "../ui/button";
 import { PenLine } from "lucide-react";
 
-const getBookId = (key: string) => {
-  return key.replace("/works/", "");
-};
+// Utility functions
+const getBookId = (key: string) => key.replace("/works/", "");
 
-const getBookLink = (work: Work) => {
-  return `/books/${getBookId(work.key)}?title=${encodeURIComponent(
-    work.title
-  )}&book_cover_id=${work.cover_id}`;
-};
+const getBookLink = ({ key, title, cover_id }: Work) =>
+  `/books/${getBookId(key)}?title=${encodeURIComponent(
+    title
+  )}&book_cover_id=${cover_id}`;
 
-const mapWorkToBookContext = (work: Work) => {
-  const book = {
+const mapWorkToBookContext = (work: Work) => ({
+  book: {
     title: work.title,
     description: work.description
       ? typeof work.description === "string"
         ? work.description
         : work.description.value
       : "",
-  };
-
-  const author = {
+  },
+  author: {
     name: work.authors[0]?.name || "Unknown Author",
     authorId: work.authors[0]?.key
       ? work.authors[0].key.replace("/authors/", "")
       : "unknown",
-  };
+  },
+});
 
-  return { book, author };
-};
-
+// Main Component
 const GenreBookCard = ({ works }: { works: Work }) => {
   const { book, author } = mapWorkToBookContext(works);
+  const hasDescription = !!works.description;
 
-  //   TODO: maybe include the bookimage in the review
   return (
     <BookProvider book={book} author={author}>
-      <div className="relative flex gap-4 p-3 group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg">
-        <Image
-          src={`https://covers.openlibrary.org/b/id/${works.cover_id}-M.jpg`}
-          className="rounded-md"
-          height={200}
-          width={100}
-          alt={`${works.title} image`}
-        />
-        <div className="flex flex-col flex-1 justify-between">
-          <div>
-            <div className="flex justify-between items-baseline">
-              <h3 className="mb-2 font-semibold dark:font-normal">
-                {works.title}
-              </h3>
-              {works.description && (
-                <BookReviewForm bookId={getBookId(works.key)}>
-                  <Button
-                    className="relative invisible z-10 text-[13px] group-hover:visible"
-                    variant="link"
-                    size="sm"
-                  >
-                    <PenLine className="size-4" />
-                    Review
-                  </Button>
-                </BookReviewForm>
-              )}
-            </div>
-            <p className="font-worksans text-sm line-clamp-4 dark:text-gray-400">
-              {works.description ? (
-                typeof works.description === "string" ? (
-                  works.description
-                ) : (
-                  works.description?.value
-                )
-              ) : (
-                <em>No preview available...</em>
-              )}
-            </p>
-          </div>
+      <div className="relative flex gap-2 p-1 py-2 transition-colors group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg md:gap-6 md:p-3 sm::gap-4">
+        {/* Book Cover */}
+        <div className="flex-shrink-0">
+          <Image
+            src={`https://covers.openlibrary.org/b/id/${works.cover_id}-M.jpg`}
+            className="object-cover rounded-md"
+            height={160}
+            width={100}
+            alt={`${works.title} cover`}
+          
+            // sizes="(max-width: 768px) 25vw, 15vw"
+          />
+        </div>
 
-          <div className="mt-2 flex items-center justify-end gap-2 text-[13px]">
-            <p className="text-right">
+        {/* Content */}
+        <div className="min-w-0 flex-1">
+          {" "}
+          {/* min-w-0 prevents overflow */}
+          <div className="h-full flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-baseline gap-2">
+                <h3 className="text-sm font-semibold line-clamp-2 dark:font-normal md:text-lg xs:text-base">
+                  {works.title}
+                </h3>
+                {hasDescription && (
+                  <BookReviewForm bookId={getBookId(works.key)}>
+                    <Button
+                      className="invisible text-xs group-hover:visible md:text-sm"
+                      variant="link"
+                      size="sm"
+                    >
+                      <PenLine className="size-4 mr-1" />
+                      Review
+                    </Button>
+                  </BookReviewForm>
+                )}
+              </div>
+              <p className="font-worksans mt-1 text-xs line-clamp-4 text-gray-600 dark:text-gray-400 md:text-sm xs:text-sm">
+                {hasDescription ? (
+                  typeof works.description === "string" ? (
+                    works.description
+                  ) : (
+                    works.description?.value
+                  )
+                ) : (
+                  <em>No preview available...</em>
+                )}
+              </p>
+            </div>
+
+            <p className="mt-2 text-xs text-right md:text-sm">
               by{" "}
-              <span className="w-full font-medium text-indigo-600 dark:text-sky-400">
+              <span className="font-medium text-indigo-600 dark:text-sky-400">
                 {works.authors[0]?.name || "Unknown"}
               </span>
             </p>
           </div>
         </div>
+
+        {/* Overlay Link */}
         <span
           className={cn(
-            !works.description && "cursor-not-allowed",
-            "absolute inset-0"
+            "absolute inset-0",
+            !hasDescription && "cursor-not-allowed"
           )}
         >
-          {works.description && (
-            <Link href={getBookLink(works)} className="size-full flex" />
+          {hasDescription && (
+            <Link href={getBookLink(works)} className="absolute inset-0" />
           )}
         </span>
       </div>

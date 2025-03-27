@@ -32,7 +32,7 @@ const Header = ({
             See all Reviews
           </Link>
         </div>
-        <span className="dark:text-gray-400">&middot;</span> */}
+        <span className="dark:text-gray-400">·</span> */}
         <div>
           <p className="text-sm text-right text-gray-400">
             Reviewed by <span className="font-medium text-sky-400">{user}</span>

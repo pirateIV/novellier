@@ -12,18 +12,22 @@ const links = [
   { name: "Dashboard", path: "/me" },
 ];
 
+const getNavClassName = (isGenresRoute: boolean) => {
+  // prettier-ignore
+  const baseClasses = [ "sticky", "top-0", "inset-x-0", "py-4", "px-4",  "border-b", "backdrop-blur", "supports-[backdrop-filter]:bg-white/60", "dark:supports-[backdrop-filter]:bg-zinc-950/30", "z-[100]",  "md:ps-6"];
+  return isGenresRoute
+    ? [...baseClasses, "flex", "justify-between"].join(" ")
+    : baseClasses.join(" ");
+};
+
 const Navigation = () => {
   const pathname = usePathname();
   let isGenresRoute = pathname.includes("/genres");
 
-  const className = isGenresRoute
-    ? "flex justify-between sticky top-0 inset-x-0 py-4 border-b backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/30 z-[100]"
-    : "sticky top-0 inset-x-0 py-4 border-b backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/30 z-[100]";
-
   return (
-    <nav className={className}>
+    <nav className={getNavClassName(isGenresRoute)}>
       {isGenresRoute && <SidebarTrigger />}
-      <ul className="flex items-center md:justify-end gap-6 text-sm *:font-medium justify-center md:pe-16">
+      <ul className="flex items-center md:justify-end gap-4 md:gap-6 text-[13px] sm:text-sm *:font-medium justify-center md:pe-16">
         {links.map((link) => (
           <li key={link.name} className="hover:opacity-75">
             <Link href={link.path}>{link.name}</Link>

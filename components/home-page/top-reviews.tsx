@@ -29,7 +29,7 @@ const TopReviews = () => {
               <strong className="relative before:[content:'—_'] text-blue-600 font-semibold dark:text-sky-400">
                 Benjamin Abolade
               </strong>
-              , <span>Creator</span>
+              , <span>Founder</span>
             </p>
           </figcaption>
         </figure>

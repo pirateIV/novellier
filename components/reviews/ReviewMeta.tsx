@@ -10,7 +10,7 @@ const ReviewMeta = ({ review }: { review: Review }) => {
           timeStyle: "short",
         })}
       </span>
-      <span className="mx-2">&middot;</span>
+      <span className="mx-2">·</span>
       <span>{format(new Date(review.createdAt), "MMMM dd, yyyy")}</span>
     </div>
   );

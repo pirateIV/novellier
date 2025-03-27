@@ -6,13 +6,13 @@ const Footer = () => {
   
   return (
     <footer className="p-6 text-sm text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-background">
-      <div className="mx-auto max-w-6xl flex justify-between">
+      <div className="mx-auto max-w-6xl flex flex-col-reverse sm:flex-row sm:justify-between">
         <p>
           © {new Date().getFullYear()}{" "}
           <span className="font-medium text-gray-800 dark:text-white">
             Book Club
           </span>
-          <span className="mx-2">&middot;</span>
+          <span className="mx-2">·</span>
           <span>
             A home for readers like you. Built by{" "}
             <Link

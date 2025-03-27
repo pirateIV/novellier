@@ -18,6 +18,7 @@ export const typeDefs = gql`
     authors: [BookAuthor]
     links: [BookLink]
     subjects: [String]
+    characters: [String]
     stats: BookStats
   }
 

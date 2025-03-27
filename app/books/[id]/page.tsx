@@ -28,10 +28,10 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
   return (
     <BookProvider {...data}>
       <title>{title}</title>
-      <div className="mx-auto md:max-w-5xl px-4 py-8">
+      <div className="mx-auto md:max-w-5xl px-3 md:px-4 py-8">
         <div className="mb-8">
           <BookHeader />
-          <div className="flex flex-col justify-beween gap-8 md:flex-row">
+          <div className="flex flex-col-reverse justify-beween gap-8 md:flex-row">
             <BookCover />
             <div className="w-full md:order-2 md:w-2/3">
               <BookDetails />

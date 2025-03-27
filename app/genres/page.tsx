@@ -7,40 +7,39 @@ import GenreList from "./_components/GenresList";
 import { Button } from "@/components/ui/button";
 
 const GenresPage = async () => {
-  let data: null | any = null;
+  const { data, error, loading } = await client.query({
+    query: GET_BOOKS_DATA,
+    fetchPolicy: "cache-first",
+  });
 
-  try {
-    const result = await client.query({
-      query: GET_BOOKS_DATA,
-      fetchPolicy: "cache-first",
-    });
-    data = result.data;
-  } catch (error) {
-    console.error("error fetching data");
-  }
-
-  if (!data) {
+  if (!data || error) {
     return <div>Unable to load data. Please refresh the page.</div>;
   }
 
   return (
     <>
-      <div className="max-w-7xl mx-auto">
-        <div className="p-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="p-4 md:p-8">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight dark:text-white mb-4 text-pretty">
+            <h1 className="mb-4 text-2xl font-semibold tracking-tight text-pretty dark:text-white sm:text-4xl">
               Explore <span className="genre">Genres</span>
             </h1>
-            <p className="max-w-xl text-gray-600 dark:text-gray-400">
+            <p className="max-w-xl text-sm text-gray-600 dark:text-gray-400 sm:text-base">
               Discover new books across different genres and expand your reading
               horizons.
             </p>
           </div>
 
           <div>
-            {data.genre.map((genre: any) => (
-              <GenreList key={genre.key} title={genre.name} genre={genre} />
-            ))}
+            {loading ? (
+              <div>loading...</div>
+            ) : (
+              <>
+                {data.genre.map((genre: any) => (
+                  <GenreList key={genre.key} title={genre.name} genre={genre} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

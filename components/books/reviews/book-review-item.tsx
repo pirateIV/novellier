@@ -41,7 +41,7 @@ const BookReviewItem = ({ review }: { review: any }) => {
                 </div>
               ))}
           </div>
-          <span>&middot;</span>
+          <span>·</span>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             {new Intl.DateTimeFormat("en-US", {
               dateStyle: "medium",

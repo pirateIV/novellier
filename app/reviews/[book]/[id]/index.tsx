@@ -41,7 +41,7 @@ const ReviewsPage = async ({ params }: { params: Promise<Params> }) => {
               href={`/books/${review.bookId}?title=${book.title}&book_cover_id=${coverId}`}
               className="text-sm group"
             >
-              <span className="text-gray-400">&larr;</span>{" "}
+              <span className="text-gray-400">←</span>{" "}
               <span className="group-hover:underline">Back to book</span>
             </Link>
           </div>
