@@ -18,10 +18,11 @@ export async function middleware(req: NextRequest) {
 
   // Verify token
   try {
-    await jose.jwtVerify(
+   const response =  await jose.jwtVerify(
       token,
       new TextEncoder().encode(process.env.JWT_SECRET!)
     );
+    console.log(response)
     return NextResponse.next();
   } catch (error) {
     console.error("JWT verification failed:", error); // Debug

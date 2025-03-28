@@ -1,10 +1,7 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { baseURL } from "./config";
 
-export const getUserData = async () => {
-  const token = (await cookies()).get("token")?.value;
-
+export const getUserData = async (token: string | undefined) => {
   try {
     const response = await fetch(`${baseURL}/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -15,4 +12,3 @@ export const getUserData = async () => {
     redirect("/auth/sign-in");
   }
 };
-

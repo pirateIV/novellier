@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
 import Review from "@/shared/models/Review";
+import dbConnect from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   const token = getTokenFromCookies(req);
 
-  console.log("token", token);
-  console.log({ token });
   if (!token) {
     console.log("token not found!");
     return NextResponse.json({ error: "authentication failed" });
   }
 
   try {
+    await dbConnect();
+
     const userData = await getUserFromToken(token);
     if (!userData) {
       return NextResponse.json({ error: "authentication failed", userData });
