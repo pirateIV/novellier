@@ -51,7 +51,7 @@ export async function getBook(id: string) {
       stats: bookStats,
       description: data.description?.value || data.description,
       subjects: filteredGenres,
-      characters: data.subject_people.slice(0,5),
+      characters: data?.subject_people?.slice(0,5) || [],
       first_publish_date: data.first_publish_date
         ? data.first_publish_date.toString()
         : "",

@@ -44,15 +44,17 @@ const GenreBookCard = ({ works }: { works: Work }) => {
     <BookProvider book={book} author={author}>
       <div className="relative flex gap-2 p-1 py-2 transition-colors group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg md:gap-6 md:p-3 sm::gap-4">
         {/* Book Cover */}
-        <div className="flex-shrink-0">
+        <div className="relative flex-shrink-0 rounded-md bg-zinc-800 w-[100px] h-40">
           <Image
+            fill
+            // width={100}
+            // height={160}
+            className="object-cover rounded-md "
             src={`https://covers.openlibrary.org/b/id/${works.cover_id}-M.jpg`}
-            className="object-cover rounded-md"
-            height={160}
-            width={100}
+            blurDataURL={`https://covers.openlibrary.org/b/id/${works.cover_id}-S.jpg`}
+            placeholder="blur"
             alt={`${works.title} cover`}
-          
-            // sizes="(max-width: 768px) 25vw, 15vw"
+            priority
           />
         </div>
 

@@ -80,21 +80,21 @@ import { getBook } from "@/lib/api/openLibrary";
 
 const BookReviews = async ({ id }: { id: string }) => {
   try {
-    const token = (await cookies()).get("token")?.value;
+    // const token = (await cookies()).get("token")?.value;
 
-    const response = await apiClient.get(
-      `/reviews/search/${id}`,
-      buildAuthHeaderToken(token)
-    );
-    const data = response.data;
+    // const response = await apiClient.get(
+    //   `/reviews/search/${id}`,
+    //   buildAuthHeaderToken(token)
+    // );
+    // const data = response.data;
 
-    const { reviews } = data;
-    const reviewsCount = reviews.length || 0;
+    // const { reviews } = data;
+    // const reviewsCount = reviews.length || 0;
 
     return (
       <div className="pt-8 mt-12 border-t">
-        <BookReviewsHeader reviews={reviewsCount} />
-        <BookReviewList {...data} />
+        {/* <BookReviewsHeader reviews={reviewsCount} /> */}
+        {/* <BookReviewList {...data} /> */}
       </div>
     );
   } catch (error) {

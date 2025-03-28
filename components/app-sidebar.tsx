@@ -19,11 +19,11 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="dark:*:bg-zinc-950">
-      <SidebarContent>
-        <SidebarGroup>
+      <SidebarContent className="overflow-x-hidden">
+        <SidebarGroup className="relative bg-gradient-to-b">
           <SidebarGroupLabel>Genres List</SidebarGroupLabel>
           <SidebarGroupContent className="mt-6">
-            <SidebarMenu>
+            <SidebarMenu className="relative pb-14">
               {genres.map((genre) => (
                 <Link
                   key={genre.slug}
@@ -41,6 +41,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <div className="h-14 w-full absolute left-0 right-2 bottom-0 bg-gradient-to-b from-white/5 to-white/30 dark:from-black/5 dark:to-black/30 dark:supports-[backdrop-filter]:bg-black/30 supports-[backdrop-filter]:backdrop-blur-sm" />
       </SidebarContent>
     </Sidebar>
   );

@@ -186,9 +186,13 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
                 </div>
 
                 {/* Fallback info */}
-                <div className="absolute inset-0 size-full flex items-center justify-center z-10 text-sm">
-                  <p className="text-zinc-200 italic">No Review available...</p>
-                </div>
+                {!totalReviews && (
+                  <div className="absolute inset-0 size-full flex items-center justify-center z-10 text-sm">
+                    <p className="text-zinc-200 italic">
+                      No Review available...
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 

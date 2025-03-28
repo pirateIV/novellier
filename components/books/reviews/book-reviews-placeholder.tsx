@@ -16,7 +16,7 @@ const BookReviewsPlaceholder = () => {
       <div className="mt-4">
         <h3 className="font-medium">No Reviews</h3>
         <p className="mb-7 text-sm text-gray-700 dark:text-zinc-300">
-          No reviews yet. Share your thoughts on this book!
+          No reviews yet. Be the first to rate this book!
         </p>
 
         <BookReviewForm>

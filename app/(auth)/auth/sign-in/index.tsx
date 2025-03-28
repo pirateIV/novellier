@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { apiClient } from "@/lib/axios";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 const signInFormSchema = z.object({
   email: z.string().email("Invalid email address"),
