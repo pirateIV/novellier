@@ -37,6 +37,8 @@ const SignIn = () => {
       const response = await apiClient.post("/auth/signin", credentials);
       if (response.status === 200) {
         setSignedIn(true);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        router.push("/me");
       } else {
         setSignedIn(false);
         toast("Failed to Sign in", {
@@ -60,6 +62,7 @@ const SignIn = () => {
     if (signedIn) {
       router.push("/me");
     }
+    console.log("sign in updated", signedIn);
   }, [signedIn]);
 
   return (

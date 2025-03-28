@@ -6,6 +6,8 @@ import dbConnect from "@/lib/db";
 export async function GET(req: NextRequest) {
   const token = getTokenFromCookies(req);
 
+  console.log({ token });
+
   if (!token) {
     console.log("token not found!");
     return NextResponse.json({ error: "authentication failed" });

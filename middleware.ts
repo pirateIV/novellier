@@ -3,6 +3,7 @@ import * as jose from "jose";
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  console.log("Middleware - Token", token)
   const { pathname } = req.nextUrl;
 
   // Public routes (no token needed)
@@ -22,7 +23,6 @@ export async function middleware(req: NextRequest) {
       token,
       new TextEncoder().encode(process.env.JWT_SECRET!)
     );
-    console.log(response)
     return NextResponse.next();
   } catch (error) {
     console.error("JWT verification failed:", error); // Debug

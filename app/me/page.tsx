@@ -7,6 +7,9 @@ import { cookies } from "next/headers";
 
 const DashboardLayout = async () => {
   const token = (await cookies()).get("token")?.value;
+  console.log("Dashboard Layout - Token", token)
+
+  console.log({ token });
 
   if (!token) {
     redirect("/auth/sign-in");
@@ -15,6 +18,7 @@ const DashboardLayout = async () => {
   try {
     const user = await getUserData(token);
     if (!token || user.error) {
+      console.log("Invalid user data, redirecting")
       redirect("/auth/sign-in");
     }
 
