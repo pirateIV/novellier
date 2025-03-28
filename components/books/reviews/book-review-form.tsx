@@ -77,7 +77,7 @@ const BookReviewForm = ({
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[495px]">
         <DialogHeader>
           <DialogTitle>Add a Review</DialogTitle>
           <DialogDescription className="dark:text-gray-300">
@@ -132,8 +132,8 @@ const BookReviewForm = ({
                   control={form.control}
                   render={({ field }) => (
                     <Textarea
-                      className="w-full text-sm border row-span-6 min-h-24"
-                      placeholder="Your feedback help others decidee with books to read."
+                      className="w-full text-sm border row-span-6 min-h-56"
+                      placeholder="Your feedback help others decide what books to read."
                       {...field}
                     />
                   )}

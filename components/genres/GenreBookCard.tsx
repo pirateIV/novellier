@@ -44,7 +44,7 @@ const GenreBookCard = ({ works }: { works: Work }) => {
     <BookProvider book={book} author={author}>
       <div className="relative flex gap-2 p-1 py-2 transition-colors group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg md:gap-6 md:p-3 sm::gap-4">
         {/* Book Cover */}
-        <div className="relative flex-shrink-0 rounded-md bg-zinc-800 w-[100px] h-40">
+        <div className="relative flex-shrink-0 rounded-md bg-zinc-50 dark:bg-zinc-800 w-[100px] h-40">
           <Image
             fill
             // width={100}
@@ -71,7 +71,7 @@ const GenreBookCard = ({ works }: { works: Work }) => {
                 {hasDescription && (
                   <BookReviewForm bookId={getBookId(works.key)}>
                     <Button
-                      className="invisible text-xs group-hover:visible md:text-sm"
+                      className="invisible text-xs group-hover:visible md:text-sm z-10"
                       variant="link"
                       size="sm"
                     >

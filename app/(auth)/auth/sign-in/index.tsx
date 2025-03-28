@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Lock, Mail } from "lucide-react";
 import { Form, FormField } from "@/components/ui/form";
@@ -37,7 +37,6 @@ const SignIn = () => {
       const response = await apiClient.post("/auth/signin", credentials);
       if (response.status === 200) {
         setSignedIn(true);
-        router.push("/me");
       } else {
         setSignedIn(false);
         toast("Failed to Sign in", {
@@ -56,6 +55,12 @@ const SignIn = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (signedIn) {
+      router.push("/me");
+    }
+  }, [signedIn]);
 
   return (
     <Form {...form}>
