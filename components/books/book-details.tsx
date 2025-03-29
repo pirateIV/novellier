@@ -1,16 +1,27 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useBookContext } from "@/context/BookContext";
-import { Badge } from "../ui/badge";
 import { Star } from "lucide-react";
 import BadgeGroup from "@/shared/components/badge-group";
-import { unstable_noStore } from "next/cache";
+import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
 
-const BookDetails = () => {
-  unstable_noStore();
-  const { book, author } = useBookContext();
+const BookDetails = ({
+  book,
+  author,
+}: {
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+      };
+  author:
+    | AuthorResponse
+    | {
+        name: string;
+        authorId: string;
+      };
+}) => {
+  // const { book, author } = useBookContext();
 
   //@ts-ignore
   const { authors, subjects, first_publish_date, stats, title } = book;

@@ -4,9 +4,19 @@ import React from "react";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { useBookContext } from "@/context/BookContext";
+import { BookResponse } from "@/lib/graphql/types";
 
-const BookHeader = () => {
-  const { book } = useBookContext();
+const BookHeader = ({
+  book,
+}: {
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+      };
+}) => {
+  // const { book } = useBookContext();
 
   return (
     <div className="flex justify-between items-center mb-4">

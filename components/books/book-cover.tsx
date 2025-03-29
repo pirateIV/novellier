@@ -4,9 +4,13 @@ import React from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useBookContext } from "@/context/BookContext";
+import { BookResponse } from "@/lib/graphql/types";
 
-const BookCover = () => {
-  const { book } = useBookContext();
+const BookCover = ({book}: {book: BookResponse | {
+  title: string;
+  description: string | undefined;
+}}) => {
+  // const { book } = useBookContext();
   const searchParams = useSearchParams();
   const bookCoverId = searchParams.get("book_cover_id");
 

@@ -1,25 +1,41 @@
-import React from "react";
+// "use client";
+
+import Reac from "react";
 import client from "@/lib/apollo-client";
 import { GET_BOOKS_DATA } from "@/lib/graphql/queries";
-
-import GenresSidebar from "./_components/GenresSidebar";
 import GenreList from "./_components/GenresList";
-import { Button } from "@/components/ui/button";
+import { useQuery } from "@apollo/client";
+
+const fetchData = async () => {
+  return await client.query({
+    query: GET_BOOKS_DATA,
+    fetchPolicy: "cache-first",
+  });
+};
 
 const GenresPage = async () => {
+  // const [booksData, setBooksData] = useState([]);
+
   const { data, error, loading } = await client.query({
     query: GET_BOOKS_DATA,
     fetchPolicy: "cache-first",
   });
+  // const { data, error, loading } = useQuery(GET_BOOKS_DATA);
+  // const { data, loading } = await getClient().query({
+  //   query: GET_BOOKS_DATA,
+  //   context: {
+  //     fetchOptions: { next: { revalidate: 60 } }, // Optional: Revalidate every 60s (ISR)
+  //   },
+  // });
 
-  if (!data || error) {
-    return <div>Unable to load data. Please refresh the page.</div>;
-  }
+  // if (!data || error) {
+  //   return <div>Unable to load data. Please refresh the page.</div>;
+  // }
 
   return (
     <>
       <div className="mx-auto max-w-7xl">
-        <div className="p-4 md:p-8 ">
+        <div className="w-full flex justify-start flex-col p-4 md:p-8">
           <div>
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-pretty dark:text-white sm:text-4xl">
               Explore <span className="genre">Genres</span>

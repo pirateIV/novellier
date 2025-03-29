@@ -2,11 +2,20 @@
 
 import React from "react";
 import { Icons } from "../icons";
-import { useBookContext } from "@/context/BookContext";
+import { BookResponse } from "@/lib/graphql/types";
 
-const BookResources = () => {
-  const { book } = useBookContext();
-  const {links, title} = book;
+const BookResources = ({
+  book,
+}: {
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+      };
+}) => {
+  const { title } = book;
+  const links = "links" in book ? book.links : undefined;
   return (
     <div className="relative p-4 mb-6 bg-gray-50 rounded-lg border border-dashed border-gray-200 dark:bg-zinc-900/55 dark:border-zinc-800">
       <div className="flex items-center justify-between">

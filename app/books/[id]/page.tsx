@@ -24,16 +24,18 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
 
   const descriptionHTML = await markdownToHtml(description);
 
+  console.log(data);
+
   return (
-    <BookProvider {...data}>
+    <>
       <title>{title}</title>
       <div className="mx-auto md:max-w-5xl w-full px-3 md:px-4 py-8">
         <div className="mb-8">
-          <BookHeader />
+          <BookHeader book={data.book} />
           <div className="flex flex-col-reverse justify-beween gap-8 md:flex-row">
-            <BookCover />
+            <BookCover book={data.book} />
             <div className="w-full md:order-2 md:w-2/3">
-              <BookDetails />
+              <BookDetails {...data} />
               <div className="mb-6">
                 <h3 className="mb-3 text-lg sm:text-xl font-semibold">
                   About this book
@@ -42,13 +44,13 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
                   <BookDescription description={descriptionHTML} />
                 </div>
               </div>
-              <BookResources />
+              <BookResources book={data.book}/>
             </div>
           </div>
         </div>
-        <BookReviews id={id} />
+        {/* <BookReviews id={id} /> */}
       </div>
-    </BookProvider>
+    </>
   );
 };
 

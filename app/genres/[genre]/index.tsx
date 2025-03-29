@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useParams, notFound, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getBook, getSubjects } from "@/lib/api/openLibrary";
+import { getSubjects } from "@/lib/api/openLibrary";
 import { genres } from "@/lib/books";
 import GenreHeader from "@/components/genres/GenreHeader";
 import GenreBookList from "@/components/genres/GenreBookList";
@@ -39,6 +39,7 @@ const GenrePageData = () => {
   const genreData = genres.find((g) => g.slug === genre);
 
   const [totalPages, setTotalPages] = useState(1);
+  const [offset, setOffset] = useState(0);
 
   if (!genreData) {
     return notFound();
@@ -57,7 +58,6 @@ const GenrePageData = () => {
 
   useEffect(() => {
     const limit = 20;
-    console.log(subjectData);
 
     let totalPages = subjectData?.work_count
       ? Math.ceil(subjectData?.work_count / limit)

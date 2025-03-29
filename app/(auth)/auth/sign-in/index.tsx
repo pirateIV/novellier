@@ -37,8 +37,7 @@ const SignIn = () => {
       const response = await apiClient.post("/auth/signin", credentials);
       if (response.status === 200) {
         setSignedIn(true);
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        router.push("/me");
+        window.location.href = "/me";
       } else {
         setSignedIn(false);
         toast("Failed to Sign in", {
@@ -46,8 +45,6 @@ const SignIn = () => {
           duration: 5000,
         });
       }
-
-      console.log(response);
     } catch (error: any) {
       console.log(error);
       toast("Failed to Sign in", {
@@ -60,9 +57,9 @@ const SignIn = () => {
 
   useEffect(() => {
     if (signedIn) {
-      router.push("/me");
+      window.location.href = "/me";
+      console.log("sign in updated", signedIn);
     }
-    console.log("sign in updated", signedIn);
   }, [signedIn]);
 
   return (

@@ -1,4 +1,4 @@
-import { Subject, Work } from "@/shared/types";
+import { Subject } from "@/shared/types";
 import GenreBookCard from "./GenreBookCard";
 import { Button } from "../ui/button";
 

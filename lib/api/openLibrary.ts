@@ -17,7 +17,7 @@ export async function fetchOpenLibraryData() {
     const response = await Promise.all(
       subjects.map(async (subject) => {
         const response = await fetch(
-          `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0&sort=new`
+          `https://openlibrary.org/subjects/${subject}.json?limit=20`
         );
         return await response.json();
       })
@@ -74,67 +74,69 @@ export async function getAuthor(id: string) {
   }
 }
 
-export async function getSubjects(subject: string): Promise<
-  | {
-      work_count: number;
-      works: Work[];
-    }
-  | {
-      work_count?: number;
-      works?: any[];
-    }
-> {
+export async function getSubjects(subject: string): Promise<{
+  work_count: number;
+  works: Work[];
+}> {
   try {
-    const response = await fetch(
-      `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
+    // Fetch subject data
+    const subjectResponse = await fetch(
+      `https://openlibrary.org/subjects/${subject}.json`
     );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!subjectResponse.ok) {
+      throw new Error(`HTTP error! status: ${subjectResponse.status}`);
     }
 
-    const data = await response.json();
+    const subjectData = await subjectResponse.json();
 
-    // Check if data.works exists and is an array; otherwise, return a fallback
-    if (!data?.works || !Array.isArray(data.works)) {
+    // Early return if no works
+    if (!Array.isArray(subjectData?.works)) {
       console.warn(`No works found for subject: ${subject}`);
       return { work_count: 0, works: [] };
     }
 
-    const keys = data.works.map((work: Work) => work.key);
-
-    const descriptions = await Promise.all(
-      keys.map(async (key: string) => {
+    // Process works in parallel with optimized requests
+    const works = await Promise.all(
+      subjectData.works.map(async (work: Work) => {
         try {
-          const response = await fetch(`https://openlibrary.org${key}.json`);
-          const data = await response.json();
+          // Only fetch description if it's not already available in the work data
+          let description = "";
+          if (!work.description) {
+            const workResponse = await fetch(`https://openlibrary.org${work.key}.json`);
+            const workData = await workResponse.json();
+            description = typeof workData.description === 'string' 
+              ? workData.description 
+              : workData.description?.value || "";
+          } else {
+            description = typeof work.description === 'string'
+              ? work.description
+              : work.description.value || "";
+          }
+
           return {
-            key,
-            description: data.description?.value
-              ? data.description.value
-              : data.description || "",
+            ...work,
+            first_publish_year: work.first_publish_year?.toString() || "",
+            description,
           };
         } catch (error) {
-          console.error(`Error fetching description for key ${key}:`, error);
-          return { key, description: "" };
+          console.error(`Error processing work ${work.key}:`, error);
+          return {
+            ...work,
+            first_publish_year: work.first_publish_year?.toString() || "",
+            description: "",
+          };
         }
       })
     );
 
     return {
-      work_count: data.work_count,
-      works: data.works.map((work: Work) => {
-        const description = descriptions.find((desc) => desc.key === work.key);
-        return {
-          ...work,
-          first_publish_year: work.first_publish_year?.toString() || "",
-          description: description?.description || "",
-        };
-      }),
+      work_count: subjectData.work_count || works.length,
+      works: works.filter(Boolean), // Remove any null/undefined entries
     };
   } catch (error) {
     console.error("Error fetching Open Library data:", error);
-    return {}; // return fallback
+    return { work_count: 0, works: [] }; // Return consistent fallback structure
   }
 }
 
