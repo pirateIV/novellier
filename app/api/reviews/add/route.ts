@@ -3,6 +3,7 @@ import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
 import Review from "@/shared/models/Review";
 import User from "@/shared/models/User";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 interface ReviewResponse {
@@ -17,6 +18,7 @@ interface ReviewResponse {
     reviewer: string;
     title: string;
   };
+  path: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -32,7 +34,7 @@ export async function POST(req: NextRequest) {
   try {
     const user = await getUserFromToken(token);
 
-    const { review, book } = reviewResponse;
+    const { review, book, path } = reviewResponse;
 
     let foundBook = await Book.findOne({ bookId: book.bookId });
     if (!foundBook) {
@@ -61,6 +63,10 @@ export async function POST(req: NextRequest) {
       { new: true }
     );
     await foundBook.save();
+
+    if (path) {
+      revalidatePath(path);
+    }
 
     return NextResponse.json({ foundBook, newReview });
 

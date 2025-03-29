@@ -6,8 +6,10 @@ import { useBookContext } from "@/context/BookContext";
 import { Badge } from "../ui/badge";
 import { Star } from "lucide-react";
 import BadgeGroup from "@/shared/components/badge-group";
+import { unstable_noStore } from "next/cache";
 
 const BookDetails = () => {
+  unstable_noStore();
   const { book, author } = useBookContext();
 
   //@ts-ignore
