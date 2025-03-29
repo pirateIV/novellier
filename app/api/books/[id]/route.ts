@@ -12,16 +12,15 @@ export async function GET(
   if (!id) {
     return NextResponse.json(
       { error: "Missing or invalid id" },
-      { status: 404 }
+      { status: 400 }
     );
   }
   try {
     await dbConnect();
+
     // const book = await Book.findById(id).populate("reviews", "rating");
-    const book = await Book.findOne({ bookId: id }).populate(
-      "reviews",
-      "rating"
-    );
+    const book = await Book.findOne({ bookId: id })
+      .populate("reviews", "rating")
 
     const totalReviews = book.reviews.length;
     const totalRatings = book.reviews.reduce(

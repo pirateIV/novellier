@@ -17,7 +17,7 @@ export async function fetchOpenLibraryData() {
     const response = await Promise.all(
       subjects.map(async (subject) => {
         const response = await fetch(
-          `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
+          `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=0&sort=new`
         );
         return await response.json();
       })
@@ -51,7 +51,7 @@ export async function getBook(id: string) {
       stats: bookStats,
       description: data.description?.value || data.description,
       subjects: filteredGenres,
-      characters: data?.subject_people?.slice(0,5) || [],
+      characters: data?.subject_people?.slice(0, 5) || [],
       first_publish_date: data.first_publish_date
         ? data.first_publish_date.toString()
         : "",
@@ -74,7 +74,16 @@ export async function getAuthor(id: string) {
   }
 }
 
-export async function getSubjects(subject: string) {
+export async function getSubjects(subject: string): Promise<
+  | {
+      work_count: number;
+      works: Work[];
+    }
+  | {
+      work_count?: number;
+      works?: any[];
+    }
+> {
   try {
     const response = await fetch(
       `https://openlibrary.org/subjects/${subject}.json?limit=20&offset=20`
@@ -86,10 +95,10 @@ export async function getSubjects(subject: string) {
 
     const data = await response.json();
 
-    // Check if data.works exists and is an array; otherwise, return an empty array
+    // Check if data.works exists and is an array; otherwise, return a fallback
     if (!data?.works || !Array.isArray(data.works)) {
       console.warn(`No works found for subject: ${subject}`);
-      return [];
+      return { work_count: 0, works: [] };
     }
 
     const keys = data.works.map((work: Work) => work.key);
@@ -107,25 +116,25 @@ export async function getSubjects(subject: string) {
           };
         } catch (error) {
           console.error(`Error fetching description for key ${key}:`, error);
-          return { key, description: "" }; // Fallback for individual failures
+          return { key, description: "" };
         }
       })
     );
 
-    return data.works.map((work: Work) => {
-      const description = descriptions.find((desc) => desc.key === work.key);
-      return {
-        works_count: data.work_count,
-        works: {
+    return {
+      work_count: data.work_count,
+      works: data.works.map((work: Work) => {
+        const description = descriptions.find((desc) => desc.key === work.key);
+        return {
           ...work,
           first_publish_year: work.first_publish_year?.toString() || "",
           description: description?.description || "",
-        },
-      };
-    });
+        };
+      }),
+    };
   } catch (error) {
     console.error("Error fetching Open Library data:", error);
-    return []; // Return empty array instead of throwing error
+    return {}; // return fallback
   }
 }
 

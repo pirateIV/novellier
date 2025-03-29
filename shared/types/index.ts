@@ -3,7 +3,7 @@ export interface ParamIdProps {
 }
 
 export interface User {
-  averageRating: ReactNode;
+  averageRating: string;
   id: string;
   firstName: string;
   lastName: string;
@@ -20,9 +20,9 @@ export interface User {
 }
 
 export interface Subject {
-  name: string;
+  name?: string;
   work_count: number;
-  works: Work;
+  works: Work[];
 }
 
 export interface Work {

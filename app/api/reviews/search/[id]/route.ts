@@ -12,11 +12,9 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // const token = (await cookies()).get("token")?.value; - For testing on (postman)
+    // const token = (await cookies()).get("token")?.value;
     const token = getTokenFromCookies(req);
     const user = await getUserFromToken(token!);
-
-    console.log({ token });
 
     if (!id) {
       return NextResponse.json(
@@ -25,31 +23,36 @@ export async function GET(
       );
     }
 
-    const reviews = await Review.find({ bookId: id }).populate(
-      "reviewer",
-      "-password -books -email"
-    );
-    // const users = await Promise.all([
-    //   ...reviews.map(
-    //     async (review) =>
-    //       await User.findById(review.reviewer).select(
-    //         "-username -email -password -books -createdAt -updatedAt"
-    //       )
-    //   ),
-    // ]);
+    const allReviews = await Review.find({ bookId: id }).populate({
+      path: "reviewer",
+      select: "firstName lastName fullName ID",
+    });
 
-    const hasReviewAvailable = !!reviews.find((review) =>
+    const userReview = allReviews.find((review) =>
       user.reviews.includes(review.id)
     );
-    const totalReviews = reviews.length;
-    const totalRatings = reviews.reduce(
+
+    const reviewUser = {
+      hasReviewAvailable: !!userReview,
+      reviewId: userReview?.id || null,
+    };
+
+    const limitedReviews = allReviews.slice(0, Math.max(3, allReviews.length));
+
+    const totalReviews = allReviews.length;
+    const totalRatings = allReviews.reduce(
       (acc, review) => acc + review.rating,
       0
     );
     const averageRating =
       totalReviews > 0 ? (totalRatings / totalReviews).toFixed(1) : 0;
 
-    return NextResponse.json({ reviews, hasReviewAvailable, averageRating });
+    return NextResponse.json({
+      reviews: limitedReviews,
+      totalReviews,
+      reviewUser,
+      averageRating,
+    });
   } catch (error) {
     return NextResponse.json(error);
   }

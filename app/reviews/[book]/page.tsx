@@ -116,7 +116,7 @@ const ReviewsPage = async ({ params }: ReviewPageProps) => {
     errorRes = error;
   }
 
-  console.table(reviewData);
+  console.log(reviewData);
 
   const {
     title,
