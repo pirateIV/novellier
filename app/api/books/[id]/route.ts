@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
-import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -16,21 +15,23 @@ export async function GET(
     );
   }
   try {
-    await dbConnect();
+    dbConnect().then(async () => {
+      // const book = await Book.findById(id).populate("reviews", "rating");
+      const book = await Book.findOne({ bookId: id }).populate(
+        "reviews",
+        "rating"
+      );
 
-    // const book = await Book.findById(id).populate("reviews", "rating");
-    const book = await Book.findOne({ bookId: id })
-      .populate("reviews", "rating")
+      const totalReviews = book.reviews.length;
+      const totalRatings = book.reviews.reduce(
+        (acc: number, review: { rating: number }) => acc + review.rating,
+        0
+      );
 
-    const totalReviews = book.reviews.length;
-    const totalRatings = book.reviews.reduce(
-      (acc: number, review: { rating: number }) => acc + review.rating,
-      0
-    );
+      const averageRating = (totalRatings / totalReviews).toFixed(1);
 
-    const averageRating = (totalRatings / totalReviews).toFixed(1);
-
-    return NextResponse.json({ book, averageRating });
+      return NextResponse.json({ book, averageRating });
+    });
   } catch (error) {
     return NextResponse.json({ error });
   }

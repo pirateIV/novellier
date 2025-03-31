@@ -27,7 +27,7 @@ const Navigation = () => {
   return (
     <nav className={getNavClassName(isGenresRoute)}>
       {isGenresRoute && <SidebarTrigger />}
-      <ul className="flex items-center md:justify-end gap-4 md:gap-6 text-[13px] sm:text-sm *:font-medium justify-center md:pe-16">
+      <ul className="flex items-center md:justify-end gap-4 md:gap-6 text-[13px] sm:text-sm *:font-medium justify-center md:pe-7">
         {links.map((link) => (
           <li key={link.name} className="hover:opacity-75">
             <Link href={link.path}>{link.name}</Link>

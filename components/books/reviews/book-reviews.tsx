@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import BookReviewsHeader from "./book-reviews-header";
 import BookReviewList from "./book-review-list";
+import BookReviewsPlaceholder from "./book-reviews-placeholder";
 
 const BookReviews = async ({ id }: { id: string }) => {
   try {
@@ -15,10 +16,13 @@ const BookReviews = async ({ id }: { id: string }) => {
       buildAuthHeaderToken(token)
     );
     const data = response.data;
+    
+    if (!data) {
+      return <BookReviewsPlaceholder />;
+    }
 
     const { totalReviews } = data;
 
-    console.log(data);
 
     return (
       <div className="pt-8 mt-12 border-t">

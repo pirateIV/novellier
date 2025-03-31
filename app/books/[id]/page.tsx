@@ -2,7 +2,6 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { markdownToHtml } from "@/lib/mdx";
 import { ParamIdProps } from "@/shared/types";
-import { BookProvider } from "@/context/BookContext";
 import BookHeader from "@/components/books/book-header";
 import BookCover from "@/components/books/book-cover";
 import BookReviews from "@/components/books/reviews/book-reviews";
@@ -48,7 +47,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
             </div>
           </div>
         </div>
-        {/* <BookReviews id={id} /> */}
+        <BookReviews id={id} />
       </div>
     </>
   );

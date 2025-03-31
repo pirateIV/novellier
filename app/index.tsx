@@ -1,13 +1,7 @@
-"use client";
-
-import Link from "next/link";
 import React from "react";
-
-import { useUserData } from "@/context/UserContext";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const HomePage = () => {
-  const { authenticated } = useUserData();
   return (
     <div className="flex flex-col justify-center items-center text-center">
       <nav>

@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useBookContext } from "@/context/BookContext";
+// import { useBookContext } from "@/context/BookContext";
 import { BookResponse } from "@/lib/graphql/types";
 
 const BookCover = ({book}: {book: BookResponse | {

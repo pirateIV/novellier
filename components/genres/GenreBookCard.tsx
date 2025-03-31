@@ -37,9 +37,8 @@ const mapWorkToBookContext = (work: Work) => ({
 
 // Main Component
 const GenreBookCard = ({ book: bookData }: { book: Work }) => {
-  const {book, author} = mapWorkToBookContext(bookData)
+  const { book, author } = mapWorkToBookContext(bookData);
   const hasDescription = !!bookData.description;
-
 
   return (
     <BookProvider book={book} author={author}>
