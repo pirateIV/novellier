@@ -27,17 +27,17 @@ const GenreHeader = ({ name, description }: GenreHeaderProps) => {
         </h1>
       </div>
       <p className="text-sm font-medium text-pretty text-gray-600 dark:font-normal dark:text-slate-300">
-        {descriptionDisplay}
+        {descriptionDisplay}&nbsp;
+        {isLongDescription && (
+          <span
+            onClick={handleToggle}
+            className="text-sm cursor-pointer text-blue-500 active:underline"
+            aria-label={`${isExpanded} ? "Show less" : "Show More"`}
+          >
+            {isExpanded ? "Show less" : "Show More"}
+          </span>
+        )}
       </p>
-      {isLongDescription && (
-        <button
-          onClick={handleToggle}
-          className="text-sm text-blue-500 active:underline"
-          aria-label={`${isExpanded} ? "Show less" : "Show More"`}
-        >
-          {isExpanded ? "Show less" : "Show More"}
-        </button>
-      )}
     </>
   );
 };

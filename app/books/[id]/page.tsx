@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { markdownToHtml } from "@/lib/mdx";
 import { ParamIdProps } from "@/shared/types";
+import { BookProvider } from "@/context/BookContext";
 import BookHeader from "@/components/books/book-header";
 import BookCover from "@/components/books/book-cover";
 import BookReviews from "@/components/books/reviews/book-reviews";
@@ -26,7 +27,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
   console.log(data);
 
   return (
-    <>
+    <BookProvider book={data.book} author={data.author}>
       <title>{title}</title>
       <div className="mx-auto md:max-w-5xl w-full px-3 md:px-4 py-8">
         <div className="mb-8">
@@ -43,13 +44,13 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
                   <BookDescription description={descriptionHTML} />
                 </div>
               </div>
-              <BookResources book={data.book}/>
+              <BookResources book={data.book} />
             </div>
           </div>
         </div>
         <BookReviews id={id} />
       </div>
-    </>
+    </BookProvider>
   );
 };
 

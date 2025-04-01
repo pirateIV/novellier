@@ -51,7 +51,7 @@ const BookReviewList = ({
               />
             ))}
           </div>
-          {!reviewUser.hasReviewAvailable && (
+          {/* {!reviewUser.hasReviewAvailable && (
             <BookReviewForm>
               <Button
                 size="icon"
@@ -62,8 +62,8 @@ const BookReviewList = ({
                 <PenLine />
                 Review
               </Button>
-            </BookReviewForm>
-          )}
+            </BookReviewForm> */}
+          {/* )} */}
         </div>
       ) : (
         <BookReviewsPlaceholder />
