@@ -11,10 +11,8 @@ export async function GET(
   await dbConnect();
   try {
     const { id } = await params;
-    // const token = req.cookies.get("token")?.value;
-
-    // const token = (await cookies()).get("token")?.value;
-    const token = getTokenFromCookies(req);
+    const token = (await cookies()).get("token")?.value;
+    // const token = getTokenFromCookies(req);
     console.log({token})
     const user = await getUserFromToken(token!);
 

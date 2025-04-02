@@ -163,7 +163,7 @@ const users = [
       firstName: "Bello",
       lastName: "Musa",
     },
-    {
+    { 
       username: "tosin_vibes",
       password: "tosin123",
       email: "tosin@example.com",

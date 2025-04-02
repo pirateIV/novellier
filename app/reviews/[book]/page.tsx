@@ -87,7 +87,7 @@ const Review = () => {
   );
 };
 
-interface ReviewResponse {
+export interface ReviewResponse {
   title: string;
   description: string;
   characters: string[];
@@ -97,6 +97,7 @@ interface ReviewResponse {
     averageRating: string;
     totalReviews: number;
   };
+  totalReviews?:  number | string;
 }
 
 const ReviewsPage = async ({ params }: ReviewPageProps) => {

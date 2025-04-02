@@ -10,9 +10,14 @@ import BookDetails from "@/components/books/book-details";
 import BookDescription from "@/components/books/book-description";
 import BookResources from "@/components/books/book-resources";
 import { fetchBookAndAuthorData } from "@/services/bookService";
+import { cookies } from "next/headers";
+import { unstable_noStore } from "next/cache";
 
 const BookDetailsPage = async ({ params }: ParamIdProps) => {
+  unstable_noStore();
+
   const id = (await params).id;
+  const token = (await cookies()).get("token")?.value;
   if (!id) return notFound();
 
   const data = await fetchBookAndAuthorData(id);
@@ -24,7 +29,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
 
   const descriptionHTML = await markdownToHtml(description);
 
-  console.log(data);
+  const reviewProps = { id, token };
 
   return (
     <BookProvider book={data.book} author={data.author}>
@@ -48,7 +53,7 @@ const BookDetailsPage = async ({ params }: ParamIdProps) => {
             </div>
           </div>
         </div>
-        <BookReviews id={id} />
+        <BookReviews {...reviewProps} />
       </div>
     </BookProvider>
   );

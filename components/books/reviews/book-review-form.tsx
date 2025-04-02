@@ -29,7 +29,6 @@ import {
   DialogTitle,
 } from "../../ui/dialog";
 import { Textarea } from "../../ui/textarea";
-import client from "@/lib/apollo-client";
 
 const BookReviewForm = ({
   children,
@@ -63,8 +62,6 @@ const BookReviewForm = ({
         },
         path: window.location.pathname,
       });
-
-      client.resetStore();
 
       // if (response.data) {
       //   revalidatePath(window.location.pathname);

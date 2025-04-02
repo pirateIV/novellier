@@ -15,17 +15,12 @@ export async function POST(req: NextRequest) {
 
     await dbConnect();
 
-    const { read, bookId } = await req.json();
+    const { bookId } = await req.json();
 
-    const user = await User.findById(decoded.id).select("-password -reviews");
+    // const user = await User.findById(decoded.id).select("-password -reviews");
     const reviews = await Review.find({ bookId });
     const book = await Book.find({ bookId });
 
-    // if (!user) {
-    //   return NextResponse.json({ error: "user not found" });
-    // }
-
-    console.log( book);
     return NextResponse.json({reviews,book});
   } catch (error) {
     console.log(error);

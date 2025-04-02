@@ -1,36 +1,12 @@
-// "use client";
-
-import Reac from "react";
 import client from "@/lib/apollo-client";
 import { GET_BOOKS_DATA } from "@/lib/graphql/queries";
 import GenreList from "./_components/GenresList";
-import { useQuery } from "@apollo/client";
-
-const fetchData = async () => {
-  return await client.query({
-    query: GET_BOOKS_DATA,
-    fetchPolicy: "cache-first",
-  });
-};
 
 const GenresPage = async () => {
-  // const [booksData, setBooksData] = useState([]);
-
-  const { data, error, loading } = await client.query({
+  const { data, error } = await client.query({
     query: GET_BOOKS_DATA,
     fetchPolicy: "cache-first",
   });
-  // const { data, error, loading } = useQuery(GET_BOOKS_DATA);
-  // const { data, loading } = await getClient().query({
-  //   query: GET_BOOKS_DATA,
-  //   context: {
-  //     fetchOptions: { next: { revalidate: 60 } }, // Optional: Revalidate every 60s (ISR)
-  //   },
-  // });
-
-  // if (!data || error) {
-  //   return <div>Unable to load data. Please refresh the page.</div>;
-  // }
 
   return (
     <>
@@ -47,15 +23,11 @@ const GenresPage = async () => {
           </div>
 
           <div>
-            {loading ? (
-              <div>loading...</div>
-            ) : (
-              <>
-                {data.genre.map((genre: any) => (
-                  <GenreList key={genre.key} title={genre.name} genre={genre} />
-                ))}
-              </>
-            )}
+            <>
+              {data.genre.map((genre: any) => (
+                <GenreList key={genre.key} title={genre.name} genre={genre} />
+              ))}
+            </>
           </div>
         </div>
       </div>

@@ -55,6 +55,15 @@ export interface Review {
   reviewer: Reviewer;
 }
 
+export interface ReviewResponse {
+  reviews: Exclude<Review, "bookId">[];
+  totalReviews: number;
+  averageRating: string;
+  reviewUser: {
+    hasReviewAvailable: boolean;
+    reviewId: string | null;
+  }
+}
 export interface Book {
   title: string;
 }
