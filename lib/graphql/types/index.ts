@@ -4,6 +4,10 @@ export type BookResponse = {
   first_publish_date: string;
   subjects: [string];
   totalReviews: number;
+  stats: {
+    totalReviews: number;
+    averageRating: string;
+  };
   links: {
     title: string;
     url: string;

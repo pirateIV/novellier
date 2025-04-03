@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
@@ -15,7 +13,6 @@ const BookHeader = ({
         description: string | undefined;
       };
 }) => {
-
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="inline-flex items-center gap-1">

@@ -8,24 +8,10 @@ const BookDetails = ({
   book,
   author,
 }: {
-  book:
-    | BookResponse
-    | {
-        title: string;
-        description: string | undefined;
-      };
-  author:
-    | AuthorResponse
-    | {
-        name: string;
-        authorId: string;
-      };
+  book: BookResponse;
+  author: AuthorResponse;
 }) => {
-  // const { book, author } = useBookContext();
-
-  //@ts-ignore
   const { authors, subjects, first_publish_date, stats, title } = book;
-  // const genre = subjects.slice(0,3).map((sub: any) => sub).join(", ");
 
   return (
     <>
