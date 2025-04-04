@@ -6,7 +6,10 @@ type IReview = {
   rating: number;
   reviewer: mongoose.Schema.Types.ObjectId;
   book: mongoose.Schema.Types.ObjectId;
+  // bookTitle: string;
+  // bookAuthor: string;
   user: mongoose.Schema.Types.ObjectId;
+  helpful: mongoose.Schema.Types.ObjectId;
 };
 
 const reviewSchema = new mongoose.Schema<IReview>(
@@ -19,7 +22,10 @@ const reviewSchema = new mongoose.Schema<IReview>(
       required: true,
     },
     book: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
+    // bookTitle: { type: String, },
+    // bookAuthor: {type: String}
     bookId: { type: String, required: true },
+    helpful: { type: Map, of: Boolean, default: {} },
   },
   { timestamps: true, versionKey: false }
 );
@@ -30,5 +36,7 @@ reviewSchema.set("toJSON", {
     delete returnedObj._id;
   },
 });
+
+reviewSchema.index({ helpful: 1 }, { unique: true, sparse: true });
 
 export default mongoose.models.Review || mongoose.model("Review", reviewSchema);

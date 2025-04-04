@@ -8,6 +8,6 @@ export async function GET() {
     const users = await User.find({}).select("-password -books");
     return NextResponse.json(users);
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json\(\{error: error instanceof Error \? error\.message : String\(error\)\}, \{status: 500\}\);
   }
 }

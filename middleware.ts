@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import * as jose from "jose";
+import { cookies } from "next/headers";
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
@@ -18,10 +19,11 @@ export async function middleware(req: NextRequest) {
 
   // Verify token
   try {
-    await jose.jwtVerify(
+    const { payload } = await jose.jwtVerify(
       token,
       new TextEncoder().encode(process.env.JWT_SECRET!)
     );
+    (await cookies()).set("user_id", String(payload?.id!));
     return NextResponse.next();
   } catch (error) {
     console.error("JWT verification failed:", error); // Debug

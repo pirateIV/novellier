@@ -17,15 +17,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import BookReviewCard from "./_components/book-review-card";
 import Pagination from "./_components/pagination";
-import { BookReviewsResponse } from "@/app/actions";
 
 type SortBy = "newest" | "oldest" | "highest" | "lowest";
 
-const BookReviewsList = ({
-  bookReviews,
-}: {
-  bookReviews: BookReviewsResponse;
-}) => {
+const BookReviewsList = () => {
   const params = useParams() as { book: string };
   const bookID = params.book;
 
@@ -33,7 +28,25 @@ const BookReviewsList = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(3);
 
-  const { averageRating, book, ratingDistribution,reviews, totalReviews } = bookReviews;
+  const { reviews, totalReviews } = reviewsMockResponse;
+
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return sum / totalReviews;
+  };
+
+  const ratingDistribution = useMemo(() => {
+    const distribution = [0, 0, 0, 0, 0];
+
+    reviews.forEach((review) => {
+      if (review.rating >= 1 && review.rating <= 5) {
+        distribution[5 - review.rating]++;
+      }
+    });
+
+    return distribution;
+  }, [reviews]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -77,13 +90,15 @@ const BookReviewsList = ({
     startIndex + pageSize
   );
 
+  const averageRating = calculateAverageRating();
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
+    <div className="mx-auto max-w-4xl py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">{book.title}</h1>
+        <h1 className="text-2xl font-bold text-white">A Tale of Two Cities</h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           by&nbsp;
-          <span className="font-medium text-gray-200">{book.author}</span>
+          <span className="font-medium text-gray-200">Charles Dickens</span>
         </p>
       </div>
 
@@ -97,13 +112,11 @@ const BookReviewsList = ({
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <div className="flex items-center gap-3">
-                <span className="text-4xl font-bold text-neutral-50">
-                  {averageRating}
-                </span>
+                <span className="text-4xl font-bold text-neutral-50">4.0</span>
                 <div>
                   <StarRating rating={averageRating} />
                   <span className="mt-1 text-sm text-neutral-400">
-                    {totalReviews} reviews
+                    8 reviews
                   </span>
                 </div>
               </div>
@@ -111,11 +124,10 @@ const BookReviewsList = ({
             </div>
 
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((star) => {
-                const key = star.toString();
-                const count = ratingDistribution[key as "1" | "2" | "3" | "4" | "5"];
+              {[5, 4, 3, 2, 1].map((star, i) => {
+                const count = ratingDistribution[5 - star];
                 let percentage =
-                  totalReviews > 0 ? (Number(count) / totalReviews) * 100 : 0;
+                  totalReviews > 0 ? (count / totalReviews) * 100 : 0;
 
                 return (
                   <div key={star} className="flex items-center gap-2">

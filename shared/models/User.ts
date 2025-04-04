@@ -22,10 +22,10 @@ const userSchema = new mongoose.Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     // totalReviews: { type: Number, default: 0 },
-    books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
     booksRead: [{ type: String }],
     wantToReadBooks: [{ type: String }],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
   },
   { timestamps: true, versionKey: false }
 );

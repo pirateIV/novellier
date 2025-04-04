@@ -16,6 +16,6 @@ export async function GET({ params }: { params: Promise<{ id: string }> }) {
 
     return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json\(\{error: error instanceof Error \? error\.message : String\(error\)\}, \{status: 500\}\);
   }
 }

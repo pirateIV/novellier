@@ -25,8 +25,10 @@ const bookSchema = new mongoose.Schema<IBook>(
 bookSchema.set("toJSON", {
   transform: (_: any, returnedObj) => {
     returnedObj.id = returnedObj._id.toString();
-    returnedObj.rated = returnedObj.reviews.length > 0;
-    returnedObj.totalReviews = returnedObj.reviews.length;
+    // returnedObj.rated = returnedObj.reviews.length > 0;
+    returnedObj.totalReviews = returnedObj.reviews
+      ? returnedObj.reviews.length
+      : "";
     delete returnedObj._id;
   },
 });
