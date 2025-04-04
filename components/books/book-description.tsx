@@ -21,7 +21,8 @@ const BookDescription = ({ description }: { description: string }) => {
       <div
         className={cn(
           "group flex flex-col",
-          !showMore ? "-space-y-16" : "-space-y-2"
+          !showMore ? "-space-y-16" : "-space-y-2",
+          !description && "space-y-0"
         )}
       >
         <div

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: "Book Review App",
   description:
     "Update your reading list, track your progress, and discover new books with our app.",
-  openGraph: {
-    images: { url: "/og-image.png" },
-  },
+  // openGraph: {
+  //   images: { url: "/og-image.png" },
+  // },
 };
 
 export default function RootLayout({

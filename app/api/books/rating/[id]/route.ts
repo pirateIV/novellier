@@ -4,9 +4,9 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
+  const { id } = params;
   if (!id) {
     return NextResponse.json(
       { error: "Missing or invalid id" },
@@ -25,8 +25,6 @@ export async function GET(
       return NextResponse.json({ averageRating: 0, totalRatings: 0 });
     }
 
-    console.log(book);
-
     const totalReviews =
       (book.reviews.length > 0 ? book.reviews.length : 0) || 0;
     const totalRatings = book.reviews.reduce(
@@ -35,7 +33,9 @@ export async function GET(
     );
 
     const averageRating =
-      totalReviews > 0 ? (totalRatings / totalReviews).toFixed(1) : 0;
+      totalReviews > 0
+        ? parseFloat((totalRatings / totalReviews).toFixed(1))
+        : 0;
 
     return NextResponse.json({
       averageRating,

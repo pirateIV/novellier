@@ -15,23 +15,22 @@ export async function GET(
     );
   }
   try {
-    dbConnect().then(async () => {
-      // const book = await Book.findById(id).populate("reviews", "rating");
-      const book = await Book.findOne({ bookId: id }).populate(
-        "reviews",
-        "rating"
-      );
+    await dbConnect();
+    // const book = await Book.findById(id).populate("reviews", "rating");
+    const book = await Book.findOne({ bookId: id }).populate(
+      "reviews",
+      "rating"
+    );
 
-      const totalReviews = book.reviews.length;
-      const totalRatings = book.reviews.reduce(
-        (acc: number, review: { rating: number }) => acc + review.rating,
-        0
-      );
+    const totalReviews = book.reviews.length;
+    const totalRatings = book.reviews.reduce(
+      (acc: number, review: { rating: number }) => acc + review.rating,
+      0
+    );
 
-      const averageRating = (totalRatings / totalReviews).toFixed(1);
+    const averageRating = (totalRatings / totalReviews).toFixed(1);
 
-      return NextResponse.json({ book, averageRating });
-    });
+    return NextResponse.json({ book, averageRating });
   } catch (error) {
     return NextResponse.json({ error });
   }
