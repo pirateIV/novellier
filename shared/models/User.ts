@@ -30,13 +30,18 @@ const userSchema = new mongoose.Schema<IUser>(
   { timestamps: true, versionKey: false }
 );
 
+interface CustomToObjectOptions extends mongoose.ToObjectOptions {
+  excludeTotalReviews?: boolean;
+}
+
 userSchema.set("toJSON", {
-  transform: (_, returnedObj) => {
+  transform: (_, returnedObj, opts: CustomToObjectOptions) => {
     returnedObj.id = returnedObj._id.toString();
     returnedObj.fullName = `${returnedObj.firstName} ${returnedObj.lastName}`;
-    returnedObj.totalReviews = returnedObj?.totalReviews
-      ? returnedObj.reviews?.length
-      : null;
+
+    if (!opts?.excludeTotalReviews) {
+      returnedObj.totalReviews = returnedObj?.totalReviews?.length || null;
+    }
 
     delete returnedObj._id;
   },

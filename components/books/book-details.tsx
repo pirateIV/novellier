@@ -5,9 +5,11 @@ import BadgeGroup from "@/shared/components/badge-group";
 import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
 
 const BookDetails = ({
+  id,
   book,
   author,
 }: {
+  id: string
   book: BookResponse;
   author: AuthorResponse;
 }) => {
@@ -63,7 +65,7 @@ const BookDetails = ({
                 <span className="text-gray-800 font-semibold dark:text-zinc-300">
                   {stats.totalReviews || 0}
                 </span>{" "}
-                <Link href="#reviews" className="underline text-blue-500">
+                <Link href={`/books/${id}/reviews`} className="underline text-blue-500">
                   reviews
                 </Link>
                 )

@@ -44,10 +44,12 @@ export interface Work {
 }
 
 export interface Reviewer {
+  firstName: string;
   fullName: string;
 }
 
 export interface Review {
+  id: string;
   bookId: string;
   rating: number;
   content: string;
