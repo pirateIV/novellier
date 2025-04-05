@@ -9,6 +9,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ user, data });
   } catch (error) {
-    return NextResponse.json\(\{error: error instanceof Error \? error\.message : String\(error\)\}, \{status: 500\}\);
+    return NextResponse.json({error: error instanceof Error ? error.message : String(error)}, {status: 500});
   }
 }
