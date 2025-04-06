@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BookOpen, TrendingUp } from "lucide-react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 const StatsCard = ({
   title,

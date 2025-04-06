@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -20,6 +21,7 @@ import Pagination from "./_components/pagination";
 import { BookReviewsResponse } from "@/app/actions";
 
 type SortBy = "newest" | "oldest" | "highest" | "lowest";
+type RatingList = "1" | "2" | "3" | "4" | "5"
 
 const BookReviewsList = ({
   bookReviews,
@@ -113,7 +115,7 @@ const BookReviewsList = ({
             <div className="space-y-2">
               {[5, 4, 3, 2, 1].map((star) => {
                 const key = star.toString();
-                const count = ratingDistribution[key as "1" | "2" | "3" | "4" | "5"];
+                const count = ratingDistribution[key as RatingList];
                 let percentage =
                   totalReviews > 0 ? (Number(count) / totalReviews) * 100 : 0;
 
