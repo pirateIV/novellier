@@ -13,16 +13,17 @@ interface Review {
 const Page = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  useEffect(() => {
-    const handleGetReviews = async () => {
-      const reviews = await apiClient.get("/reviews");
-      setReviews(reviews.data);
-    };
+  // useEffect(() => {
+  //   const handleGetReviews = async () => {
+  //     const reviews = await apiClient.get("/reviews");
+  //     setReviews(reviews.data);
+  //   };
 
-    handleGetReviews();
-  }, []);
+  //   handleGetReviews();
+  // }, []);
 
   console.log(reviews);
+  
   return (
     <div className="w-full min-h-screen">
       <div className="p-5">

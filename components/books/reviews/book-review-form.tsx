@@ -51,6 +51,7 @@ const BookReviewForm = ({
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
   const onSubmit = async (values: ReviewFormData) => {
+    console.log({ values });
     try {
       const response = await apiClient.post("/reviews/add", {
         review: values,
@@ -63,13 +64,6 @@ const BookReviewForm = ({
         path: window.location.pathname,
       });
 
-      // if (response.data) {
-      //   revalidatePath(window.location.pathname);
-      // }
-
-      // if (response.data.data) {
-      //   window.location.reload();
-      // }
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -97,17 +91,6 @@ const BookReviewForm = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
-              {/* <div className="grid items-center gap-2">
-                <Label htmlFor="username" className="text-right">
-                  Username
-                </Label>
-                <Input
-                  name="username"
-                  value="@benabolade"
-                  className="col-span-full inset-ring disabled:inset-ring-gray-700 disabled:placeholder:text-gray-500 disabled:cursor-not-allowed"
-                  disabled
-                />
-              </div> */}
 
               <div className="flex justify-center gap-2">
                 {Array.from({ length: 5 }).map((_, i) => (
