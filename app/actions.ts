@@ -1,9 +1,10 @@
 "use server";
 
 import dbConnect from "@/lib/db";
-import { BookResponse } from "@/lib/graphql/types";
+import { BookResponse, ReviewsResponse } from "@/lib/graphql/types";
 import { baseURL } from "@/shared/config";
-import { Book, Review, ReviewResponse } from "@/shared/types";
+import { Review } from "@/shared/types";
+// import { Book, Review, ReviewResponse } from "@/shared/types";
 
 interface ReviewBookType {
   title: string;
@@ -57,7 +58,7 @@ export const getBookAndAuthor = async (id: string) => {
   ]);
 
   const book = (await bookResponse.json()) as BookResponse;
-  const reviews = (await reviewResponse.json()) as ReviewResponse;
+  const reviews = (await reviewResponse.json()) as ReviewsResponse;
 
-  return { book, reviews };
+  return { book, reviews};
 };
