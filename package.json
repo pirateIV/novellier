@@ -9,6 +9,9 @@
     "lint": "next lint",
     "seed": "ts-node ./shared/seed"
   },
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "dependencies": {
     "@apollo/client": "^3.13.6",
     "@apollo/server": "^4.11.3",
