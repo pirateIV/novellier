@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Review from "@/shared/models/Review";
-import { headers } from "next/headers";
-import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
 import jwt from "jsonwebtoken";
-import User from "@/shared/models/User";
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
