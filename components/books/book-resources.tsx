@@ -17,7 +17,7 @@ const BookResources = ({
   const { title } = book;
   const links = "links" in book ? book.links : undefined;
   return (
-    <div className="relative p-4 mb-6 bg-gray-50 rounded-lg border border-dashed border-gray-200 dark:bg-zinc-900/55 dark:border-zinc-800">
+    <div className="relative p-4 mb-6 bg-gray-50 rounded-lg border border-dashed border-gray-200 dark:bg-neutral-900 dark:border-zinc-800">
       <div className="flex items-center justify-between">
         <h4 className="mb-2 font-medium text-zinc-950 dark:text-foreground">
           External Resources

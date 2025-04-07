@@ -55,6 +55,7 @@ export interface Review {
   content: string;
   createdAt: string;
   reviewer: Reviewer;
+  helpful: Map<string, boolean>;
 }
 
 export interface ReviewResponse {
@@ -64,7 +65,7 @@ export interface ReviewResponse {
   reviewUser: {
     hasReviewAvailable: boolean;
     reviewId: string | null;
-  }
+  };
 }
 export interface Book {
   title: string;

@@ -1,7 +1,8 @@
+// ts-nocheck
 "use client";
 
 import React, { useEffect, useOptimistic, useState } from "react";
-import { useParams, notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 import { markdownToHtml } from "@/lib/mdx";
 
 import BookHeader from "@/components/books/book-header";
@@ -10,9 +11,7 @@ import BookDetails from "@/components/books/book-details";
 import BookDescription from "@/components/books/book-description";
 import BookResources from "@/components/books/book-resources";
 import { getBookAndAuthor } from "@/app/actions";
-import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
-import { baseURL } from "@/shared/config";
-import { Review } from "@/shared/types";
+import { BookResponse, ReviewsResponse } from "@/lib/graphql/types";
 import { formatDate } from "@/shared/utils";
 import StarRatingList from "@/shared/components/StarRatingList";
 import { cn } from "@/lib/utils";
@@ -20,22 +19,19 @@ import { getRandomColor } from "@/lib/helpers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { Review } from "@/shared/types";
 
 const BookOverview = () => {
   const params = useParams();
   const id = params?.book as string;
   const [data, setData] = useState<{
     book: BookResponse;
-    author: AuthorResponse;
-  } | null>(null);
+  }>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [bookDescription, setBookDescription] = useState<string>("");
   const [optimisticData, setOptimisticData] = useOptimistic(null);
-  const [reviews, setReviews] = useState<{
-    reviews: Review[];
-    totalReviews: number;
-  }>({
+  const [reviews, setReviews] = useState<ReviewsResponse>({
     reviews: [],
     totalReviews: 0,
   });
@@ -49,16 +45,14 @@ const BookOverview = () => {
       }
 
       try {
-        const bookData = (await getBookAndAuthor(id)) as {
-          book: BookResponse;
-          author: AuthorResponse;
-        } | null;
-        setData(bookData);
+        const data = await getBookAndAuthor(id);
+        setData({ book: data?.book });
+        setReviews(data?.reviews);
+
+        const bookData = data?.book;
 
         if (bookData) {
-          const descriptionHTML = await markdownToHtml(
-            bookData.book.description
-          );
+          const descriptionHTML = await markdownToHtml(bookData.description);
           setBookDescription(descriptionHTML || "");
         }
       } catch (err) {
@@ -69,20 +63,7 @@ const BookOverview = () => {
       }
     };
 
-    const fetchReviews = async () => {
-      await fetch(baseURL + `/reviewsv2/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setReviews(data);
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error("Error fetching reviews:", err);
-        });
-    };
-
     fetchData();
-    fetchReviews();
   }, [id]);
 
   if (loading)
@@ -93,6 +74,11 @@ const BookOverview = () => {
     );
   if (error || !data) return <div>Book not found</div>;
 
+  // const detailsProps = {
+  //   id,
+  //   ...data,
+  // };
+
   return (
     <div className="min-h-[calc(100vh-55px)]  w-full">
       <title>{data.book.title}</title>
@@ -102,7 +88,7 @@ const BookOverview = () => {
           <div className="flex flex-col-reverse justify-beween gap-8 md:flex-row">
             <BookCover book={data.book} />
             <div className="w-full md:order-2 md:w-2/3">
-              <BookDetails id={id} {...data} />
+              <BookDetails id={id} {...data.book} />
               <div className="mb-6">
                 <h3 className="mb-3 text-lg sm:text-xl font-semibold">
                   About this book
@@ -133,7 +119,7 @@ const BookOverview = () => {
             </div>
           </div>
 
-          {reviews.reviews?.length === 0  ? (
+          {data?.book?.stats.totalReviews === 0 ? (
             <div className="py-8 text-center">
               <p className="text-gray-500 dark:text-gray-400">
                 No reviews yet. Be the first to review this book!
@@ -185,7 +171,7 @@ const BookOverview = () => {
             </div>
           )}
 
-          {reviews.reviews?.length > 0 && (
+          {data?.book.stats.totalReviews > 0 && (
             <div className="flex justify-center mt-6">
               <Link href={`/books/${id}/reviews`}>
                 <Button variant="outline" className="flex items-center gap-2">

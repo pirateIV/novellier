@@ -2,18 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import BadgeGroup from "@/shared/components/badge-group";
-import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
+import { BookResponse } from "@/lib/graphql/types";
 
-const BookDetails = ({
-  id,
-  book,
-  author,
-}: {
-  id: string
-  book: BookResponse;
-  author: AuthorResponse;
-}) => {
-  const { authors, subjects, first_publish_date, stats, title } = book;
+const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
+  const { author, authorsCount, subjects, first_publish_date, stats, title } =
+    props;
 
   return (
     <>
@@ -28,14 +21,14 @@ const BookDetails = ({
             width="36"
             height="36"
             className="size-full object-cover rounded-full"
-            alt={`image of ${author.name}`}
+            alt={`image of ${author}`}
           />
         </div>{" "}
         <span className="font-medium text-indigo-600 dark:text-sky-400">
           {author.name}{" "}
-          {authors.length > 1 && (
+          {authorsCount > 1 && (
             <span className="font-Medium text-xs text-gray-200">
-              (+{authors.length - 1})
+              (+{authorsCount - 1})
             </span>
           )}
         </span>
@@ -65,7 +58,10 @@ const BookDetails = ({
                 <span className="text-gray-800 font-semibold dark:text-zinc-300">
                   {stats.totalReviews || 0}
                 </span>{" "}
-                <Link href={`/books/${id}/reviews`} className="underline text-blue-500">
+                <Link
+                  href={`/books/${id}/reviews`}
+                  className="underline text-blue-500"
+                >
                   reviews
                 </Link>
                 )

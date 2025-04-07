@@ -11,11 +11,12 @@ export async function GET(
   if (!id) {
     return new Response("Missing or invalid id", { status: 400 });
   }
+  
+  let limit = 3;
 
   try {
     await dbConnect();
 
-    let limit = 3;
 
     const reviews = await Review.find({ bookId: id })
       .populate({ path: "reviewer", select: "firstName lastName fullName" })

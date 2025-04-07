@@ -29,7 +29,7 @@ export async function fetchOpenLibraryData() {
   }
 }
 
-const defaultGenres = genres.map((genre) => genre.name);
+export const defaultGenres = genres.map((genre) => genre.name);
 
 export async function getBook(id: string) {
   try {
