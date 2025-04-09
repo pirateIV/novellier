@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { AuthorResponse, BookResponse } from "@/lib/graphql/types";
+import { BookResponse } from "@/lib/graphql/types";
 
 interface BookContextProps {
   book:
@@ -11,7 +11,6 @@ interface BookContextProps {
         description: string | undefined;
       };
   author:
-    | AuthorResponse
     | {
         name: string;
         authorId: string;
@@ -32,7 +31,6 @@ export const BookProvider = ({
         description: string | undefined;
       };
   author:
-    | AuthorResponse
     | {
         name: string;
         authorId: string;

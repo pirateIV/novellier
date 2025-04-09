@@ -39,7 +39,7 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
   const hasDescription = !!bookData.description;
 
   return (
-    <BookProvider book={book} author={author}>
+    // <BookProvider book={book} author={author}>
       <div className="relative flex gap-2 p-1 py-2 transition-colors group dark:hover:bg-white/5 first-of-type:rounded-t-lg hover:bg-gray-100 last-of-type:rounded-b-lg md:gap-6 md:p-3 sm::gap-4">
         <div className="relative flex-shrink-0 rounded-md bg-zinc-50 dark:bg-zinc-800 w-[100px] h-40">
           <Image
@@ -61,16 +61,16 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
                   {bookData.title}
                 </h3>
                 {hasDescription && (
-                  <BookReviewForm bookId={getBookId(bookData.key)}>
-                    <Button
+                  <Button
+                  // <BookReviewForm bookId={getBookId(bookData.key)}>
                       className="invisible text-xs group-hover:visible md:text-sm z-10"
                       variant="link"
                       size="sm"
                     >
                       <PenLine className="size-4 mr-1" />
                       Review
+                      {/* </BookReviewForm> */}
                     </Button>
-                  </BookReviewForm>
                 )}
               </div>
               <p className="font-worksans mt-1 text-xs line-clamp-4 text-gray-600 dark:text-gray-400 md:text-sm xs:text-sm">
@@ -107,7 +107,7 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
           )}
         </span>
       </div>
-    </BookProvider>
+    // </BookProvider>
   );
 };
 

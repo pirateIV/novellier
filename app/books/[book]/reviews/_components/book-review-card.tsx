@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { MessageSquare, ThumbsUp } from "lucide-react";
+import React, { useRef } from "react";
+import { ThumbsUp } from "lucide-react";
 
 import {
   Card,
@@ -16,6 +16,8 @@ import StarRating from "@/shared/components/StarRating";
 import { cn } from "@/lib/utils";
 import { getRandomColor } from "@/lib/helpers";
 import { formatDate } from "@/shared/utils";
+import { getCookieValue } from "@/lib/user";
+import BookReviewDialog, { BookReviewDialogRef } from "./book-review-dialog";
 
 type Review = {
   id: string;
@@ -30,23 +32,12 @@ type Review = {
   book: string;
   bookId: string;
   createdAt: string;
-  updatedAt: string;
+  helpful: Map<string, boolean>;
 };
 
 type BookReviewCardProps = {
   review: Review;
 };
-
-function getCookieValue(cookieName: string) {
-  const cookies = document.cookie.split(";");
-  for (let cookie of cookies) {
-    const [name, value] = cookie.trim().split("=");
-    if (name === cookieName) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
 
 export default function BookReviewCard({ review }: BookReviewCardProps) {
   const formattedDate = formatDate(new Date(review.createdAt));
@@ -60,6 +51,8 @@ export default function BookReviewCard({ review }: BookReviewCardProps) {
 
   const userID = getCookieValue("user_id");
   const isUserReview = userID === review.reviewer.id; // Check if this is the user's review
+
+  const reviewDialogRef = useRef<BookReviewDialogRef>(null);
 
   return (
     <Card className="overflow-hidden pb-0 mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
@@ -134,9 +127,12 @@ export default function BookReviewCard({ review }: BookReviewCardProps) {
         <div className="flex items-center gap-3 md:gap-5">
           {isUserReview && (
             <Button
-              variant="ghost"
               size="sm"
+              variant="ghost"
               className="h-8 text-xs text-red-500"
+              onClick={() =>
+                reviewDialogRef.current?.openDialog({ mode: "delete" })
+              }
             >
               Delete
             </Button>
@@ -150,6 +146,10 @@ export default function BookReviewCard({ review }: BookReviewCardProps) {
           </Button>
         </div>
       </CardFooter>
+
+      {isUserReview && (
+        <BookReviewDialog ref={reviewDialogRef} review={review} />
+      )}
     </Card>
   );
 }

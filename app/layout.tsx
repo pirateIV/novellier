@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Providers from "@/components/providers";
-import { cormorant, geistSans, grotesqueSans, workSans } from "@/lib/font";
+import { cormorant, geistSans, grotesqueSans, interVar, workSans } from "@/lib/font";
 import { Toaster } from "@/components/ui/sonner";
 import ScrollRestorationWrapper from "@/components/scroll-restoration";
 import NextTopLoader from "nextjs-toploader";
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.className} ${workSans.variable} ${cormorant.variable} ${grotesqueSans.variable} antialiased`}
+      className={`${interVar.className} ${workSans.variable} ${cormorant.variable} ${grotesqueSans.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">

@@ -34,10 +34,11 @@ function extractSearchParamsValues(searchParams: URLSearchParams) {
   const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
   const limit = Math.min(
     50,
-    Math.max(1, parseInt(searchParams.get("limit") || "10"))
+    Math.max(1, parseInt(searchParams.get("limit") || "5"))
   ); // Cap at 50
   const sortBy = searchParams.get("sortBy") as ReviewsSearchParams["sortBy"];
-  return { page, limit, sortBy };
+  const user = searchParams.get("user")
+  return { page, limit, sortBy, user };
 }
 
 export async function GET(
@@ -47,7 +48,7 @@ export async function GET(
   try {
     const { id } = await params;
     const { searchParams } = new URL(req.url);
-    const { page, limit, sortBy } = extractSearchParamsValues(searchParams);
+    const { page, limit, sortBy, user } = extractSearchParamsValues(searchParams);
 
     if (!id) throw new Error("Book ID is required");
 
@@ -57,10 +58,26 @@ export async function GET(
 
     await dbConnect();
 
-    // Parallelize independent queries
-    const [totalReviews, reviews, book, ratingDist] = await Promise.all([
+    // 1. Fetch user's review separately (if user ID is provided)
+    let userReview = null;
+    if (user) {
+      userReview = await Review.findOne({ ...filter, reviewer: user })
+        .select("content createdAt rating")
+        .populate({
+          path: "reviewer",
+          select: "firstName lastName createdAt helpful",
+        })
+        .lean();
+    }
+
+    // 2. Fetch remaining reviews (excluding user's review if it exists)
+    const remainingFilter = userReview
+      ? { ...filter, _id: { $ne: userReview._id } }
+      : filter;
+
+    const [totalReviews, remainingReviews, book, ratingDist] = await Promise.all([
       Review.countDocuments(filter),
-      Review.find(filter)
+      Review.find(remainingFilter)
         .sort(sortOptions)
         .select("content createdAt rating")
         .populate({
@@ -68,7 +85,7 @@ export async function GET(
           select: "firstName lastName createdAt helpful",
         })
         .skip(skip)
-        .limit(limit),
+        .limit(userReview ? limit - 1 : limit), // Adjust limit to accommodate user's review
       Book.findOne(filter).select("title author"),
       Review.aggregate([
         { $match: filter },
@@ -77,7 +94,12 @@ export async function GET(
       ]),
     ]);
 
-    // Format rating distribution
+    // 3. Combine results (user's review first, then remaining reviews)
+    const reviews = userReview
+      ? [userReview, ...remainingReviews]
+      : remainingReviews;
+
+    // Format rating distribution (unchanged)
     let distribution = { "5": 0, "4": 0, "3": 0, "2": 0, "1": 0 };
     ratingDist.forEach(({ rating, count }) => {
       if (rating >= 1 && rating <= 5) {
@@ -86,18 +108,17 @@ export async function GET(
     });
 
     const totalPages = Math.ceil(totalReviews / limit);
-    const hasNextPage = skip + reviews.length < totalReviews;
+    const hasNextPage = skip + remainingReviews.length < totalReviews;
 
+    // Calculate average rating (unchanged)
     let totalRatings = 0;
     let sumRatings = 0;
-
     Object.entries(distribution).forEach(([rating, count]) => {
       const ratingValue = parseInt(rating);
       totalRatings += count;
       sumRatings += ratingValue * count;
     });
-
-    const averageRating = totalRatings > 0 ? (sumRatings / totalRatings).toFixed(1) : 0;
+    const averageRating = totalRatings > 0 ? (sumRatings / totalRatings).toFixed(1) : "0.0";
 
     return NextResponse.json({
       book,

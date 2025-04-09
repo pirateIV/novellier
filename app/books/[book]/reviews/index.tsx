@@ -1,83 +1,101 @@
-//@ts-nocheck
-"use client";
+"use client"
 
-import React, { useMemo, useState } from "react";
-import { useParams } from "next/navigation";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { reviewsMockResponse } from "./data";
-import { Button } from "@/components/ui/button";
-import StarRating from "@/shared/components/StarRating";
-import { Filter, SortAsc } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import BookReviewCard from "./_components/book-review-card";
-import Pagination from "./_components/pagination";
-import { BookReviewsResponse } from "@/app/actions";
+import { useMemo, useRef, useState } from "react"
+import { useParams } from "next/navigation"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import StarRating from "@/shared/components/StarRating"
+import { Filter, SortAsc } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
+import BookReviewCard from "./_components/book-review-card"
+import Pagination from "./_components/pagination"
+import type { BookReviewsResponse } from "@/app/actions"
+import { getCookieValue } from "@/lib/user"
+import BookReviewDialog, { type BookReviewDialogRef } from "./_components/book-review-dialog"
+import LoadingReviews from "./_components/loading-reviews"
 
-type SortBy = "newest" | "oldest" | "highest" | "lowest";
+type SortBy = "newest" | "oldest" | "highest" | "lowest"
 type RatingList = "1" | "2" | "3" | "4" | "5"
 
 const BookReviewsList = ({
   bookReviews,
+  onPaginationChange,
+  currentPagination,
 }: {
-  bookReviews: BookReviewsResponse;
+  bookReviews: BookReviewsResponse | null
+  onPaginationChange: (newPagination: {
+    page?: number
+    limit?: number
+    sortBy?: "newest" | "oldest" | "highest" | "lowest"
+  }) => void
+  currentPagination: {
+    page: number
+    limit: number
+    sortBy: "newest" | "oldest" | "highest" | "lowest"
+  }
 }) => {
-  const params = useParams() as { book: string };
-  const bookID = params.book;
+  const params = useParams() as { book: string }
+  const bookID = params.book
+  const reviewDialogRef = useRef<BookReviewDialogRef>(null)
+  const [isChangingPage, setIsChangingPage] = useState(false)
 
-  const [sortBy, setSortBy] = useState<SortBy>("newest");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
-
-  const { averageRating, book, ratingDistribution,reviews, totalReviews } = bookReviews;
+  const { averageRating, book, ratingDistribution, reviews, totalReviews } = bookReviews || {
+    averageRating: 0,
+    book: { title: "", author: "", id: "" },
+    ratingDistribution: { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 },
+    reviews: [],
+    totalReviews: 0,
+  }
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    document
-      .getElementById("reviews-section")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
+    setIsChangingPage(true)
+    onPaginationChange({ page })
+    document.getElementById("reviews-section")?.scrollIntoView({ behavior: "smooth" })
+    // Reset loading state after a short delay to ensure smooth transition
+    setTimeout(() => setIsChangingPage(false), 500)
+  }
 
   const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
-  };
+    setIsChangingPage(true)
+    onPaginationChange({ limit: size, page: 1 })
+    // Reset loading state after a short delay to ensure smooth transition
+    setTimeout(() => setIsChangingPage(false), 500)
+  }
 
-  // Sort review based on an selected option
+  const handleSortChange = (sortBy: SortBy) => {
+    setIsChangingPage(true)
+    onPaginationChange({ sortBy, page: 1 })
+    // Reset loading state after a short delay to ensure smooth transition
+    setTimeout(() => setIsChangingPage(false), 500)
+  }
+
+  // Sort reviews based on the selected option
   const sortedReviews = useMemo(() => {
-    let reviewsArr = [...reviews];
+    if (!reviews || reviews.length === 0) return []
 
-    switch (sortBy) {
+    const reviewsArr = [...reviews]
+
+    switch (currentPagination.sortBy) {
       case "newest":
-        return reviewsArr.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        return reviewsArr.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       case "oldest":
-        return reviewsArr.sort(
-          (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
+        return reviewsArr.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
       case "highest":
-        return reviewsArr.sort((a, b) => b.rating - a.rating);
+        return reviewsArr.sort((a, b) => b.rating - a.rating)
       case "lowest":
-        return reviewsArr.sort((a, b) => a.rating - b.rating);
+        return reviewsArr.sort((a, b) => a.rating - b.rating)
+      default:
+        return reviewsArr
     }
-  }, [reviews, sortBy]);
+  }, [reviews, currentPagination.sortBy])
 
   // Calculate pagination
-  const totalPages = Math.ceil(totalReviews / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const paginatedReviews = sortedReviews.slice(
-    startIndex,
-    startIndex + pageSize
-  );
+  const totalPages = Math.ceil(totalReviews / currentPagination.limit)
+
+  const userID = getCookieValue("user_id")
+  const yourReview = reviews?.find((review) => review.reviewer.id === userID)
+  const hasUserReview = !!yourReview
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -91,33 +109,34 @@ const BookReviewsList = ({
 
       <Card className="p-0 mb-8 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
         <CardHeader className="p-4 border-b border-neutral-100 dark:border-neutral-800">
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-            Reader Reviews
-          </h2>
+          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">Reader Reviews</h2>
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <div className="flex items-center gap-3">
-                <span className="text-4xl font-bold text-neutral-50">
-                  {averageRating}
-                </span>
+                <span className="text-4xl font-bold text-neutral-50">{averageRating}</span>
                 <div>
                   <StarRating rating={averageRating} />
-                  <span className="mt-1 text-sm text-neutral-400">
-                    {totalReviews} reviews
-                  </span>
+                  <span className="mt-1 text-sm text-neutral-400">{totalReviews} reviews</span>
                 </div>
               </div>
-              <Button className="h-10 mt-4">Write a Review</Button>
+              {!hasUserReview ? (
+                <Button className="h-10 mt-4" onClick={() => reviewDialogRef.current?.openDialog({ mode: "edit" })}>
+                  Write a Review
+                </Button>
+              ) : (
+                <Button className="h-10 mt-4" onClick={() => reviewDialogRef.current?.openDialog({ mode: "edit" })}>
+                  Edit your Review
+                </Button>
+              )}
             </div>
 
             <div className="space-y-2">
               {[5, 4, 3, 2, 1].map((star) => {
-                const key = star.toString();
-                const count = ratingDistribution[key as RatingList];
-                let percentage =
-                  totalReviews > 0 ? (Number(count) / totalReviews) * 100 : 0;
+                const key = star.toString()
+                const count = ratingDistribution[key as RatingList]
+                const percentage = totalReviews > 0 ? (Number(count) / totalReviews) * 100 : 0
 
                 return (
                   <div key={star} className="flex items-center gap-2">
@@ -134,21 +153,16 @@ const BookReviewsList = ({
                       <span className="text-sm text-neutral-500">{count}</span>
                     </div>
                   </div>
-                );
+                )
               })}
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <div
-        id="reviews-section"
-        className="mb-6 flex flex-wrap items-center justify-between gap-4"
-      >
+      <div id="reviews-section" className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-50">
-            Reviews
-          </h3>
+          <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-50">Reviews</h3>
           <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
             {totalReviews}
           </span>
@@ -160,10 +174,7 @@ const BookReviewsList = ({
             Filter
           </Button>
 
-          <Select
-            value={sortBy}
-            onValueChange={(value) => setSortBy(value as SortBy)}
-          >
+          <Select value={currentPagination.sortBy} onValueChange={(value) => handleSortChange(value as SortBy)}>
             <SelectTrigger className="h-9 w-[160px] gap-1.5 text-sm">
               <SortAsc className="size-4" />
               <SelectValue placeholder="Sort by" />
@@ -180,22 +191,32 @@ const BookReviewsList = ({
 
       <Separator className="mb-6 dark:bg-neutral-800" />
 
-      <div className="space-y-4">
-        {paginatedReviews.map((review) => (
-          <BookReviewCard key={review.id} review={review} />
-        ))}
-      </div>
+      {isChangingPage ? (
+        <LoadingReviews message="Updating reviews..." />
+      ) : (
+        <div className="space-y-4">
+          {sortedReviews.length > 0 ? (
+            sortedReviews.map((review) => <BookReviewCard key={review.id} review={review} />)
+          ) : (
+            <div className="text-center py-8 text-neutral-500">No reviews found. Be the first to leave a review!</div>
+          )}
+        </div>
+      )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalItems={sortedReviews.length}
-        pageSize={pageSize}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-      />
+      {totalReviews > 0 && (
+        <Pagination
+          currentPage={currentPagination.page}
+          totalPages={totalPages}
+          totalItems={totalReviews}
+          pageSize={currentPagination.limit}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      )}
+
+      <BookReviewDialog ref={reviewDialogRef} review={yourReview} />
     </div>
-  );
-};
+  )
+}
 
-export default BookReviewsList;
+export default BookReviewsList
