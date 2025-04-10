@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
-import { baseURL } from "@/shared/config";
 import { defaultGenres } from "@/lib/api/openLibrary";
+import { Book } from "@/shared/models";
+
+type BookStats = {
+  content: string;
+  bookId: string;
+  rating: number;
+  reviewer: string;
+  book: string;
+  user: string;
+  helpful: Map<string, boolean>;
+};
+
+function getBookStats(bookStats: BookStats) {}
 
 export async function GET(
   req: NextRequest,
@@ -10,19 +22,14 @@ export async function GET(
   const { id } = await params;
 
   try {
-    dbConnect();
+    await dbConnect();
 
-    const [bookResponse, bookStatsResponse] = await Promise.all([
+    const [bookResponse, bookStats] = await Promise.all([
       await fetch(`https://openlibrary.org/works/${id}.json`),
-      await fetch(baseURL + `/books/rating/${id}`),
+      await Book.findOne({ bookId: id }).populate("reviews", "rating"),
     ]);
 
     const book = await bookResponse.json();
-    const stats = await bookStatsResponse.json();
-
-    const filteredGenres = book.subjects.filter((subject: string) =>
-      defaultGenres.includes(subject)
-    );
 
     const authorId = book.authors[0].author.key.replace("/authors/", "");
 
@@ -31,28 +38,46 @@ export async function GET(
     );
     const author = await authorResponse.json();
 
-    console.log(book)
+    console.log({ bookStats });
+
+    let stats = {};
+    if (!bookStats) {
+      stats = { averageRating: 0, totalReviews: 0 };
+    } else {
+      const totalReviews =
+        (bookStats?.reviews.length > 0 ? bookStats?.reviews.length : 0) || 0;
+      const totalRatings = bookStats.reviews.reduce(
+        (acc: number, review: { rating: number }) => acc + review.rating,
+        0
+      );
+      const averageRating =
+        totalReviews > 0 ? (totalRatings / totalReviews).toFixed(1) : 0;
+
+      stats = { averageRating, totalReviews };
+    }
+
+    const filteredGenres = book.subjects.filter((subject: string) =>
+      defaultGenres.includes(subject)
+    );
 
     const jsonResponse = {
-      //   ...book,
-      author: {
-        authorId,
-        name: author.name,
-      },
-      title: book.title,
-     authorsCount: book.authors.length,
-      links: book.links || [],
+      author: { authorId, name: author.name },
       stats,
+      title: book.title,
+      authorsCount: book.authors.length,
       description: book.description?.value || book.description,
+      links: book.links || [],
       subjects: filteredGenres,
       characters: book?.subject_people?.slice(0, 5) || [],
       first_publish_date: book.first_publish_date
         ? book.first_publish_date.toString()
         : "",
     };
-
     return NextResponse.json(jsonResponse);
   } catch (error) {
-    return NextResponse.json({ error });
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : String(error),
+      status: 500,
+    });
   }
 }

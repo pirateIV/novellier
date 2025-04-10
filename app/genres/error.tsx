@@ -6,7 +6,7 @@ import { RotateCw } from "lucide-react";
 
 const GenreErrorPage = () => {
   return (
-    <div>
+    <div className="w-full flex items-center justify-center">
       <Button variant="ghost" onClick={() => window.location.reload()}>
         Retry{" "}
         <span>

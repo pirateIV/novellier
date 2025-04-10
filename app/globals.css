@@ -127,6 +127,7 @@
 
   :root {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    animation-duration: 400ms;
     interpolate-size: allow-keywords;
   }
 

@@ -56,7 +56,7 @@ const Pagination = ({
   return (
     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="text-sm text-neutral-400 *:[&:is(span)]:text-neutral-200">
-        Showing <span className="font-medium">1</span>&nbsp;to&nbsp;
+        Showing <span className="font-medium">{startItem}</span>&nbsp;to&nbsp;
         <span className="font-medium">{endItem}</span>&nbsp;of&nbsp;
         <span className="font-medium">{totalItems}</span>&nbsp;reviews
       </div>

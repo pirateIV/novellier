@@ -6,16 +6,25 @@ interface PageProps {
   params: Promise<{
     book: string;
   }>;
+  searchParams: Promise<{
+    book_cover_id: string;
+  }>;
 }
 
-const BookDetailsPage = async ({ params }: PageProps) => {
+const BookDetailsPage = async ({ params, searchParams }: PageProps) => {
   const { book: id } = await params;
+  const search = await searchParams;
   const data = await getBookAndAuthor(id);
   const bookData = data?.book || null;
   const descriptionHTML = await markdownToHtml(bookData.description);
 
   return (
-    <BookOverview id={id} bookData={bookData} description={descriptionHTML} />
+    <BookOverview
+      id={id}
+      search={search}
+      bookData={bookData}
+      description={descriptionHTML}
+    />
   );
 };
 

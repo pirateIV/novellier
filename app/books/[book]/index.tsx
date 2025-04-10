@@ -12,10 +12,14 @@ import { BookResponse } from "@/lib/graphql/types";
 
 const BookOverview = async ({
   id,
+  search,
   bookData,
   description,
 }: {
   id: string;
+  search: {
+    book_cover_id: string;
+  }
   bookData: BookResponse;
   description: string;
 }) => {
@@ -26,8 +30,9 @@ const BookOverview = async ({
   const reviewProps = {
     id,
     reviews: bookData.reviews,
+    search,
     bookData,
-    totalReviews: bookData.stats.totalReviews,
+    totalReviews: bookData.stats?.totalReviews || 0,
   };
 
   try {

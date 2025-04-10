@@ -24,7 +24,9 @@ const BookCover = ({book}: {book: BookResponse | {
           src={bookCoverId ? `${imageUrl}-L.jpg` : "/placeholder.svg"}
           blurDataURL={`${imageUrl}-S.jpg`}
           alt={`Cover of ${book?.title}`}
+          style={{viewTransitionName: "book-cover"}}
           fill
+
         />
       </div>
     </div>

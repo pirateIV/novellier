@@ -43,7 +43,7 @@ const GenrePageData = () => {
   }, [subjectData]);
 
   return (
-    <div className="max-w-full px-2 py-5 md:px-7 sm:px-4 overflow-x-hidden">
+    <div className="max-w-full px-2 py-5 md:px-7 sm:px-4">
       <GenreHeader name={name} description={description} />
       <Suspense fallback={null}>
         {isLoading ? (

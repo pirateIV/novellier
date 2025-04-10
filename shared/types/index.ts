@@ -44,6 +44,7 @@ export interface Work {
 }
 
 export interface Reviewer {
+  _id: string | null;
   firstName: string;
   fullName: string;
 }
