@@ -71,7 +71,7 @@ export async function GET(
     }
 
     // 2. Fetch remaining reviews (excluding user's review if it exists)
-    const remainingFilter = userReview
+    const remainingFilter = userReview && !Array.isArray(userReview)
       ? { ...filter, _id: { $ne: userReview._id } }
       : filter;
 

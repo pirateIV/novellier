@@ -18,6 +18,8 @@ const BookDetailsPage = async ({ params, searchParams }: PageProps) => {
   const bookData = data?.book || null;
   const descriptionHTML = await markdownToHtml(bookData.description);
 
+  console.log(bookData)
+
   return (
     <BookOverview
       id={id}

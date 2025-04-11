@@ -1,9 +1,10 @@
 import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Star, BookOpen, Pencil } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import type { BookResponse } from "@/lib/graphql/types";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
+import StarRating from "@/shared/components/StarRating";
 
 const BookReviews = ({
   id,
@@ -17,7 +18,7 @@ const BookReviews = ({
   totalReviews: number;
 }) => {
   const hasReviews = totalReviews > 0;
-  const averageRating = bookData.stats.averageRating;
+  const averageRating = bookData.stats?.averageRating || 0;
 
   return (
     <section aria-labelledby="reviews-heading" className="pt-8 mt-12 border-t">
@@ -47,7 +48,7 @@ const BookReviews = ({
             What do <i>you</i> think?
           </p>
           <Link
-            href={`/books/${id}/review?title=${bookData.title}&author=${bookData.author.name}&book_cover=${search.book_cover_id}`}
+            href={`/books/${id}/review?title=${bookData.title}&author=${bookData.author?.name}&book_cover=${search.book_cover_id}`}
           >
             <Button className="rounded-full">Write a review</Button>
           </Link>
@@ -58,18 +59,9 @@ const BookReviews = ({
             <div className="mb-8 p-6 bg-gray-50 dark:bg-secondary/30 rounded-lg">
               <div className="flex items-center justify-center gap-4">
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold mb-1">4</div>
+                  <div className="text-4xl font-bold mb-1">{averageRating}</div>
                   <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`h-4 w-4 ${
-                          star <= 3
-                            ? "text-yellow-500 fill-yellow-500"
-                            : "text-gray-300 dark:text-gray-600"
-                        }`}
-                      />
-                    ))}
+                   <StarRating rating={averageRating}/>
                   </div>
                 </div>
               </div>
@@ -136,7 +128,7 @@ const BookReviews = ({
             </div>
           </Link>
 
-          <div className="mt-6 flex justify-center">
+          {/* <div className="mt-6 flex justify-center">
             <Link
               href={`/books/${id}/review?title=${bookData.title}&author=${bookData.author.name}&book_cover=${search.book_cover_id}`}
             >
@@ -145,7 +137,7 @@ const BookReviews = ({
                 Write your own review
               </Button>
             </Link>
-          </div>
+          </div> */}
         </>
       )}
     </section>

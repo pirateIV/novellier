@@ -21,12 +21,13 @@ interface ReviewResponse {
   path: string;
 }
 
-export async function POST(req: NextRequest, {searchParams}: {searchParams: {userID: string}}) {
+export async function POST(req: NextRequest) {
   const reviewResponse = (await req.json()) as ReviewResponse;
   const token = req.cookies.get("token")?.value;
+  const userID = req.nextUrl.searchParams.get("userId");
 
   if (!token) {
-    return NextResponse.json({ error: "Token not found" }, { status: 400 });  
+    return NextResponse.json({ error: "Token not found" }, { status: 400 });
   }
 
   await dbConnect();
@@ -40,6 +41,19 @@ export async function POST(req: NextRequest, {searchParams}: {searchParams: {use
     if (!foundBook) {
       foundBook = await Book.create({ ...book }).catch((err) =>
         console.log(err)
+      );
+    }
+
+    // Check if user has existing review
+    const existingReview = await Review.findOne({ 
+      bookId: book.bookId, 
+      reviewer: user.id // Use user.id instead of userID from params
+    });
+
+    if (existingReview) {
+      return NextResponse.json(
+        { error: "User already has a review for this book" },
+        { status: 400 }
       );
     }
 
@@ -62,39 +76,16 @@ export async function POST(req: NextRequest, {searchParams}: {searchParams: {use
       { $push: { reviews: newReview.id } },
       { new: true }
     );
-    await foundBook.save();
 
     if (path) {
       revalidatePath(path);
     }
 
     return NextResponse.json({ foundBook, newReview });
-
-    // // console.log(reviewResponse);
-
-    // let bookId = book.bookId;
-    // let existingBook = await Book.findOne({ bookId });
-
-    // const newBook = existingBook ? existingBook : new Book({ ...book });
-    // await newBook.save();
-
-    // const newReview = new Review({
-    //   ...review,
-    //   user: user._id,
-    //   book: newBook._id,
-    //   bookId,
-    // });
-
-    // await newReview.save();
-
-    // await Book.findByIdAndUpdate(
-    //   newBook._id,
-    //   { $push: { reviews: newReview._id } },
-    //   { new: true }
-    // );
-
-    // return NextResponse.json({ newBook, newReview });
   } catch (error) {
-    return NextResponse.json({ error });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
   }
 }

@@ -3,13 +3,27 @@
 import React from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-// import { useBookContext } from "@/context/BookContext";
 import { BookResponse } from "@/lib/graphql/types";
+import { Button } from "../ui/button";
+import { Link } from "next-view-transitions";
+import { Pencil } from "lucide-react";
 
-const BookCover = ({book}: {book: BookResponse | {
-  title: string;
-  description: string | undefined;
-}}) => {
+const BookCover = ({
+  id,
+  book,
+}: {
+  id: string;
+  book:
+    | BookResponse
+    | {
+        title: string;
+        description: string | undefined;
+        author: {
+          name: string;
+          authorId: string;
+        }
+      };
+}) => {
   // const { book } = useBookContext();
   const searchParams = useSearchParams();
   const bookCoverId = searchParams.get("book_cover_id");
@@ -26,11 +40,33 @@ const BookCover = ({book}: {book: BookResponse | {
           alt={`Cover of ${book?.title}`}
           priority
           fill
-
         />
+      </div>
+      <div className="mt-4">
+        <Button
+          size="lg"
+          className="rounded-full w-full bg-orange-500 hover:bg-orange-500 hover:brightness-90  text-white"
+          asChild
+        >
+          <Link href={`${id}/reviews`}>See all Reviews</Link>
+        </Button>
+        <div className="mt-2 flex justify-center">
+          <Link
+            href={`/books/${id}/review?title=${book?.title}&author=${book.author.name}&author_id=${book.author.authorId}&book_cover=${bookCoverId}`}
+          >
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-primary rounded-full"
+            >
+              <Pencil className="h-4 w-4 mr-2" />
+              Write a review
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
-  
+
 export default BookCover;

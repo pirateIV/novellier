@@ -6,6 +6,7 @@ export default function useGetParams() {
   const title = searchParams.get("title");
   const author = searchParams.get("author");
   const bookCover = searchParams.get("book_cover");
+  const authorId = searchParams.get("author_id");
 
-  return { title, author, bookCover };
+  return { title, author, authorId, bookCover };
 }

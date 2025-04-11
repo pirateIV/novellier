@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -16,6 +16,7 @@ import Guidelines from "./guideline";
 import useGetParams from "../reviews/[review]/useGetParams";
 import { apiClient } from "@/lib/axios";
 import { getCookieValue } from "@/lib/user";
+import { AxiosError } from "axios";
 
 export default function NewReviewForm({ bookId }: { bookId: string }) {
   const router = useTransitionRouter();
@@ -23,8 +24,17 @@ export default function NewReviewForm({ bookId }: { bookId: string }) {
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const { title, author, bookCover } = useGetParams();
+  const { title, author, authorId, bookCover } = useGetParams();
+
+  useEffect(() => {
+    setUserId(getCookieValue("user_id"));
+  }, []);
+
+  // if(!title || !author || !authorId || !bookCover) {
+  //   router.back()
+  // }
 
   const displayRating = hoverRating !== null ? hoverRating : rating;
   const ratingLabels = ["Terrible", "Poor", "Average", "Good", "Excellent"];
@@ -44,13 +54,12 @@ export default function NewReviewForm({ bookId }: { bookId: string }) {
     setIsSubmitting(true);
     const payload = {
       review: { content: reviewText, rating },
-      book: bookId,
+      book: { bookId, authorId, author, reviewer: userId, title },
     };
 
-    const userID = getCookieValue("user_id");
-
     try {
-      apiClient.post(`/reviews/add?userID=${userID}`, payload);
+      const res = await apiClient.post(`/reviews/add`, payload);
+      console.log(res.data);
 
       toast("Review submitted!", {
         description: "Thank you for sharing your thoughts",
@@ -60,10 +69,15 @@ export default function NewReviewForm({ bookId }: { bookId: string }) {
 
       // Redirect back to the book page
       // router.push(`/books/${bookId}`);
-    } catch (error) {
+    } catch (error: AxiosError | any) {
+      if (error?.response?.data?.error) {
+        toast(error?.response?.data?.error, {
+          description: "You have an existing review for this book",
+        });
+        return;
+      }
       toast("Something went wrong", {
         description: "Your review couldn't be submitted. Please try again.",
-        // variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -127,7 +141,7 @@ export default function NewReviewForm({ bookId }: { bookId: string }) {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center"
+              className="bg-gradient-to-r shrink-0 from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center"
             >
               <Sparkles className="h-3 w-3 mr-1" />
               Share your thoughts

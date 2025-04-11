@@ -59,10 +59,12 @@ export async function getBookReviews(
 }
 
 export const getBookAndAuthor = async (id: string) => {
+  const userID = (await cookies()).get("user_id")?.value;
   const [bookResponse, reviewResponse] = await Promise.all([
-    await fetch(baseURL + `/bookv2/${id}`),
+    await fetch(baseURL + `/bookv2/${id}?user=${userID}`),
     await fetch(baseURL + `/reviewsv2/${id}`),
   ]);
+
 
   const book = (await bookResponse.json()) as BookResponse;
   const reviews = (await reviewResponse.json()) as ReviewsResponse;

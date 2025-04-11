@@ -13,7 +13,7 @@ export async function GET(
       { error: "Missing or invalid id" },
       { status: 400 }
     );
-  }
+}
   try {
     await dbConnect();
     // const book = await Book.findById(id).populate("reviews", "rating");

@@ -35,6 +35,8 @@ const BookOverview = async ({
     totalReviews: bookData.stats?.totalReviews || 0,
   };
 
+  const coverProps = {id, book: bookData}
+
   try {
     return (
       <div className="min-h-[calc(100vh-55px)] w-full">
@@ -43,7 +45,7 @@ const BookOverview = async ({
           <div className="mb-8">
             <BookHeader book={bookData} />
             <div className="grid grid-cols-10 justify-beween gap-6 md:gap-16">
-              <BookCover book={bookData} />
+              <BookCover {...coverProps} />
               <div className="w-full col-span-full md:col-span-7">
                 <BookDetails id={id} {...bookData} />
                 <div className="mb-6">

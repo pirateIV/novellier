@@ -49,7 +49,7 @@ export default async function ReviewPage({
   // Check if the current user is the author of the review
 
   return (
-    <div className="container max-w-4xl mx-auto py-8">
+    <div className="container max-w-4xl min-h-[calc(100vh-45px)] mx-auto py-8">
       <ReviewDetail {...props} />
     </div>
   );

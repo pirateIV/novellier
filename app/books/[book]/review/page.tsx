@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NewReviewForm from "./new-review-form";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Write a Review",
@@ -9,11 +10,14 @@ export const metadata: Metadata = {
 export default async function NewReviewPage({
   params,
 }: {
-  params: { book: string };
-}) {  return (
+  params: Promise<{ book: string }>;
+}) {
+  const book = (await params).book;
+  const user = (await cookies()).get("user_id")?.value;
+  console.log(user)
+  return (
     <div className="container max-w-4xl mx-auto py-8">
-      <NewReviewForm bookId={params.book} />
+      <NewReviewForm bookId={book} />
     </div>
   );
 }
-

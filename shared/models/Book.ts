@@ -13,7 +13,7 @@ type IBook = {
 const bookSchema = new mongoose.Schema<IBook>(
   {
     author: { type: String, required: true },
-    authorId: { type: String, required: true },
+    authorId: { type: String },
     // averageRating: { type: Number, default: 0 },
     bookId: { type: String, default: "", unique: true },
     title: { type: String, default: "", unique: true },

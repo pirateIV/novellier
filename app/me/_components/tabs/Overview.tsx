@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Activity, Book, BookOpen, Eye, Star } from "lucide-react";
 import { User } from "@/shared/types";
+import {Icons} from "@/components/icons"
 
 interface OverviewTabProps {
   user: User;
@@ -29,10 +30,7 @@ const OverviewTab = ({ user }: OverviewTabProps) => {
             {/* Empty State */}
             {!user?.recentActivity?.length ? (
               <div className="py-8 flex flex-col items-center justify-center text-center">
-                <BookOpen
-                  className="size-32 text-neutral-700 dark:text-neutral-500"
-                  aria-hidden="true"
-                />
+                <Icons.WhatDoYouThink className="size-40 fill-neutral-400"/>
                 <div className="w-full max-w-[200px] h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full mt-4 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import { defaultGenres } from "@/lib/api/openLibrary";
-import { Book } from "@/shared/models";
+import { Book, Review } from "@/shared/models";
 
 type BookStats = {
   content: string;
@@ -20,6 +20,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const user = req.nextUrl.searchParams.get("user");
 
   try {
     await dbConnect();
@@ -38,7 +39,10 @@ export async function GET(
     );
     const author = await authorResponse.json();
 
-    console.log({ bookStats });
+    const hasBookReview = user ? !!(await Review.findOne({
+      bookId: id,
+      reviewer: user,
+    })) : false;
 
     let stats = {};
     if (!bookStats) {
@@ -65,6 +69,7 @@ export async function GET(
       stats,
       title: book.title,
       authorsCount: book.authors.length,
+      hasBookReview,
       description: book.description?.value || book.description,
       links: book.links || [],
       subjects: filteredGenres,

@@ -1,11 +1,21 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { Review } from "@/shared/models";
+import { revalidatePath } from "next/cache";
 
-export async function submitReview(bookId: string, rating: number, text: string) {
+export async function checkExistingReview(bookId: string, reviewer: string) {
+  const existingReview = !!(await Review.findOne({ bookId, reviewer }));
+  return { existingReview };
+}
+
+export async function submitReview(
+  bookId: string,
+  rating: number,
+  text: string
+) {
   // Validate inputs
   if (!bookId || !rating || rating < 1 || rating > 5) {
-    throw new Error("Invalid review data")
+    throw new Error("Invalid review data");
   }
 
   try {
@@ -21,14 +31,14 @@ export async function submitReview(bookId: string, rating: number, text: string)
     // });
 
     // For now, we'll just simulate a delay
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Revalidate the book page to show the new review
-    revalidatePath(`/books/${bookId}`)
+    revalidatePath(`/books/${bookId}`);
 
-    return { success: true }
+    return { success: true };
   } catch (error) {
-    console.error("Failed to submit review:", error)
-    return { success: false, error: "Failed to submit review" }
+    console.error("Failed to submit review:", error);
+    return { success: false, error: "Failed to submit review" };
   }
 }

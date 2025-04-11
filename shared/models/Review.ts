@@ -23,8 +23,6 @@ const reviewSchema = new mongoose.Schema<IReview>(
       required: true,
     },
     book: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
-    // bookTitle: { type: String, },
-    // bookAuthor: {type: String}
     bookId: { type: String, required: true },
     helpful: {
       type: Map,
@@ -43,6 +41,6 @@ reviewSchema.set("toJSON", {
   },
 });
 
-reviewSchema.index({ helpful: 1 }, { unique: true, sparse: true });
+// reviewSchema.index({ helpful: 1 }, { unique: true, sparse: true });
 
 export default mongoose.models.Review || mongoose.model("Review", reviewSchema);
