@@ -120,7 +120,7 @@ const BookReviewsList = ({
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">{book.title}</h1>
+        <h1 className="text-2xl font-libre font-bold text-white">{book.title}</h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           by&nbsp;
           <span className="font-medium text-gray-200">{book.author}</span>

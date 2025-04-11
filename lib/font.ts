@@ -1,9 +1,14 @@
-import { Bricolage_Grotesque, Cormorant, Work_Sans } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Libre_Baskerville,
+  Work_Sans,
+} from "next/font/google";
 import localFont from "next/font/local";
 
-export const cormorant = Cormorant({
-  variable: "--font-cormorant",
+export const libre = Libre_Baskerville({
+  variable: "--font-libre",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const grotesqueSans = Bricolage_Grotesque({

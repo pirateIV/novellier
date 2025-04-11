@@ -21,12 +21,12 @@ interface ReviewResponse {
   path: string;
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, {searchParams}: {searchParams: {userID: string}}) {
   const reviewResponse = (await req.json()) as ReviewResponse;
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
-    return NextResponse.json({ error: "Token not found" }, { status: 400 });
+    return NextResponse.json({ error: "Token not found" }, { status: 400 });  
   }
 
   await dbConnect();

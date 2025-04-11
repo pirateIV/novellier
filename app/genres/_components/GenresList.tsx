@@ -66,7 +66,7 @@
 
               <p
                 className={cn(
-                  "text-sm font-semibold mt-2 line-clamp-2 hover:text-blue-600 transition-colors duration-200",
+                  "text-sm font-semibold font-libre mt-2 line-clamp-2 hover:text-blue-600 transition-colors duration-200",
                   `[view-transition-name:book-${work.key.replace("/works/", "")}]`
                 )}
               >

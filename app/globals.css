@@ -147,7 +147,7 @@
   }
 
   blockquote {
-    @apply font-[cormorant];
+    @apply font-[libre];
   }
 
   input.custom {
@@ -194,8 +194,8 @@
 }
 
 @layer components {
-  .font-cormorant {
-    font-family: var(--font-cormorant);
+  .font-libre {
+    font-family: var(--font-libre);
   }
   .font-g-mono {
     font-family: var(--font-mono);
@@ -224,7 +224,8 @@
   background-size: 200% 200%;
 }
 
-.avatar-fallback, .skeleton {
+.avatar-fallback,
+.skeleton {
   @apply bg-[linear-gradient(90deg,#ffffff,#c4c4c496,#ffffff_89%)] dark:bg-[linear-gradient(90deg,#2a2627,#46444467,#2a2627_89%)];
   animation: animate-text 2s linear infinite;
   background-size: 200% 200%;
@@ -235,9 +236,9 @@
   height: 10px;
   border-radius: 50%;
   display: block;
-  margin:15px auto;
+  margin: 15px auto;
   position: relative;
-  color: #FFF;
+  color: #fff;
   left: -100px;
   box-sizing: border-box;
   animation: shadowRolling 2s linear infinite;
@@ -245,30 +246,55 @@
 
 @keyframes shadowRolling {
   0% {
-    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
   }
   12% {
-    box-shadow: 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 100px 0 white, 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
   }
   25% {
-    box-shadow: 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0);
   }
   36% {
-    box-shadow: 120px 0 white, 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0);
+    box-shadow: 120px 0 white, 110px 0 white, 100px 0 white,
+      0px 0 rgba(255, 255, 255, 0);
   }
   50% {
     box-shadow: 130px 0 white, 120px 0 white, 110px 0 white, 100px 0 white;
   }
   62% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white, 110px 0 white;
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white,
+      110px 0 white;
   }
   75% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white;
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      130px 0 white, 120px 0 white;
   }
   87% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 white;
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 130px 0 white;
   }
   100% {
-    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
   }
+}
+
+/* Add this to your CSS */
+::view-transition-old(book-cover),
+::view-transition-new(book-cover) {
+  /* Prevent the default cross-fade */
+  mix-blend-mode: normal;
+  /* Custom animation */
+  animation-duration: 400ms ease;
+  /* Make it cover the same area */
+  height: 100%;
+  width: 100%;
+}
+
+.book {
+  view-transition-name: book-cover;
+  contain: layout;
 }

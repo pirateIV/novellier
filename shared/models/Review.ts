@@ -10,6 +10,7 @@ type IReview = {
   // bookAuthor: string;
   user: mongoose.Schema.Types.ObjectId;
   helpful: mongoose.Schema.Types.ObjectId;
+  helpfulCount: number;
 };
 
 const reviewSchema = new mongoose.Schema<IReview>(
@@ -25,7 +26,12 @@ const reviewSchema = new mongoose.Schema<IReview>(
     // bookTitle: { type: String, },
     // bookAuthor: {type: String}
     bookId: { type: String, required: true },
-    helpful: { type: Map, of: Boolean, default: {} },
+    helpful: {
+      type: Map,
+      of: Boolean,
+      default: new Map(),
+    },
+    helpfulCount: { type: Number, default: 0 },
   },
   { timestamps: true, versionKey: false }
 );

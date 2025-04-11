@@ -22,6 +22,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export type Review = {
+  updatedAt: string;
   _id: string;
   id: string;
   content: string;
@@ -35,14 +36,15 @@ export type Review = {
   book: string;
   bookId: string;
   createdAt: string;
-  helpful: Map<string, boolean>;
+  helpful: { [key: string]: boolean };
+  helpfulCount: number;
 };
 
 type BookReviewCardProps = {
   review: Omit<Review, "_id" | "book"> & { id: string; book?: string };
 };
 
-export default function BookReviewCard({ review }: BookReviewCardProps) {
+export default function BookReviewCard({ review }: { review: Review }) {
   const { book } = useParams() as { book: string };
   const formattedDate = formatDate(new Date(review.createdAt));
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -60,13 +62,16 @@ export default function BookReviewCard({ review }: BookReviewCardProps) {
 
   return (
     <Card className="overflow-hidden pb-0 mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
-      <Link href={`/books/${book}/reviews/${review.id || review._id}`} className="space-y-2 md:space-y-4">
+      <Link
+        href={`/books/${book}/reviews/${review.id || review._id}`}
+        className="space-y-2 md:space-y-4"
+      >
         <CardHeader className="flex flex-row justify-between items-start p-4 pt-0 pb-0">
           <div className="flex items-center gap-3">
             <Avatar
               className={cn(
                 "w-10 h-10",
-                getRandomColor(review.reviewer.firstName[0])
+                getRandomColor(review.reviewer.firstName)
               )}
             >
               <AvatarFallback className="text-sm font-medium text-neutral-600 dark:text-neutral-300 bg-transparent">

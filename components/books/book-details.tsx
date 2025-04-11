@@ -10,7 +10,7 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
 
   return (
     <>
-      <h1 className="mb-2 text-3xl font-medium tracking-tight md:text-5xl sm:text-4xl">
+      <h1 className="mb-2 text-2xl font-libre font-semibold tracking-tight md:text-5xl sm:text-4xl">
         {title}
       </h1>
 
@@ -24,10 +24,10 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
             alt={`image of ${author}`}
           />
         </div>{" "}
-        <span className="font-medium text-indigo-600 dark:text-sky-400">
+        <span className="font-medium text-lg text-indigo-600 dark:text-sky-400">
           {author.name}{" "}
           {authorsCount > 1 && (
-            <span className="font-Medium text-xs text-gray-200">
+            <span className="text-xs text-gray-200">
               (+{authorsCount - 1})
             </span>
           )}
@@ -52,18 +52,16 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
 
           <span className="font-semibold text-zinc-900 dark:text-zinc-300">
             {stats.averageRating}{" "}
-            {stats.totalReviews && (
+            {stats.totalReviews != 0 && (
               <span className="text-gray-600 dark:text-zinc-400 font-medium">
                 (
                 <span className="text-gray-800 font-semibold dark:text-zinc-300">
                   {stats.totalReviews || 0}
                 </span>{" "}
-                <Link
-                  href={`/books/${id}/reviews`}
-                  className="underline text-blue-500"
+                <span
                 >
                   reviews
-                </Link>
+                </span>
                 )
               </span>
             )}

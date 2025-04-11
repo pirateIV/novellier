@@ -11,21 +11,45 @@ export async function GET(
   if (!id) {
     return new Response("Missing or invalid id", { status: 400 });
   }
-  
-  let limit = 3;
 
   try {
     await dbConnect();
 
+    const [result] = await Review.aggregate([
+      { $match: { bookId: id } },
+      {
+        $group: {
+          _id: null,
+          totalReviews: { $sum: 1 },
+          sumRatings: { $sum: "$rating" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalReviews: 1,
+          averageRating: {
+            $cond: [
+              { $eq: ["$totalReviews", 0] },
+              "0.0",
+              // prettier-ignore
+              { $toString: { $round: [{ $multiply: [{ $divide: ["$sumRatings", { $multiply: ["$totalReviews", 5] }] }, 5] }, 1] } },
+            ],
+          },
+        },
+      },
+    ]);
 
-    const reviews = await Review.find({ bookId: id })
-      .populate({ path: "reviewer", select: "firstName lastName fullName" })
-      .limit(limit);
-    const totalReviews = await Review.countDocuments({ bookId: id });
+    // Set cache headers for the response
+    const headers = new Headers();
+    headers.set(
+      "Cache-Control",
+      "public, s-maxage=60, stale-while-revalidate=300"
+    );
 
-    console.log({ reviews, id });
+    const response = result || { totalReviews: 0, averageRating: "0.0" };
 
-    return NextResponse.json({ reviews, totalReviews });
+    return NextResponse.json({ ...response }, { headers });
   } catch (error) {
     return NextResponse.json({ error });
   }
