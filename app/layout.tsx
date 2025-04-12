@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Providers from "@/components/providers";
 import {
   libre,
@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   description:
     "Update your reading list, track your progress, and discover new books with our app.",
 };
+
+export const viewPort: Viewport = {
+    userScalable: false,   
+}
 
 export default function RootLayout({
   children,
