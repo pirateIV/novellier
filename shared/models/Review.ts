@@ -41,6 +41,5 @@ reviewSchema.set("toJSON", {
   },
 });
 
-// reviewSchema.index({ helpful: 1 }, { unique: true, sparse: true });
 
 export default mongoose.models.Review || mongoose.model("Review", reviewSchema);

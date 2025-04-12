@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 type IBook = {
   title: string;
   bookId: string;
+  cover: string;
   author: string;
   authorId: string;
   averageRating: number;
@@ -14,8 +15,8 @@ const bookSchema = new mongoose.Schema<IBook>(
   {
     author: { type: String, required: true },
     authorId: { type: String },
-    // averageRating: { type: Number, default: 0 },
     bookId: { type: String, default: "", unique: true },
+    cover: { type: String, default: "" },
     title: { type: String, default: "", unique: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },

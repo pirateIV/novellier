@@ -65,6 +65,10 @@ export default function NewReviewForm({ bookId }: { bookId: string }) {
         description: "Thank you for sharing your thoughts",
       });
 
+      if(res.data) {
+        // router.push('/')
+      }
+
       console.log({ context: reviewText, rating });
 
       // Redirect back to the book page
