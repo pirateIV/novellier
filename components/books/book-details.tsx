@@ -17,7 +17,7 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
       <div className="flex items-center gap-2 mb-3 text-gray-600">
         <div className="avatar-fallback size-9 relative rounded-full border-2 border-zinc-200 dark:border-zinc-500">
           <Image
-            src={`https://covers.openlibrary.org/a/olid/${author.authorId}-S.jpg`}
+            src={`https://covers.openlibrary.org/a/olid/${author?.authorId}-S.jpg`}
             width="36"
             height="36"
             className="size-full object-cover rounded-full"
@@ -25,7 +25,7 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
           />
         </div>{" "}
         <span className="font-medium text-lg text-indigo-600 dark:text-sky-400">
-          {author.name}{" "}
+          {author?.name}{" "}
           {authorsCount > 1 && (
             <span className="text-xs text-gray-200">
               (+{authorsCount - 1})
@@ -51,12 +51,12 @@ const BookDetails = ({ id, ...props }: { id: string } & BookResponse) => {
           </span>
 
           <span className="font-semibold text-zinc-900 dark:text-zinc-300">
-            {stats.averageRating}{" "}
-            {stats.totalReviews != 0 && (
+            {stats?.averageRating}{" "}
+            {stats?.totalReviews != 0 && (
               <span className="text-gray-600 dark:text-zinc-400 font-medium">
                 (
                 <span className="text-gray-800 font-semibold dark:text-zinc-300">
-                  {stats.totalReviews || 0}
+                  {stats?.totalReviews || 0}
                 </span>{" "}
                 <span
                 >

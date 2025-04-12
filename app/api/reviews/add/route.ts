@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     if (existingReview) {
       return NextResponse.json(
-        { error: "User already has a review for this book" },
+        { error: "User already has a review for this book", existingReview },
         { status: 400 }
       );
     }
