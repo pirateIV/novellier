@@ -17,7 +17,7 @@ const OverviewTab = ({ user }: OverviewTabProps) => {
 
       {/* Recent Activity Section */}
       <div className="relative p-2 border rounded-[20px] bg-neutral-200/5 dark:bg-neutral-950 border-white/5">
-        <Card className="bg-white dark:bg-neutral-900 border-none rounded-[16px] overflow-hidden">
+        <Card className="bg-white dark:bg-neutral-900 border-none sm:rounded-[16px] overflow-hidden">
           <CardHeader className="p-6 border-b border-white/10">
             <h1 className="text-2xl tracking-tight font-bold dark:text-white">
               Recent Activity

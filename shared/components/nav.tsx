@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 const links = [
   { name: "Home", path: "/" },
@@ -27,7 +28,12 @@ const Navigation = () => {
   return (
     <nav className={getNavClassName(isGenresRoute)}>
       {isGenresRoute && <SidebarTrigger />}
-      <ul className="flex items-center md:justify-end gap-4 md:gap-6 text-[13px] sm:text-sm *:font-medium justify-center md:pe-7">
+      <ul
+        className={cn(
+          "flex items-center md:justify-end  md:gap-6 text-[13px] sm:text-sm *:font-medium justify-center md:pe-7",
+          isGenresRoute ? "gap-4" : "gap-10"
+        )}
+      >
         {links.map((link) => (
           <li key={link.name} className="hover:opacity-75">
             <Link href={link.path}>{link.name}</Link>

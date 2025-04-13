@@ -25,7 +25,7 @@ const BookReviews = ({
       <div className="flex items-center justify-between mb-6">
         <h2
           id="reviews-heading"
-          className="text-2xl font-semibold tracking-tight font-sans"
+          className="text-xl md:text-2xl font-semibold tracking-tight font-sans"
         >
           Community Reviews
         </h2>
@@ -56,7 +56,7 @@ const BookReviews = ({
       ) : (
         <>
           {averageRating && (
-            <div className="mb-8 p-6 bg-gray-50 dark:bg-secondary/30 rounded-lg">
+            <div className="mb-4 -mx-3 sm:-mx-0 sm:mb-6 md:mb-8 p-6 bg-gray-50 dark:bg-secondary/30 sm:rounded-lg">
               <div className="flex items-center justify-center gap-4">
                 <div className="flex flex-col items-center">
                   <div className="text-4xl font-bold mb-1">{averageRating}</div>
@@ -71,12 +71,12 @@ const BookReviews = ({
           <Link
             href={`/books/${id}/reviews`}
             className={cn(
-              "block transition-all duration-300 hover:shadow-lg",
+              "block -mx-3 sm:-mx-0 transition-all duration-300 hover:shadow-lg",
               "bg-gradient-to-r from-gray-50 to-white dark:from-secondary/30 dark:to-secondary/10",
-              "rounded-xl overflow-hidden border hover:border-primary/20"
+              "sm:rounded-xl overflow-hidden border hover:border-primary/20"
             )}
           >
-            <div className="p-6 flex flex-col sm:flex-row items-center gap-6">
+            <div className="p-3 sm:p-6 flex flex-col sm:flex-row items-center gap-6">
               <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center rounded-full bg-white/5">
                 <i className="*:size-12 mx-auto">
                   <Icons.WhatDoYouThink />
@@ -91,7 +91,7 @@ const BookReviews = ({
                   Discover what other readers think about this book.
                 </p>
 
-                <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+                <div className="flex flex-wrap gap-1.5 sm:gap-3 justify-center sm:justify-start">
                   {["Insightful", "Critical", "Thoughtful", "Detailed"].map(
                     (tag) => (
                       <span

@@ -25,8 +25,8 @@ const StatsCard = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="relative p-2 border rounded-[20px] bg-neutral-200/5 dark:bg-neutral-950  border-white/5 *:h-full">
-      <Card className="relative overflow-hidden border dark:border-none  transition-all duration-200 bg-white dark:bg-neutral-900 shadow-none">
+    <div className="relative p-2 border sm:rounded-[20px] bg-neutral-200/5 dark:bg-neutral-950  border-white/5 *:h-full">
+      <Card className="relative overflow-hidden rounded-none sm:rounded-xl border dark:border-none  transition-all duration-200 bg-white dark:bg-neutral-900 shadow-none">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             {icon}

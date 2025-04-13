@@ -3,11 +3,11 @@ import Image from "next/image";
 
 const StarRating = ({ rating }: { rating: string | number }) => {
   return (
-    <div className="hue-rotate-[194deg] w-[74px] *:brightness-125">
+    <div className="hue-rotate-[194deg] sm:w-[74px] *:brightness-125">
       <Image
         src="/stars.webp"
         height="12"
-        className="absolute insedt-0"
+        className="absolute inset-0"
         width="74"
         alt="stars empty"
         aria-hidden="true"

@@ -48,7 +48,7 @@ const BookOverview = async ({
               <BookCover {...coverProps} />
               <div className="w-full col-span-full md:col-span-7">
                 <BookDetails id={id} {...bookData} />
-                <div className="mb-6">
+                <div className="mb-6 order-first">
                   <h3 className="mb-3 text-lg sm:text-xl font-semibold">
                     About this book
                   </h3>

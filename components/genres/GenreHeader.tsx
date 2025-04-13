@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import React, { useState } from "react";
 
 interface GenreHeaderProps {
@@ -8,9 +9,10 @@ interface GenreHeaderProps {
 }
 
 const GenreHeader = ({ name, description }: GenreHeaderProps) => {
+  const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const maxCharsLength = 650;
+  const maxCharsLength = isMobile ? 300 : 650;
   const isLongDescription = description.length > maxCharsLength;
 
   const descriptionDisplay =

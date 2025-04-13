@@ -11,7 +11,7 @@ const GenresPage = async () => {
   return (
     <>
       <div className="mx-auto max-w-7xl">
-        <div className="w-full flex justify-start flex-col p-4 md:p-8">
+        <div className="w-full flex justify-start flex-col p-2 sm:p-4 md:p-8">
           <div>
             <h1 className="mb-4 text-2xl font-libre font-semibold tracking-tight text-pretty dark:text-white sm:text-4xl">
               Explore Genres

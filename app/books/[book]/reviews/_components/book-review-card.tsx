@@ -20,6 +20,7 @@ import { getCookieValue } from "@/lib/user";
 import BookReviewDialog, { BookReviewDialogRef } from "./book-review-dialog";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export type Review = {
   updatedAt: string;
@@ -46,14 +47,17 @@ type BookReviewCardProps = {
 
 export default function BookReviewCard({ review }: { review: Review }) {
   const { book } = useParams() as { book: string };
+  const isMobile = useIsMobile();
   const formattedDate = formatDate(new Date(review.createdAt));
   const [isExpanded, setIsExpanded] = React.useState(false);
-  const isLongContent = review.content.length > 280;
+
+  const contentLength = isMobile ? 240 : 280;
+  const isLongContent = review.content.length > contentLength;
 
   const displayContent =
     isExpanded || !isLongContent
       ? review.content
-      : `${review.content.substring(0, 280)}...`;
+      : `${review.content.substring(0, contentLength)}...`;
 
   const userID = getCookieValue("user_id");
   const isUserReview = userID === review.reviewer.id; // Check if this is the user's review
@@ -61,7 +65,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
   const reviewDialogRef = useRef<BookReviewDialogRef>(null);
 
   return (
-    <Card className="overflow-hidden pb-0 mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
+    <Card className="overflow-hidden -mx-4 sm:-mx-0 rounded-none sm:rounded-xl pb-0 sm:mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
       <Link
         href={`/books/${book}/reviews/${review.id || review._id}`}
         className="space-y-2 md:space-y-4"
@@ -70,7 +74,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
           <div className="flex items-center gap-3">
             <Avatar
               className={cn(
-                "w-10 h-10",
+                "size-9 sm:size-10",
                 getRandomColor(review.reviewer.firstName)
               )}
             >
@@ -94,7 +98,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
                 {!isUserReview && (
                   <Badge
                     variant="outline"
-                    className="h-5 px-2 text-xs font-normal text-neutral-500 rounded-full dark:text-neutral-400 dark:border-neutral-700"
+                    className="h-5 px-2 hidden md:flex text-xs font-normal text-neutral-500 rounded-full dark:text-neutral-400 dark:border-neutral-700"
                   >
                     Verified Reader
                   </Badge>
@@ -109,7 +113,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
             <StarRating rating={review.rating} />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-4 sm:px-6">
           <p className="text-sm text-neutral-700 dark:text-neutral-300">
             {displayContent}
           </p>
@@ -124,7 +128,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
           )}
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-between p-3 border-t border-neutral-100 dark:border-neutral-800">
+      <CardFooter className="flex justify-between py-1.5 sm:p-3 border-t border-neutral-100 dark:border-neutral-800">
         <div className="flex gap-3">
           <Button
             variant="ghost"

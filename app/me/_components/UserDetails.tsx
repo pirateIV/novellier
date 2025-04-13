@@ -13,10 +13,10 @@ const UserDetails = ({ user }: any) => {
       </Avatar>
 
       <div className="flex-1 text-center md:text-left">
-        <h1 className="text-3xl font-semibold dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-semibold dark:text-white">
           {user.firstName} {user.lastName}
         </h1>
-        <p className="text-zinc-600 dark:text-gray-300">@{user.username}</p>
+        <p className="text-[15px] sm:text-base text-zinc-600 dark:text-gray-300">@{user.username}</p>
         <UserBadges user={user} />
       </div>
     </div>

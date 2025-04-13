@@ -131,6 +131,15 @@
     interpolate-size: allow-keywords;
   }
 
+  html,body {
+    touch-action: pan-x pan-y;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    -ms-touch-action: pan-x pan-y;
+    touch-action: pan-x pan-y;
+  }
+
   body {
     @apply bg-background text-foreground;
   }

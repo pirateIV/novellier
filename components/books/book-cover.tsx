@@ -42,7 +42,7 @@ const BookCover = ({
           fill
         />
       </div>
-      <div className="mt-4">
+      <div className="w-9/12 mx-auto sm:w-full mt-4">
         <Button
           size="lg"
           className="rounded-full w-full bg-orange-500 hover:bg-orange-500 hover:brightness-90  text-white"

@@ -17,7 +17,7 @@ const BookResources = ({
   const { title } = book;
   const links = "links" in book ? book.links : undefined;
   return (
-    <div className="relative p-4 mb-6 bg-gray-50 rounded-lg border border-dashed border-gray-200 dark:bg-neutral-900 dark:border-zinc-800">
+    <div className="relative -mx-3 sm:mx-0 p-3 mb-4 sm:p-4 sm:mb-6 bg-gray-50 sm:rounded-lg border border-dashed border-gray-200 dark:bg-neutral-900 dark:border-zinc-800">
       <div className="flex items-center justify-between">
         <h4 className="mb-2 font-medium text-zinc-950 dark:text-foreground">
           External Resources
@@ -33,7 +33,7 @@ const BookResources = ({
               )
             }
           >
-            <Icons.Wikipedia className="size-5 fill-black dark:fill-white" />
+            <Icons.Wikipedia className="size-4 sm:size-5 fill-black dark:fill-white" />
           </button>
           <button
             title="Google search"
@@ -42,7 +42,7 @@ const BookResources = ({
               window.open(`https://www.google.com/search?q=${title}`)
             }
           >
-            <Icons.Google className="size-[18px] fill-black dark:fill-white" />
+            <Icons.Google className="size-4 sm:size-[18px] fill-black dark:fill-white" />
           </button>
         </div>
       </div>
@@ -54,9 +54,9 @@ const BookResources = ({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300"
+                className="flex items-center gap-2 text-[13px]  sm:text-sm text-zinc-600 dark:text-zinc-300"
               >
-                <Icons.Link />
+                <Icons.Link className="shrink-0 size-3.5 sm:size-4" />
                 <span className="text-blue-600 dark:text-blue-500 hover:underline font-medium">
                   {link.title}
                 </span>

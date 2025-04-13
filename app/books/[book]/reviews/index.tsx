@@ -123,19 +123,19 @@ const BookReviewsList = ({
         <h1 className="text-2xl font-libre font-bold text-white">{book.title}</h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           by&nbsp;
-          <span className="font-medium text-gray-200">{book.author}</span>
+          <span className="font-medium text-sky-400">{book.author}</span>
         </p>
       </div>
 
-      <Card className="p-0 mb-8 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
+      <Card className="p-0 mb-8 -mx-4 sm:-mx-0 rounded-none sm:rounded-xl bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
         <CardHeader className="p-4 border-b border-neutral-100 dark:border-neutral-800">
           <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
             Reader Reviews
           </h2>
         </CardHeader>
-        <CardContent className="p-4">
+        <CardContent className="py-2 px-3 sm:p-4">
           <div className="grid gap-6 md:grid-cols-2">
-            <div>
+            <div className="flex items-center justify-between sm:block">
               <div className="flex items-center gap-3">
                 <span className="text-4xl font-bold text-neutral-50">
                   {averageRating}
@@ -180,7 +180,7 @@ const BookReviewsList = ({
                     <div className="w-8 text-sm font-medium text-right text-neutral-700 dark:text-neutral-300">
                       {star} ★
                     </div>
-                    <div className="w-full h-2 bg-neutral-800 rounded-full">
+                    <div className="w-[95%] sm:w-full h-2 bg-neutral-800 rounded-full">
                       <div
                         className="h-full bg-amber-500 rounded-full border-t border-t-amber-400"
                         style={{ width: `${percentage}%` }}

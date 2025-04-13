@@ -32,21 +32,21 @@
     genre: GenreListProps;
   }) => {
     return (
-      <div className="py-6">
+      <div className="py-3 sm:py-6">
         {/* Section Title */}
-        <h4 className="capitalize text-lg font-bold pb-3 border-b mb-6">
+        <h4 className="capitalize sm:text-lg font-bold pb-3 border-b mb-6">
           {title}
         </h4>
 
         {/* Book Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-3 xl:grid-cols-6 sm:gap-4">
           {genre.works.map((work: Work) => (
             <div
               key={work.key}
               className="group relative flex flex-col items-center text-center"
             >
               {/* Book Cover */}
-              <div className="relative w-full h-[220px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="relative w-full  h-44 sm:h-[220px] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
                   width={100}
                   height={220}
@@ -66,7 +66,7 @@
 
               <p
                 className={cn(
-                  "text-sm font-semibold font-libre mt-2 line-clamp-2 hover:text-blue-600 transition-colors duration-200",
+                  "text-[13px] sm:text-sm font-semibold font-libre mt-2 line-clamp-2 hover:text-blue-600 transition-colors duration-200",
                   `[view-transition-name:book-${work.key.replace("/works/", "")}]`
                 )}
               >

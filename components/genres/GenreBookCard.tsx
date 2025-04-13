@@ -57,7 +57,7 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
           <div className="h-full flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-baseline gap-2">
-                <h3 className="text-sm  font-libre font-semibold line-clamp-2 dark:font-normal md:text-lg xs:text-base">
+                <h3 className="text-sm flex-1 font-libre font-semibold line-clamp-2 dark:font-normal md:text-[17px] xs:text-base">
                   {bookData.title}
                 </h3>
                 {hasDescription && (
@@ -73,7 +73,7 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
                     </Button>
                 )}
               </div>
-              <p className="font-worksans mt-1 text-xs line-clamp-4 text-gray-600 dark:text-gray-400 md:text-sm xs:text-sm">
+              <p className="font-worksans mt-1 text-xs line-clamp-5 lg:line-clamp-4 text-gray-600 dark:text-gray-400 md:text-sm xs:text-sm">
                 {hasDescription ? (
                   typeof bookData.description === "string" ? (
                     bookData.description

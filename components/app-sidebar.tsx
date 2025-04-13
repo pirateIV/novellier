@@ -31,7 +31,7 @@ export function AppSidebar() {
                   className={cn(
                     genre.slug === params.genre &&
                       "bg-gray-100 dark:bg-zinc-900",
-                    "w-full inline-flex justify-between items-center py-2 ps-4 pe-2 text-sm font-medium text-indigo-600 rounded-md border border-transparent transition duration-300 dark:text-sky-400 dark:hover:bg-zinc-900 dark:focus:bg-zinc-900 dark:hover:border-zinc-800 hover:bg-gray-100 hover:border-gray-200 hover:*:!text-zinc-400"
+                    "w-full inline-flex justify-between items-center py-2 ps-4 pe-2 text-sm font-medium text-indigo-600 rounded-md border border-transparent transition duration-300 dark:text-sky-400 dark:hover:bg-zinc-900 dark:focus:bg-zinc-900 dark:hover:border-zinc-800 dark:focus:border-zinc-800 hover:bg-gray-100 hover:border-gray-200 hover:*:!text-zinc-400"
                   )}
                 >
                   {genre.name}
