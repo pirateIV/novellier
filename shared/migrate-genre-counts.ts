@@ -1,8 +1,8 @@
-import dbConnect from "@/lib/db";
+import dbConnect from "../lib/db";
 import mongoose from "mongoose";
 import { Book, Review } from "./models";
 import Genre from "./models/Genre";
-import { defaultGenres } from "@/lib/api/openLibrary";
+import { defaultGenres } from "../lib/api/openLibrary";
 // import dbConnect from "@/lib/db";
 // import Book from "@/shared/models/Book";
 // import Review from "@/shared/models/Review";

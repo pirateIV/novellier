@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseURL } from "@/shared/config";
+import { baseURL } from "../shared/config";
 
 const apiClient = axios.create({ baseURL, withCredentials: true });
 

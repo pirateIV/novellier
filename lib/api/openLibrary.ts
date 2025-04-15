@@ -1,6 +1,6 @@
 import { apiClient } from "../axios";
 import { genres } from "../books";
-import { Subject, Work } from "@/shared/types";
+import { Subject, Work } from "../../shared/types";
 
 interface Description {
   key: string;
