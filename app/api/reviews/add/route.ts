@@ -1,8 +1,10 @@
 import { getUserFromToken } from "@/app/shared/utils";
+import { defaultGenres } from "@/lib/api/openLibrary";
 import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
 import Review from "@/shared/models/Review";
 import User from "@/shared/models/User";
+import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,10 +23,10 @@ interface ReviewResponse {
   path: string;
 }
 
+// In your POST route for adding a review
 export async function POST(req: NextRequest) {
   const reviewResponse = (await req.json()) as ReviewResponse;
   const token = req.cookies.get("token")?.value;
-  const userID = req.nextUrl.searchParams.get("userId");
 
   if (!token) {
     return NextResponse.json({ error: "Token not found" }, { status: 400 });
@@ -34,20 +36,51 @@ export async function POST(req: NextRequest) {
 
   try {
     const user = await getUserFromToken(token);
-
     const { review, book, path } = reviewResponse;
 
+    // Check if the book exists, create it if not
     let foundBook = await Book.findOne({ bookId: book.bookId });
+    let bookGenres = [];
+
     if (!foundBook) {
-      foundBook = await Book.create({ ...book }).catch((err) =>
-        console.log(err)
+      // Fetch book details from Open Library API to get genres
+      const bookResponse = await fetch(
+        `https://openlibrary.org/works/${book.bookId}.json`
       );
+      const bookData = await bookResponse.json();
+      bookGenres =
+        bookData.subjects
+          ?.filter((subject: string) => defaultGenres.includes(subject))
+          .slice(0, 3) || []; // Limit to 1–3 genres
+
+      foundBook = await Book.create({
+        ...book,
+        genres: [], // We’ll update genres below
+      });
+    } else {
+      // If book exists, use its genres (you may need to store genres in Book schema)
+      bookGenres = foundBook.genres || []; // Assuming genres are stored in Book
     }
 
-    // Check if user has existing review
-    const existingReview = await Review.findOne({ 
-      bookId: book.bookId, 
-      reviewer: user.id // Use user.id instead of userID from params
+    // Ensure genres exist in Genre collection
+    const genreDocs = await Promise.all(
+      bookGenres.map(async (genreName: string) => {
+        let genreDoc = await mongoose
+          .model("Genre")
+          .findOne({ genre: genreName });
+        if (!genreDoc) {
+          genreDoc = await mongoose
+            .model("Genre")
+            .create({ genre: genreName, total_times_rated: 0 });
+        }
+        return genreDoc._id;
+      })
+    );
+
+    // Check for existing review
+    const existingReview = await Review.findOne({
+      bookId: book.bookId,
+      reviewer: user.id,
     });
 
     if (existingReview) {
@@ -57,24 +90,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Create the new review with associated genres
     const newReview = new Review({
       ...review,
       book: foundBook.id,
       bookId: book.bookId,
       reviewer: user.id,
+      genres: genreDocs, // Link genres to the review
     });
     await newReview.save();
 
+    // Update the book with the new review
     foundBook = await Book.findByIdAndUpdate(
       foundBook.id,
       { $push: { reviews: newReview.id } },
       { new: true }
     );
 
+    // Update the user with the new review
     await User.findByIdAndUpdate(
       user.id,
       { $push: { reviews: newReview.id } },
       { new: true }
+    );
+
+    // Increment total_times_rated for each genre
+    await Promise.all(
+      genreDocs.map(async (genreId: mongoose.Types.ObjectId) => {
+        await mongoose
+          .model("Genre")
+          .findByIdAndUpdate(
+            genreId,
+            { $inc: { total_times_rated: 1 } },
+            { new: true }
+          );
+      })
     );
 
     if (path) {

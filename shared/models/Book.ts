@@ -9,6 +9,7 @@ type IBook = {
   averageRating: number;
   user: mongoose.Schema.Types.ObjectId;
   reviews: mongoose.Schema.Types.ObjectId[];
+  genres: mongoose.Schema.Types.ObjectId[];
 };
 
 const bookSchema = new mongoose.Schema<IBook>(
@@ -19,6 +20,7 @@ const bookSchema = new mongoose.Schema<IBook>(
     cover: { type: String, default: "" },
     title: { type: String, default: "", unique: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    genres: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
   },
   { timestamps: true, versionKey: false }
 );

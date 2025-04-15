@@ -32,6 +32,8 @@ export async function GET(
 
     const book = await bookResponse.json();
 
+    console.log(book)
+
     const authorId = book.authors[0].author.key.replace("/authors/", "");
 
     const authorResponse = await fetch(
@@ -39,10 +41,12 @@ export async function GET(
     );
     const author = await authorResponse.json();
 
-    const hasBookReview = user ? !!(await Review.findOne({
-      bookId: id,
-      reviewer: user,
-    })) : false;
+    const bookReview = user
+      ? await Review.findOne({
+          bookId: id,
+          reviewer: user,
+        })
+      : false;
 
     let stats = {};
     if (!bookStats) {
@@ -69,7 +73,10 @@ export async function GET(
       stats,
       title: book.title,
       authorsCount: book.authors.length,
-      hasBookReview,
+      book_review: {
+        id: bookReview?.id || null,
+        has_review: !!bookReview,
+      },
       description: book.description?.value || book.description,
       links: book.links || [],
       subjects: filteredGenres,

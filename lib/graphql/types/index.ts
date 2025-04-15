@@ -43,6 +43,10 @@ export interface BookResponse {
   [x: string]: any;
   author: Author;
   title: string;
+  book_review: {
+    id: string | null;
+    has_review: boolean;
+  };
   first_publish_year: string | number;
   description: string;
   authorsCount: number;
@@ -56,4 +60,3 @@ export interface ReviewsResponse {
   reviews: Review[];
   totalReviews: number;
 }
-

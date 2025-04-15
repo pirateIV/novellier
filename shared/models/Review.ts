@@ -4,6 +4,7 @@ type IReview = {
   content: string;
   bookId: string;
   rating: number;
+  genres: mongoose.Schema.Types.ObjectId;
   reviewer: mongoose.Schema.Types.ObjectId;
   book: mongoose.Schema.Types.ObjectId;
   // bookTitle: string;
@@ -24,6 +25,7 @@ const reviewSchema = new mongoose.Schema<IReview>(
     },
     book: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
     bookId: { type: String, required: true },
+    genres: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
     helpful: {
       type: Map,
       of: Boolean,
@@ -40,6 +42,5 @@ reviewSchema.set("toJSON", {
     delete returnedObj._id;
   },
 });
-
 
 export default mongoose.models.Review || mongoose.model("Review", reviewSchema);
