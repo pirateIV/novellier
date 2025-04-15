@@ -9,6 +9,9 @@ const TOP_GENRES_LIMIT = 6;
 
 export async function GET(req: NextRequest) {
   const user = (await cookies()).get("user_id")?.value;
+  // const user = await req.cookies().get("user_id")?.value;
+
+  console.log({user})
 
   let data = [];
   const genresList = genres.map((genre) => genre.name);

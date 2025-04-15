@@ -34,6 +34,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    ppr: true,
+  },
   output: "standalone"
 };
 

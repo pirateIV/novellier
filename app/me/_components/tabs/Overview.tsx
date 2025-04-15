@@ -4,13 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Activity, Book, BookOpen, Eye, Star } from "lucide-react";
 import { User } from "@/shared/types";
-import {Icons} from "@/components/icons"
+import { Icons } from "@/components/icons";
+import { ReviewStats } from "./ReviewStats";
+import { apiClient } from "@/lib/axios";
 
 interface OverviewTabProps {
   user: User;
 }
 
-const OverviewTab = ({ user }: OverviewTabProps) => {
+const OverviewTab = async ({ user }: OverviewTabProps) => {
+  const { data } = await apiClient.get("/genres/create");
+  console.log(data)
   return (
     <div className="pb-7 space-y-6">
       <Stats user={user} />
@@ -27,53 +31,7 @@ const OverviewTab = ({ user }: OverviewTabProps) => {
             </p>
           </CardHeader>
           <CardContent className="p-6">
-            {/* Empty State */}
-            {!user?.recentActivity?.length ? (
-              <div className="py-8 flex flex-col items-center justify-center text-center">
-                <Icons.WhatDoYouThink className="size-40 fill-neutral-400"/>
-                <div className="w-full max-w-[200px] h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full mt-4 overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
-                    style={{ width: "32%" }}
-                  />
-                </div>
-                <span className="text-neutral-500 dark:text-gray-400 text-sm font-medium mt-4">
-                  No recent activity. Start reading to see your progress!
-                </span>
-              </div>
-            ) : (
-              /* Activity List */
-              <div className="mt-6 space-y-4">
-                {user.recentActivity.slice(0, 2).map((activity, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-neutral-100 dark:bg-neutral-900 rounded-lg transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
-                  >
-                    <div className="flex items-center gap-3">
-                      {activity.type === "reading" ? (
-                        <Book className="size-5 text-gray-400" />
-                      ) : (
-                        <Star className="size-5 text-yellow-400" />
-                      )}
-                      <span className="text-sm text-neutral-900 dark:text-neutral-300">
-                        {activity.description}
-                      </span>
-                    </div>
-                    <span className="text-xs text-neutral-500">
-                      {activity.timestamp}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-            <Button
-              className="text-sm w-full mt-6 flex items-center justify-center gap-2"
-              variant="outline"
-              aria-label="View all activity"
-            >
-              <Eye className="size-4" />
-              View All Activity
-            </Button>
+            <ReviewStats />
           </CardContent>
         </Card>
       </div>
