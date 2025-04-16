@@ -32,7 +32,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={`${interVar.className} ${workSans.variable} ${libre.variable} ${grotesqueSans.variable} antialiased`}
+        className={`${geistSans.className} ${workSans.variable} ${libre.variable} ${grotesqueSans.variable} antialiased`}
         suppressHydrationWarning
       >
         <body className="text-zinc-900 dark:text-white bg-white dark:bg-[var(--background)]">

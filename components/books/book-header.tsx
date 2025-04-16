@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { BookResponse } from "@/lib/graphql/types";
@@ -15,6 +15,12 @@ const BookHeader = ({
         description: string | undefined;
       };
 }) => {
+  useEffect(() => {
+    if ("subjects" in book) {
+      localStorage.setItem("genres", JSON.stringify(book.subjects));
+    }
+  }, [book])
+
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="inline-flex items-center gap-1">

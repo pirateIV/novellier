@@ -8,6 +8,8 @@ export async function POST(req: NextRequest) {
   const reviewResponse = await req.json();
   const token = req.cookies.get("token")?.value;
 
+  console.log(reviewResponse)
+
   if (!token) {
     return NextResponse.json({ error: "No token provided" });
   }

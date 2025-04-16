@@ -4,17 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Activity, Book, BookOpen, Eye, Star } from "lucide-react";
 import { User } from "@/shared/types";
-import { Icons } from "@/components/icons";
 import { ReviewStats } from "./ReviewStats";
 import { apiClient } from "@/lib/axios";
+import { cookies } from "next/headers";
 
 interface OverviewTabProps {
   user: User;
 }
 
+interface ReviewStats {
+  _id: string;
+  genre: string;
+  genreId: string;
+  user_times_rated: number
+  user_average: number;
+  total_times_rated: number;
+  total_average: number
+}
+
 const OverviewTab = async ({ user }: OverviewTabProps) => {
-  const { data } = await apiClient.get("/genres/create");
-  console.log(data)
+  const userId = (await cookies()).get("user_id")?.value;
+  const { data } = await apiClient.get("/genres/create?user=" + userId);
   return (
     <div className="pb-7 space-y-6">
       <Stats user={user} />
@@ -31,7 +41,7 @@ const OverviewTab = async ({ user }: OverviewTabProps) => {
             </p>
           </CardHeader>
           <CardContent className="p-6">
-            <ReviewStats />
+            <ReviewStats data={data}/>
           </CardContent>
         </Card>
       </div>
