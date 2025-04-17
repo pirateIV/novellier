@@ -70,6 +70,7 @@
   --chart-3: 28 40% 40%;
   --chart-4: 31 41% 48%;
   --chart-5: 35 43% 53%;
+  --chart-6: 35, 62%, 61%;
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);

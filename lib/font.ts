@@ -1,7 +1,7 @@
 import {
   Bricolage_Grotesque,
   Libre_Baskerville,
-  Work_Sans,
+  EB_Garamond,
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -88,32 +88,7 @@ export const geistSans = localFont({
   variable: "--font-inter",
 });
 
-export const switzer = localFont({
-  src: [
-    {
-      path: "../public/fonts/Switzer-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Medium.woff",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Semibold.woff",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Switzer-Bold.woff",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-});
-
-export const workSans = Work_Sans({
+export const workSans = EB_Garamond({
   subsets: ["latin"],
   variable: "--font-work-sans",
 });

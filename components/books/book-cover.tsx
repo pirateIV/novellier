@@ -36,8 +36,8 @@ const BookCover = ({ id, book }: BookCoverProps) => {
   const newReviewURl = new URL(`/books/${id}/review`, window.location.origin);
   newReviewURl.search = new URLSearchParams({
     title: book?.title,
-    author: book.author.name,
-    author_id: book.author.authorId,
+    author: book.author?.name,
+    author_id: book.author?.authorId,
     ...(bookCoverId && { book_cover: bookCoverId }),
   }).toString();
 

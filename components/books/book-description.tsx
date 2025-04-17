@@ -26,7 +26,7 @@ const BookDescription = ({ description }: { description: string }) => {
         )}
       >
         <div
-          className="font-worksans [&_a]:text-blue-500 [&_a]:underline [&_em]:text-sky-500 [&_strong]:text-gray-700 dark:[&_strong]:text-gray-100"
+          className="font-worksans text-base md:text-[17px] [&_a]:text-blue-500 [&_a]:underline [&_em]:text-sky-500 [&_strong]:text-gray-700 dark:[&_strong]:text-gray-100"
           dangerouslySetInnerHTML={{ __html: descriptionDisplay }}
         />
         {!description && (

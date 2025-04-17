@@ -73,7 +73,7 @@ const GenreBookCard = ({ book: bookData }: { book: Work }) => {
                     </Button>
                 )}
               </div>
-              <p className="font-worksans mt-1 text-xs line-clamp-5 lg:line-clamp-4 text-gray-600 dark:text-gray-400 md:text-sm xs:text-sm">
+              <p className="font-worksans mt-1 text-sm md:text-base line-clamp-5 lg:line-clamp-4 text-gray-600 dark:text-gray-400 ">
                 {hasDescription ? (
                   typeof bookData.description === "string" ? (
                     bookData.description
