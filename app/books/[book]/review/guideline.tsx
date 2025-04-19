@@ -7,7 +7,7 @@ const Guidelines = () => {
       <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
         <li className="flex items-start">
           <span className="text-purple-500 mr-2">•</span>
-          Focus on your experience with the book and why you did or didn't enjoy
+          Focus on your experience with the book and why you did or didn&apos;t enjoy
           it
         </li>
         <li className="flex items-start">

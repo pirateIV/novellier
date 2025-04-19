@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import UserDetails from "./UserDetails";
 import { z } from "zod";
+import { apiClient, buildAuthHeaderToken } from "@/lib/axios";
+import { getCookieValue } from "@/lib/user";
 
 interface ProfileSummaryProps {
   user: User;
@@ -23,12 +25,14 @@ interface ProfileSummaryProps {
 
 const updateCredentialsSchema = z.object({
   email: z.string().email("Invalid email address"),
-
-})
+});
 const ProfileSummary = ({ user }: ProfileSummaryProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: user.name || "",
+    // name: user.firstName + " " + user.lastName || "",\
+    firstName: user.firstName,
+    lastName: user.lastName,
+
     email: user.email || "",
     // Add other fields as needed based on your User type
   });
@@ -41,9 +45,15 @@ const ProfileSummary = ({ user }: ProfileSummaryProps) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // onUpdateUser?.(formData);
+
+    await apiClient.put(
+      "/auth/me/update",
+      formData,
+      buildAuthHeaderToken(getCookieValue("user_id")!)
+    );
     setIsOpen(false);
   };
 
@@ -65,14 +75,25 @@ const ProfileSummary = ({ user }: ProfileSummaryProps) => {
                 <DialogTitle>Edit Profile</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                <div>
+                  <Label htmlFor="firstName">First Name</Label>
                   <Input
-                    id="name"
-                    name="name"
-                    value={formData.fullName}
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleInputChange}
-                    placeholder="Enter your name"
+                    placeholder="Enter your first name"
+                  />
+
+                  <Label htmlFor="firstName" className="mt-4">
+                    Last Name
+                  </Label>
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="Enter your last name"
                   />
                 </div>
                 <div className="space-y-2">
@@ -86,7 +107,7 @@ const ProfileSummary = ({ user }: ProfileSummaryProps) => {
                     placeholder="Enter your email"
                   />
                 </div>
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <Label htmlFor="bio">Bio</Label>
                   <Input
                     id="bio"
@@ -95,7 +116,7 @@ const ProfileSummary = ({ user }: ProfileSummaryProps) => {
                     onChange={handleInputChange}
                     placeholder="Tell us about yourself"
                   />
-                </div>
+                </div> */}
                 <div className="flex justify-end gap-2">
                   <Button
                     type="button"
