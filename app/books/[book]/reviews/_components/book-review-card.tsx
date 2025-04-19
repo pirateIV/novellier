@@ -2,7 +2,6 @@
 
 import React, { useRef } from "react";
 import { ThumbsUp } from "lucide-react";
-
 import {
   Card,
   CardContent,
@@ -21,6 +20,7 @@ import BookReviewDialog, { BookReviewDialogRef } from "./book-review-dialog";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "sonner";
 
 export type Review = {
   updatedAt: string;
@@ -42,10 +42,14 @@ export type Review = {
 };
 
 type BookReviewCardProps = {
-  review: Omit<Review, "_id" | "book"> & { id: string; book?: string };
+  review: Review;
+  onMarkHelpful: (reviewId: string, isHelpful: boolean) => void;
 };
 
-export default function BookReviewCard({ review }: { review: Review }) {
+export default function BookReviewCard({
+  review,
+  onMarkHelpful,
+}: BookReviewCardProps) {
   const { book } = useParams() as { book: string };
   const isMobile = useIsMobile();
   const formattedDate = formatDate(new Date(review.createdAt));
@@ -60,11 +64,26 @@ export default function BookReviewCard({ review }: { review: Review }) {
       : `${review.content.substring(0, contentLength)}...`;
 
   const userID = getCookieValue("user_id");
-  const isUserReview = userID === review.reviewer.id; // Check if this is the user's review
+  const isUserReview = userID === review.reviewer.id || review.reviewer._id;
+  const hasMarkedHelpful = userID ? review.helpful?.[userID] : false;
+
+  console.log({ hasMarkedHelpful, isUserReview });
 
   const reviewDialogRef = useRef<BookReviewDialogRef>(null);
 
-  console.log(review);
+  const handleMarkHelpful = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!userID) {
+      toast("Sign in required", {
+        description: "Please sign in to mark reviews as helpful",
+      });
+      return;
+    }
+
+    onMarkHelpful(review.id, !hasMarkedHelpful);
+  };
 
   return (
     <Card className="overflow-hidden -mx-4 sm:-mx-0 rounded-none sm:rounded-xl pb-0 sm:mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
@@ -97,14 +116,6 @@ export default function BookReviewCard({ review }: { review: Review }) {
                     Your Review
                   </Badge>
                 )}
-                {/* {!isUserReview && (
-                  <Badge
-                    variant="outline"
-                    className="h-5 px-2 hidden md:flex text-xs font-normal text-neutral-500 rounded-full dark:text-neutral-400 dark:border-neutral-700"
-                  >
-                    Verified Reader
-                  </Badge>
-                )} */}
               </div>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 {formattedDate}
@@ -122,8 +133,12 @@ export default function BookReviewCard({ review }: { review: Review }) {
           {isLongContent && (
             <Button
               variant="link"
-              className="h-auto p-0 text-xs font-medium text-neutral-600 dark:text-neutral-400"
-              onClick={() => setIsExpanded(!isExpanded)}
+              className="h-auto p-0 text-xs font-medium text-neutral-600 dark:text-neutral-400 relative"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsExpanded(!isExpanded);
+              }}
             >
               {isExpanded ? "Show less" : "Read more"}
             </Button>
@@ -136,10 +151,24 @@ export default function BookReviewCard({ review }: { review: Review }) {
             variant="ghost"
             size="sm"
             className="h-8 gap-1.5 text-xs text-neutral-600 dark:text-neutral-400"
+            onClick={handleMarkHelpful}
+            disabled={isUserReview}
           >
-            <ThumbsUp className="h-3.5 w-3.5" />
-            Helpful
-            <span className="-ml-1">({Object.values(review.helpful).length})</span>
+            <ThumbsUp
+              className={`h-3.5 w-3.5 ${
+                hasMarkedHelpful ? "text-blue-500 fill-blue-500" : ""
+              }`}
+            />
+          {isUserReview
+            ? `${review?.helpful ? Object.values(review.helpful)?.length : 0} persons(s) found this helpful`
+            : (
+              <>
+                Helpful
+                <span className="-ml-1">
+                  ({review?.helpful ? Object.values(review.helpful)?.length : 0})
+                </span>
+              </>
+            )}
           </Button>
         </div>
         <div className="flex items-center gap-3 md:gap-5">
@@ -148,20 +177,15 @@ export default function BookReviewCard({ review }: { review: Review }) {
               size="sm"
               variant="ghost"
               className="h-8 text-xs text-red-500"
-              onClick={() =>
-                reviewDialogRef.current?.openDialog({ mode: "delete" })
-              }
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                reviewDialogRef.current?.openDialog({ mode: "delete" });
+              }}
             >
               Delete
             </Button>
           )}
-          {/* <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 text-xs text-neutral-600 dark:text-neutral-400"
-          >
-            Report
-          </Button> */}
         </div>
       </CardFooter>
 

@@ -28,7 +28,6 @@ export function useBookReviews({
   });
   const [isLocalLoading, setIsLocalLoading] = useState(false);
 
-  // Use SWR for data fetching with better caching and revalidation
   const {
     data,
     error,
@@ -36,7 +35,7 @@ export function useBookReviews({
     isValidating,
     mutate,
   } = useSWR(
-    [`/api/reviewsv2/${bookId}/search`, pagination],
+    [`/api/reviews/${bookId}`, pagination],
     async () => {
       setIsLocalLoading(true);
       try {
@@ -46,7 +45,7 @@ export function useBookReviews({
           pagination.page,
           pagination.sortBy
         );
-        setReviews(data); // Update the context with the new data
+        setReviews(data);
         return data;
       } finally {
         setIsLocalLoading(false);
@@ -65,7 +64,6 @@ export function useBookReviews({
     []
   );
 
-  // Combine SWR loading state with our local loading state
   const isLoading = isSWRLoading || isLocalLoading;
 
   return {

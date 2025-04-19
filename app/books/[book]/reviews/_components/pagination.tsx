@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -6,13 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import React from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -22,121 +23,83 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: number) => void;
 }
-const Pagination = ({
+
+const pageSizeOptions = [3, 5, 10, 20];
+
+export default function Pagination({
   currentPage,
   totalPages,
   totalItems,
   pageSize,
   onPageChange,
   onPageSizeChange,
-}: PaginationProps) => {
-  // Calculate the range of items being displayed
-  const startItem = (currentPage - 1) * pageSize + 1;
-  const endItem = Math.min(currentPage * pageSize, totalItems);
-
-  // Generate page numbers to display
-  const getPageNumbers = () => {
-    const maxPagesToShow = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = startPage + maxPagesToShow - 1;
-
-    if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, endPage - maxPagesToShow + 1);
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
-
-  const pageNumbers = getPageNumbers();
+}: PaginationProps) {
+  const canGoPrevious = currentPage > 1;
+  const canGoNext = currentPage < totalPages;
 
   return (
-    <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="text-sm text-center sm:text-start text-neutral-400 *:[&:is(span)]:text-neutral-200">
-        Showing <span className="font-medium">{startItem}</span>&nbsp;to&nbsp;
-        <span className="font-medium">{endItem}</span>&nbsp;of&nbsp;
-        <span className="font-medium">{totalItems}</span>&nbsp;reviews
-      </div>
-
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
-        <div className="flex items-center gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            disabled={currentPage === 1}
-            onClick={() => onPageChange(1)}
-            title="First page"
-          >
-            <ChevronsLeft className="size-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            disabled={currentPage === 1}
-            onClick={() => onPageChange(currentPage - 1)}
-            title="Previous page"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          {pageNumbers.map((page) => (
-            <Button
-              key={page}
-              variant={currentPage === page ? "default" : "outline"}
-              size="sm"
-              className="h-8 w-8 p-0"
-              onClick={() => onPageChange(page)}
-              title="NextPage"
-            >
-              {page}
-            </Button>
-          ))}
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            disabled={currentPage === totalPages}
-            onClick={() => onPageChange(currentPage + 1)}
-            title="Next page"
-          >
-            <ChevronRight className="size-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            disabled={currentPage === totalPages}
-            onClick={() => onPageChange(totalPages)}
-            title="Last page"
-          >
-            <ChevronsRight className="size-4" />
-          </Button>
-        </div>
-
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+      <div className="flex items-center gap-2 text-sm text-neutral-500">
+        <span>Showing</span>
         <Select
           value={pageSize.toString()}
-          onValueChange={(value) => onPageSizeChange(Number.parseInt(value))}
+          onValueChange={(value) => onPageSizeChange(Number(value))}
         >
-          <SelectTrigger className="h-8 w-[110px] text-xs">
-            <SelectValue placeholder="Page size" />
+          <SelectTrigger className="h-8 w-[70px]">
+            <SelectValue placeholder={pageSize} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="3">3 per page</SelectItem>
-            <SelectItem value="5">5 per page</SelectItem>
-            <SelectItem value="10">10 per page</SelectItem>
-            {/* <SelectItem value="20">20 per page</SelectItem> */}
+            {pageSizeOptions.map((size) => (
+              <SelectItem key={size} value={size.toString()}>
+                {size}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
+        <span>of {totalItems} reviews</span>
+      </div>
+
+      <div className="flex items-center gap-1">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(1)}
+          disabled={!canGoPrevious}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronsLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={!canGoPrevious}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <div className="flex items-center justify-center px-4 text-sm font-medium">
+          Page {currentPage} of {totalPages}
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={!canGoNext}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(totalPages)}
+          disabled={!canGoNext}
+          className="h-8 w-8 p-0"
+        >
+          <ChevronsRight className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
-};
-
-export default Pagination;
+}
