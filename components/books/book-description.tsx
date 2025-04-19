@@ -26,7 +26,7 @@ const BookDescription = ({ description }: { description: string }) => {
         )}
       >
         <div
-          className="font-worksans text-base md:text-[17px] [&_a]:text-blue-500 [&_a]:underline [&_em]:text-sky-500 [&_strong]:text-gray-700 dark:[&_strong]:text-gray-100"
+          className="font-worksans text-base md:text-[17px] [&_a]:text-blue-500 [&_a]:underline [&_em]:text-sky-500 [&_strong]:text-neutral-700 dark:[&_strong]:text-gray-100"
           dangerouslySetInnerHTML={{ __html: descriptionDisplay }}
         />
         {!description && (
@@ -37,7 +37,7 @@ const BookDescription = ({ description }: { description: string }) => {
         {canShowMore && (
           <div
             className={cn(
-              "pt-18 text-center flex backdrop-blur items-center justify-center gap-1 bg-gradient-to-b from-white/70 to-white dark:from-neutral-950/70 dark:to-neutral-950",
+              "pt-18 text-center backdrop-blur-[1px] scale-x-105 flex items-center justify-center gap-1 bg-gradient-to-b from-white/70 to-white dark:from-transparent to-60%% dark:to-neutral-950",
               !showMore ? "group-hover:scale-105 transition-transform" : "pt-5"
             )}
           >

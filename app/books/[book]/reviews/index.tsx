@@ -236,9 +236,6 @@ const BookReviewsList = ({
 
       <Separator className="mb-6 dark:bg-neutral-800" />
 
-      {/* {isChangingPage ? (
-        <LoadingReviews message="Updating reviews..." />
-      ) : ( */}
       <div
         className={cn("relative space-y-4", isChangingPage && "brightness-50")}
       >

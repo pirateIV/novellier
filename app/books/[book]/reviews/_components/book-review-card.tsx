@@ -64,6 +64,8 @@ export default function BookReviewCard({ review }: { review: Review }) {
 
   const reviewDialogRef = useRef<BookReviewDialogRef>(null);
 
+  console.log(review);
+
   return (
     <Card className="overflow-hidden -mx-4 sm:-mx-0 rounded-none sm:rounded-xl pb-0 sm:mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
       <Link
@@ -95,14 +97,14 @@ export default function BookReviewCard({ review }: { review: Review }) {
                     Your Review
                   </Badge>
                 )}
-                {!isUserReview && (
+                {/* {!isUserReview && (
                   <Badge
                     variant="outline"
                     className="h-5 px-2 hidden md:flex text-xs font-normal text-neutral-500 rounded-full dark:text-neutral-400 dark:border-neutral-700"
                   >
                     Verified Reader
                   </Badge>
-                )}
+                )} */}
               </div>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 {formattedDate}
@@ -137,6 +139,7 @@ export default function BookReviewCard({ review }: { review: Review }) {
           >
             <ThumbsUp className="h-3.5 w-3.5" />
             Helpful
+            <span className="-ml-1">({Object.values(review.helpful).length})</span>
           </Button>
         </div>
         <div className="flex items-center gap-3 md:gap-5">

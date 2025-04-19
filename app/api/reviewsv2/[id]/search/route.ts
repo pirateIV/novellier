@@ -62,7 +62,7 @@ export async function GET(
     let userReview = null;
     if (user) {
       userReview = await Review.findOne({ ...filter, reviewer: user })
-        .select("content createdAt rating")
+        .select("content createdAt helpful rating")
         .populate({
           path: "reviewer",
           select: "firstName lastName createdAt helpful",
@@ -79,7 +79,7 @@ export async function GET(
       Review.countDocuments(filter),
       Review.find(remainingFilter)
         .sort(sortOptions)
-        .select("content createdAt rating")
+        .select("content helpful createdAt rating")
         .populate({
           path: "reviewer",
           select: "firstName lastName createdAt helpful",

@@ -36,7 +36,7 @@ export function useBookReviews({
     isValidating,
     mutate,
   } = useSWR(
-    [`/api/books/${bookId}/reviews`, pagination],
+    [`/api/reviewsv2/${bookId}/search`, pagination],
     async () => {
       setIsLocalLoading(true);
       try {

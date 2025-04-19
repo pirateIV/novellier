@@ -70,7 +70,7 @@ const BookResources = ({
             strokeWidth="2"
             className="size-8 text-gray-300 dark:text-neutral-600 group-hover:text-neutral-400"
           />
-          <span className="mt-1">No external links found </span>
+          <span className="mt-1">No external links available </span>
         </div>
       )}
     </div>
