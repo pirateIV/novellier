@@ -35,7 +35,7 @@ const TabContents = ({ user }: { user: User }) => {
             <ReviewsTab />
           </TabPanel>
           <TabPanel>
-            <SettingsTab />
+            <SettingsTab initialUserData={user}/>
           </TabPanel>
         </TabPanels>
       </TabGroup>

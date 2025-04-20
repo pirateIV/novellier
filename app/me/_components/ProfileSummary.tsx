@@ -49,12 +49,18 @@ const ProfileSummary = ({ user }: ProfileSummaryProps) => {
     e.preventDefault();
     // onUpdateUser?.(formData);
 
-    await apiClient.put(
-      "/auth/me/update",
-      formData,
-      buildAuthHeaderToken(getCookieValue("user_id")!)
-    );
-    setIsOpen(false);
+    try {
+      await apiClient.put(
+        "/auth/me/update",
+        formData,
+        buildAuthHeaderToken(getCookieValue("user_id")!)
+      );
+      setIsOpen(false);
+
+      window.location.reload()
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

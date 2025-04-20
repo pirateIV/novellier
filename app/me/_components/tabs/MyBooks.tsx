@@ -9,7 +9,7 @@ const MyBooksTab = () => {
       <div className="relative mb-6">
         <div className="flex flex-col items-center gap-2">
           <Construction className="size-12 text-yellow-500" />
-          <span className="text-yellow-500 text-sm font-medium px-3 py-1 rounded-full bg-yellow-500/10 border border-t-yellow-500/40">
+          <span className="text-yellow-500 text-sm font-medium px-3 py-1 rounded-full bg-yellow-500/10 border border-t-yellow-500/15">
             Coming Soon
           </span>
         </div>
