@@ -1,4 +1,4 @@
-import { getTokenFromCookies, getUserFromToken } from "@/app/shared/utils";
+import { getUserFromToken } from "@/app/shared/utils";
 import dbConnect from "@/lib/db";
 import Book from "@/shared/models/Book";
 import Review from "@/shared/models/Review";
@@ -23,7 +23,7 @@ export async function DELETE(
 
   try {
     const user = await getUserFromToken(token);
-    const { path } = await req.json();
+    // const { path } = await req.json();
 
     // return NextResponse.json({ path });
 
@@ -57,9 +57,9 @@ export async function DELETE(
 
     await Review.findByIdAndDelete(reviewId);
 
-    if (path) {
-      revalidatePath(path);
-    }
+    // if (path) {
+    //   revalidatePath(path);
+    // }
 
     return NextResponse.json(
       { message: "Review deleted successfully" },

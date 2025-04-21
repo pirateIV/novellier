@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { BookResponse } from "@/lib/graphql/types";
 import { Button } from "../ui/button";
 import { Link } from "next-view-transitions";
@@ -29,6 +29,7 @@ type BookCoverProps = {
 const PLACEHOLDER_IMAGE = "/placeholder.svg";
 
 const BookCover = ({ id, book }: BookCoverProps) => {
+  const params = useParams();
   const searchParams = useSearchParams();
   const bookCoverId = searchParams.get("book_cover_id");
 
@@ -40,6 +41,8 @@ const BookCover = ({ id, book }: BookCoverProps) => {
     author_id: book.author?.authorId,
     ...(bookCoverId && { book_cover: bookCoverId }),
   }).toString();
+
+  const bookId = params.book;
 
   const url = new URL(window.location.href);
   const { id: reviewId, has_review: hasReview } = book.book_review;
@@ -83,11 +86,17 @@ const BookCover = ({ id, book }: BookCoverProps) => {
         </Button>
         <div className="mt-2 flex justify-center">
           {hasReview ? (
-            <Button variant="ghost" className="text-blue-500 font-medium">
-              <span>
-                <Link2Icon className="size-3.5 sm:size-4" />
-              </span>
-              See your review
+            <Button
+              variant="ghost"
+              className="text-blue-500 hover:text-blue-600 hover:!bg-white/10 font-medium rounded-full"
+              asChild
+            >
+              <Link href={`/books/${bookId}/reviews/${reviewId}`}>
+                <span>
+                  <Link2Icon className="size-3.5 sm:size-4" />
+                </span>
+                See your review
+              </Link>
             </Button>
           ) : (
             <Button

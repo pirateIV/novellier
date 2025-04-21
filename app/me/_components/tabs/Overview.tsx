@@ -58,6 +58,8 @@ const OverviewTab = ({ user }: OverviewTabProps) => {
     getOverviewStats();
   }, []);
 
+  console.log(overviewStats)
+
   return (
     <div className="pb-7 space-y-6">
       <Stats user={user} />

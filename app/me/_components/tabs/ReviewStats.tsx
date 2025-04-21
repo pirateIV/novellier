@@ -44,14 +44,14 @@ const barChartConfig = {
 export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
   const [isLoading, setIsLoading] = React.useState(!reviews || reviews.length === 0);
 
+  console.log(reviews)
+
   React.useEffect(() => {
-    // Set loading state to false when reviews data is available
     if (reviews && reviews.length > 0) {
       setIsLoading(false);
     }
   }, [reviews]);
 
-  // Calculate memoized values at the top
   const totalUserReviews = React.useMemo(() => 
     reviews?.reduce((acc, curr) => acc + curr?.user_times_rated, 0) || 0,
     [reviews]
@@ -72,15 +72,32 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
     );
   }, [reviews]);
 
-  // Prepare chart data
-  const pieData = React.useMemo(() => 
-    reviews?.map((review, index) => ({
+  // Prepare chart data with single review handling
+  const pieData = React.useMemo(() => {
+    if (!reviews || reviews.length === 0) return [];
+    
+    // If only one review, create a dummy second slice to make the pie chart visible
+    if (reviews.length === 1) {
+      return [
+        {
+          genre: reviews[0]?.genre,
+          count: reviews[0]?.user_times_rated,
+          fill: "hsl(var(--chart-1))",
+        },
+        {
+          genre: "Other",
+          count: 0.1, // Small value to make the slice visible but not prominent
+          fill: "hsl(var(--muted-foreground))",
+        }
+      ];
+    }
+    
+    return reviews.map((review, index) => ({
       genre: review?.genre,
       count: review?.user_times_rated,
       fill: `hsl(var(--chart-${index + 1}))`,
-    })) || [],
-    [reviews]
-  );
+    }));
+  }, [reviews]);
 
   const barData = React.useMemo(() => 
     reviews?.map((review) => ({
@@ -91,35 +108,59 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
     [reviews]
   );
 
-  const pieChartConfig = React.useMemo(() => ({
-    count: {
-      label: "Reviews",
-    },
-    ...(reviews?.reduce((acc, review, index) => {
-      acc[review?.genre.toLowerCase()] = {
-        label: review?.genre,
-        color: `hsl(var(--chart-${index + 1}))`,
+  const pieChartConfig = React.useMemo(() => {
+    const baseConfig = {
+      count: {
+        label: "Reviews",
+      },
+    };
+    
+    if (!reviews || reviews.length === 0) return baseConfig;
+    
+    // Handle single review case
+    if (reviews.length === 1) {
+      return {
+        ...baseConfig,
+        [reviews[0].genre.toLowerCase()]: {
+          label: reviews[0].genre,
+          color: "hsl(var(--chart-1))",
+        },
+        other: {
+          label: "Other",
+          color: "hsl(var(--muted-foreground))",
+        },
       };
-      return acc;
-    }, {} as Record<string, { label: string; color: string }>) || {}),
-  }), [reviews]) satisfies ChartConfig;
+    }
+    
+    return {
+      ...baseConfig,
+      ...reviews.reduce((acc, review, index) => {
+        acc[review?.genre?.toLowerCase()] = {
+          label: review?.genre,
+          color: `hsl(var(--chart-${index + 1}))`,
+        };
+        return acc;
+      }, {} as Record<string, { label: string; color: string }>),
+    };
+  }, [reviews]) satisfies ChartConfig;
 
-  // For empty state or loading
   if (isLoading || !reviews || reviews.length === 0) {
     return <ReviewStatsSkeletons />;
   }
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {/* Pie Chart Card */}
+      {/* Pie Chart Card - Modified for single review */}
       <Card className="bg-neutral-900">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Book className="h-5 w-5" />
-            Your Ratings by Genre
+            {reviews.length === 1 ? 'Your Rating' : 'Your Ratings by Genre'}
           </CardTitle>
           <CardDescription>
-            Distribution of your ratings across different genres
+            {reviews.length === 1 
+              ? 'Your rating for this genre' 
+              : 'Distribution of your ratings across different genres'}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex-1 pb-0">
@@ -135,6 +176,8 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
                 nameKey="genre"
                 innerRadius={60}
                 strokeWidth={5}
+                startAngle={90}
+                endAngle={-270}
               >
                 <Label
                   content={({ viewBox }) => {
@@ -158,7 +201,7 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-foreground"
                           >
-                            Ratings
+                            {totalUserReviews === 1 ? 'Rating' : 'Ratings'}
                           </tspan>
                         </text>
                       );
@@ -172,7 +215,9 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
         <CardFooter className="flex-col gap-2 text-sm">
           {mostReviewedGenre ? (
             <div className="flex items-center gap-2 font-medium leading-none">
-              Most reviewed: {mostReviewedGenre.genre} ({mostReviewedGenre.user_times_rated} reviews)
+              {reviews.length === 1 
+                ? `Only reviewed: ${mostReviewedGenre.genre}`
+                : `Most reviewed: ${mostReviewedGenre.genre} (${mostReviewedGenre.user_times_rated} reviews)`}
             </div>
           ) : (
             <div className="flex items-center gap-2 font-medium leading-none text-muted-foreground">
@@ -182,31 +227,48 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
         </CardFooter>
       </Card>
 
-      {/* Bar Chart Card */}
+      {/* Bar Chart Card - Modified for single review */}
       <Card className="bg-neutral-900">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Star className="h-5 w-5" />
             Rating Comparison
           </CardTitle>
-          <CardDescription>Your ratings vs community averages</CardDescription>
+          <CardDescription>
+            {reviews.length === 1 
+              ? 'Your rating vs community average' 
+              : 'Your ratings vs community averages'}
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex-1 pb-0">
           <ChartContainer config={barChartConfig} className="mx-auto h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={barData} layout="vertical">
+              <BarChart 
+                data={barData} 
+                layout="vertical"
+                barCategoryGap={reviews.length === 1 ? 20 : 10}
+              >
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <XAxis type="number" domain={[0, 50]} />
-                <YAxis dataKey="genre" type="category" width={80} />
+                <YAxis 
+                  dataKey="genre" 
+                  type="category" 
+                  width={80}
+                  // Hide axis line if only one review for cleaner look
+                  axisLine={reviews.length > 1}
+                  tickLine={reviews.length > 1}
+                />
                 <Bar
                   fill="hsl(28,40%,40%)"
                   dataKey="userAverage"
                   radius={[0, 4, 4, 0]}
+                  barSize={reviews.length === 1 ? 40 : 20}
                 />
                 <Bar
                   fill="hsl(35,43%,53%)"
                   dataKey="totalAverage"
                   radius={[0, 4, 4, 0]}
+                  barSize={reviews.length === 1 ? 40 : 20}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -229,7 +291,8 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
                 )}
               </div>
               <div className="leading-none text-muted-foreground">
-                Based on {totalUserReviews} ratings across {reviews?.length} genres
+                Based on {totalUserReviews} rating{totalUserReviews !== 1 && 's'} 
+                {reviews.length > 1 && ` across ${reviews.length} genres`}
               </div>
             </>
           ) : (
@@ -242,7 +305,6 @@ export function ReviewStats({ reviews }: { reviews?: ReviewStats[] }) {
     </div>
   );
 }
-
 // Skeleton component for when data is loading
 function ReviewStatsSkeletons() {
   return (

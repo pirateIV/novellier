@@ -53,6 +53,8 @@ const BookReviewDialog = forwardRef<BookReviewDialogRef, BookReviewDialogProps>(
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    console.log(review)
+
     const form = useForm<ReviewFormValues>({
       resolver: zodResolver(reviewFormSchema),
       defaultValues: {
@@ -87,7 +89,7 @@ const BookReviewDialog = forwardRef<BookReviewDialogRef, BookReviewDialogProps>(
           });
           toast.success("Review created successfully!");
         } else if (mode === "edit") {
-          await apiClient.put(`/reviews/${review.id}`, values);
+          await apiClient.put(`/reviews/${review._id}`, values);
           toast.success("Review updated successfully!");
         }
         router.refresh();
@@ -102,7 +104,8 @@ const BookReviewDialog = forwardRef<BookReviewDialogRef, BookReviewDialogProps>(
     const handleDelete = async () => {
       setIsLoading(true);
       try {
-        await apiClient.delete(`/reviews/${review.id}`);
+     const reviewPost =   await apiClient.delete(`/reviews/delete/${review._id}`);
+     console.log({reviewPost})
         toast.success("Review deleted successfully!");
         router.refresh();
         setOpen(false);
