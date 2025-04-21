@@ -5,6 +5,7 @@ import { BookResponse, ReviewsResponse } from "@/lib/graphql/types";
 import { getCookieValue } from "@/lib/user";
 import { baseURL } from "@/shared/config";
 import { Review } from "@/shared/types";
+import { redirect } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
 // import { Book, Review, ReviewResponse } from "@/shared/types";
 
@@ -64,7 +65,6 @@ export const getBookAndAuthor = async (id: string) => {
     await fetch(baseURL + `/bookv2/${id}?user=${userID}`),
     await fetch(baseURL + `/reviewsv2/${id}`),
   ]);
-
 
   const book = (await bookResponse.json()) as BookResponse;
   const reviews = (await reviewResponse.json()) as ReviewsResponse;

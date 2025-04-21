@@ -37,7 +37,7 @@ const BookDescription = ({ description }: { description: string }) => {
         {canShowMore && (
           <div
             className={cn(
-              "pt-18 text-center backdrop-blur-[1px] scale-x-105 flex items-center justify-center gap-1 bg-gradient-to-b from-white/70 to-white dark:from-transparent to-60%% dark:to-neutral-950",
+              "pt-18 text-center scale-x-105 flex items-center justify-center gap-1 bg-gradient-to-b from-white/70 to-white dark:from-transparent dark:via-neutral-950 dark:to-neutral-950",
               !showMore ? "group-hover:scale-105 transition-transform" : "pt-5"
             )}
           >

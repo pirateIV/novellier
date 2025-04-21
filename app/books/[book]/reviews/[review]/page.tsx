@@ -2,29 +2,6 @@ import { apiClient } from "@/lib/axios";
 import { notFound } from "next/navigation";
 import { Review } from "../_components/book-review-card";
 import ReviewDetail from "./review-detail";
-// import ReviewDetail from "./review-detail"
-// import { getReviewById } from "@/lib/api/reviews"
-// import { getBookById } from "@/lib/api/books"
-// import { getCurrentUser } from "@/lib/session"
-
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { id: string; review: string }
-// }): Promise<Metadata> {
-//   const review = await getReviewById(params.review)
-
-//   if (!review) {
-//     return {
-//       title: "Review Not Found",
-//     }
-//   }
-
-//   return {
-//     title: `Review by ${review.reviewer?.fullName || "Anonymous"} | BookShelf`,
-//     description: `${review.text?.substring(0, 150)}...`,
-//   }
-// }
 
 export default async function ReviewPage({
   params,

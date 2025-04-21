@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import StarRating from "@/shared/components/StarRating";
-import { Filter, SortAsc } from "lucide-react";
+import { SortAsc } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -44,11 +44,6 @@ const BookReviewsList = ({
     sortBy: "newest" | "oldest" | "highest" | "lowest";
   };
 }) => {
-  const params = useParams() as { book: string };
-  const bookID = params.book;
-  const reviewDialogRef = useRef<BookReviewDialogRef>(null);
-  const [isChangingPage, setIsChangingPage] = useState(false);
-
   const { averageRating, book, ratingDistribution, reviews, totalReviews } =
     bookReviews || {
       averageRating: 0,
@@ -58,71 +53,123 @@ const BookReviewsList = ({
       totalReviews: 0,
     };
 
-  const handlePageChange = (page: number) => {
-    setIsChangingPage(true);
-    onPaginationChange({ page });
+  const reviewDialogRef = useRef<BookReviewDialogRef>(null);
+  const [isChangingPage, setIsChangingPage] = useState(false);
+  const [localReviews, setLocalReviews] = useState(reviews || []);
+  const [localTotalReviews, setLocalTotalReviews] = useState(totalReviews);
+
+  // Sync with props
+  useEffect(() => {
+    if (reviews) {
+      setLocalReviews(reviews);
+    }
+    setLocalTotalReviews(totalReviews);
+  }, [reviews, totalReviews]);
+
+  const userID = getCookieValue("user_id");
+  const yourReview = localReviews?.find(
+    (review) => review.reviewer._id === userID
+  );
+  const hasUserReview = !!yourReview;
+
+  // Split reviews into user's review and others
+  const { userReview, otherReviews } = useMemo(() => {
+    const userReview = localReviews.find(
+      (review) => review.reviewer._id === userID
+    );
+    const otherReviews = localReviews.filter(
+      (review) => review.reviewer._id !== userID
+    );
+    return { userReview, otherReviews };
+  }, [localReviews, userID]);
+
+  // Handle review updates
+  const handleReviewUpdate = (updatedReview: any) => {
+    setLocalReviews((prevReviews) => {
+      const newReviews = prevReviews.map((review) =>
+        review._id === (updatedReview?._id || updatedReview?.id)
+          ? { ...review, ...updatedReview }
+          : review
+      );
+      return newReviews;
+    });
     document
       .getElementById("reviews-section")
       ?.scrollIntoView({ behavior: "smooth" });
-    // Reset loading state after a short delay to ensure smooth transition
+  };
+
+  // Handle review creation
+  const handleReviewCreate = (newReview: any) => {
+    setLocalReviews((prevReviews) => [newReview, ...prevReviews]);
+    setLocalTotalReviews((prev) => prev + 1);
+    setTimeout(() => {
+      document
+        .getElementById("reviews-section")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const handlePageChange = (page: number) => {
+    setIsChangingPage(true);
+    onPaginationChange({ page });
     setTimeout(() => setIsChangingPage(false), 500);
   };
 
   const handlePageSizeChange = (size: number) => {
     setIsChangingPage(true);
     onPaginationChange({ limit: size, page: 1 });
-    // Reset loading state after a short delay to ensure smooth transition
     setTimeout(() => setIsChangingPage(false), 500);
   };
 
   const handleSortChange = (sortBy: SortBy) => {
     setIsChangingPage(true);
     onPaginationChange({ sortBy, page: 1 });
-    // Reset loading state after a short delay to ensure smooth transition
     setTimeout(() => setIsChangingPage(false), 500);
   };
 
-  // Sort reviews based on the selected option
+  // Sort only other reviews, keeping user's review at top
   const sortedReviews = useMemo(() => {
-    if (!reviews || reviews.length === 0) return [];
+    if (!otherReviews || otherReviews.length === 0)
+      return userReview ? [userReview] : [];
 
-    const reviewsArr = [...reviews];
+    let sortedOtherReviews = [...otherReviews];
 
     switch (currentPagination.sortBy) {
       case "newest":
-        return reviewsArr.sort(
+        sortedOtherReviews.sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
+        break;
       case "oldest":
-        return reviewsArr.sort(
+        sortedOtherReviews.sort(
           (a, b) =>
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
+        break;
       case "highest":
-        return reviewsArr.sort((a, b) => b.rating - a.rating);
+        sortedOtherReviews.sort((a, b) => b.rating - a.rating);
+        break;
       case "lowest":
-        return reviewsArr.sort((a, b) => a.rating - b.rating);
-      default:
-        return reviewsArr;
+        sortedOtherReviews.sort((a, b) => a.rating - b.rating);
+        break;
     }
-  }, [reviews, currentPagination.sortBy]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(totalReviews / currentPagination.limit);
+    return userReview
+      ? [userReview, ...sortedOtherReviews]
+      : sortedOtherReviews;
+  }, [otherReviews, currentPagination.sortBy, userReview]);
 
-  const userID = getCookieValue("user_id");
-  const yourReview = reviews?.find((review) => review.reviewer._id === userID);
-  const hasUserReview = !!yourReview;
-
-  console.log({ userID, yourReview, hasUserReview });
+  const totalPages = Math.ceil(localTotalReviews / currentPagination.limit);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-libre font-bold text-white">{book.title}</h1>
+        <h1 className="text-2xl font-libre font-bold text-white">
+          {book.title}
+        </h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          by&nbsp;
+          by 
           <span className="font-medium text-sky-400">{book.author}</span>
         </p>
       </div>
@@ -143,29 +190,21 @@ const BookReviewsList = ({
                 <div>
                   <StarRating rating={averageRating} />
                   <span className="mt-1 text-sm text-neutral-400">
-                    {totalReviews} reviews
+                    {localTotalReviews} reviews
                   </span>
                 </div>
               </div>
-              {!hasUserReview ? (
-                <Button
-                  className="h-10 mt-4"
-                  onClick={() =>
-                    reviewDialogRef.current?.openDialog({ mode: "edit" })
-                  }
-                >
-                  Write a Review
-                </Button>
-              ) : (
-                <Button
-                  className="h-10 mt-4"
-                  onClick={() =>
-                    reviewDialogRef.current?.openDialog({ mode: "edit" })
-                  }
-                >
-                  Edit your Review
-                </Button>
-              )}
+              <Button
+                className="h-10 mt-4"
+                onClick={() =>
+                  reviewDialogRef.current?.openDialog({
+                    mode: hasUserReview ? "edit" : "create",
+                    review: yourReview,
+                  })
+                }
+              >
+                {hasUserReview ? "Edit your Review" : "Write a Review"}
+              </Button>
             </div>
 
             <div className="space-y-2">
@@ -173,7 +212,9 @@ const BookReviewsList = ({
                 const key = star.toString();
                 const count = ratingDistribution[key as RatingList];
                 const percentage =
-                  totalReviews > 0 ? (Number(count) / totalReviews) * 100 : 0;
+                  localTotalReviews > 0
+                    ? (Number(count) / localTotalReviews) * 100
+                    : 0;
 
                 return (
                   <div key={star} className="flex items-center gap-2">
@@ -206,16 +247,11 @@ const BookReviewsList = ({
             Reviews
           </h3>
           <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
-            {totalReviews}
+            {localTotalReviews}
           </span>
         </div>
 
         <div className="flex gap-3">
-          {/* <Button variant="outline" size="sm" className="h-9 gap-1.5">
-            <Filter className="size-4" />
-            Filter
-          </Button> */}
-
           <Select
             value={currentPagination.sortBy}
             onValueChange={(value) => handleSortChange(value as SortBy)}
@@ -236,13 +272,15 @@ const BookReviewsList = ({
 
       <Separator className="mb-6 dark:bg-neutral-800" />
 
-      <div
-        className={cn("relative space-y-4", isChangingPage && "brightness-50")}
-      >
+      <div className={cn("relative", isChangingPage && "brightness-50")}>
         {isChangingPage && <LoadingReviews message="Updating Reviews..." />}
         {sortedReviews.length > 0 ? (
           sortedReviews.map((review) => (
-            <BookReviewCard key={review.id} review={review} />
+            <BookReviewCard
+              key={review._id}
+              review={review}
+              isUserReview={review.reviewer._id === userID}
+            />
           ))
         ) : (
           <div className="text-center py-8 text-neutral-500">
@@ -250,20 +288,24 @@ const BookReviewsList = ({
           </div>
         )}
       </div>
-      {/* // )} */}
 
-      {totalReviews > 0 && (
+      {localTotalReviews > 0 && (
         <Pagination
           currentPage={currentPagination.page}
           totalPages={totalPages}
-          totalItems={totalReviews}
+          totalItems={localTotalReviews}
           pageSize={currentPagination.limit}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
         />
       )}
 
-      <BookReviewDialog ref={reviewDialogRef} review={yourReview} />
+      <BookReviewDialog
+        ref={reviewDialogRef}
+        review={yourReview}
+        onUpdate={handleReviewUpdate}
+        // onCreate={handleReviewCreate}
+      />
     </div>
   );
 };

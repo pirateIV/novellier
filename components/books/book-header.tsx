@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { BookResponse } from "@/lib/graphql/types";
 
@@ -15,11 +16,12 @@ const BookHeader = ({
         description: string | undefined;
       };
 }) => {
+  const router = useRouter();
   useEffect(() => {
     if ("subjects" in book) {
       localStorage.setItem("genres", JSON.stringify(book.subjects));
     }
-  }, [book])
+  }, [book]);
 
   return (
     <div className="flex justify-between items-center mb-4">
@@ -31,6 +33,13 @@ const BookHeader = ({
         >
           Back to Genres
         </Link>
+        <span className="text-gray-700 mx-1">/</span>
+        <button
+          className="text-[13px] md:text-sm font-medium text-zinc-900 dark:text-white hover:underline md:font-semibold"
+          onClick={() => router.back()}
+        >
+          Go Back
+        </button>
       </div>
       <div>
         <button

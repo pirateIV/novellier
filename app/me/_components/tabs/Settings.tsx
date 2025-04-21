@@ -11,29 +11,30 @@ import {
   AlertCircle,
   Loader2,
   CheckCircle,
-  XCircle
+  XCircle,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 // import { useToast } from "@/components/ui/use-toast";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/axios";
+import { AxiosError } from "axios";
 
 const SettingsTab = ({ initialUserData }) => {
-console.log(initialUserData)
+  console.log(initialUserData);
   const router = useRouter();
 
   // User information state with initial data
   const [userInfo, setUserInfo] = useState({
     firstName: initialUserData?.firstName || "",
     lastName: initialUserData?.lastName || "",
-    email: initialUserData?.email || ""
+    email: initialUserData?.email || "",
   });
 
   // Form validation state
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
-    email: ""
+    email: "",
   });
 
   // Loading states
@@ -51,7 +52,7 @@ console.log(initialUserData)
     const newErrors = {
       firstName: "",
       lastName: "",
-      email: ""
+      email: "",
     };
 
     let isValid = true;
@@ -81,16 +82,16 @@ console.log(initialUserData)
   // Handle input changes with validation
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo(prev => ({
+    setUserInfo((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ""
+        [name]: "",
       }));
     }
   };
@@ -98,49 +99,43 @@ console.log(initialUserData)
   // Handle profile update
   const handleUpdateProfile = async (e: React.SyntheticEvent<FormEvent>) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     try {
-      await apiClient.post("/auth/me/update", userInfo)
+      await apiClient.post("/auth/me/update", userInfo);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   // Handle account deletion
   const handleDeleteAccount = async () => {
     if (deleteConfirmText !== "DELETE") {
-      toast({
-        title: "Confirmation required",
+      toast("Confirmation required", {
         description: 'Please type "DELETE" to confirm account deletion',
-        variant: "destructive",
       });
       return;
     }
 
     setIsDeleting(true);
     try {
-      const response = await fetch("/api/user", {
-        method: "DELETE",
+      await apiClient.delete("/auth/me/delete");
+
+      toast("Account deleted", {
+        description:
+          "Your account and all associated data have been permanently removed",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete account");
-      }
-
-      toast({
-        title: "Account deleted",
-        description: "Your account and all associated data have been permanently removed",
-      });
-
-      // Redirect to home page after deletion
-      setTimeout(() => router.push("/"), 2000);
+      // // Redirect to home page after deletion
+      // setTimeout(() => router.push("/"), 2000);
+      router.push('/')
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete account",
-        variant: "destructive",
+      toast("Error", {
+        description:
+          error instanceof AxiosError && error.message
+            ? error.message
+            : "Failed to delete account",
       });
     } finally {
       setIsDeleting(false);
@@ -160,19 +155,12 @@ console.log(initialUserData)
         throw new Error("Failed to logout");
       }
 
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out",
-      });
+      toast("Logged out");
 
       // Redirect to login page
-      router.push("/login");
+      router.push("/auth/sign-in");
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to logout",
-        variant: "destructive",
-      });
+      toast("Error:Failed to log out");
     } finally {
       setIsLoggingOut(false);
     }
@@ -186,7 +174,7 @@ console.log(initialUserData)
       </div>
 
       {/* Profile Information Section */}
-      <div className="bg-neutral-900 rounded-lg shadow p-6 mb-6">
+      {/* <div className="bg-neutral-900 rounded-lg shadow p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
         <form onSubmit={handleUpdateProfile}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -274,12 +262,12 @@ console.log(initialUserData)
             </button>
           </div>
         </form>
-      </div>
+      </div> */}
 
       {/* Account Actions Section */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-neutral-900 rounded-lg shadow p-6">
         <h2 className="text-xl font-semibold mb-4">Account Actions</h2>
-        
+
         {/* Logout Button */}
         <div className="mb-6">
           <button
@@ -298,22 +286,25 @@ console.log(initialUserData)
 
         {/* Logout Confirmation Dialog */}
         {showLogoutConfirm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-neutral-900 rounded-lg p-6 max-w-md w-full mx-4">
-              <h3 className="text-lg font-medium mb-4">Confirm Logout</h3>
-              <p className="mb-6">Are you sure you want to log out? Any unsaved changes will be lost.</p>
+              <h3 className="text-lg font-medium mb-4 ">Confirm Logout</h3>
+              <p className="mb-6 text-sm font-neutral-400">
+                Are you sure you want to log out? Any unsaved changes will be
+                lost.
+              </p>
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => setShowLogoutConfirm(false)}
                   disabled={isLoggingOut}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md disabled:opacity-70"
+                  className="px-4 py-2 bg-neutral-700 hover:bg-neutral-700/60 text-sm font-medium rounded-md disabled:opacity-70"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center gap-2 disabled:opacity-70"
+                  className="px-4 py-2 bg-red-600 text-sm font-medium hover:bg-red-700 text-white rounded-md flex items-center gap-2 disabled:opacity-70"
                 >
                   {isLoggingOut && <Loader2 className="size-4 animate-spin" />}
                   Logout
@@ -326,11 +317,12 @@ console.log(initialUserData)
         {/* Delete Account Section */}
         <div className="border-t pt-6 mt-6">
           <h3 className="text-lg font-medium text-red-600 mb-2">Danger Zone</h3>
-          <div className="bg-red-50 border border-red-100 rounded-md p-4 mb-4">
-            <p className="text-gray-700 mb-2">
-              <strong>Warning:</strong> Deleting your account will permanently remove:
+          <div className="bg-red-500/5 border  rounded-md p-4 mb-4">
+            <p className="text-neutral-400 mb-2 text-sm">
+              <strong className="text-neutral-100">Warning:</strong> Deleting
+              your account will permanently remove:
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-1">
+            <ul className="list-disc list-inside text-neutral-300 *:text-[13px] space-y-1">
               <li>Your profile information</li>
               <li>All your book reviews</li>
               <li>Your reading lists and saved books</li>
@@ -339,38 +331,44 @@ console.log(initialUserData)
           </div>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md transition-colors"
+            className="flex items-center gap-1.5 text-sm font-medium bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-md transition-colors"
           >
-            <Trash2 className="size-4" />
+            <Trash2 className="size-3.5" />
             Delete Account
           </button>
         </div>
 
         {/* Delete Account Confirmation Dialog */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-neutral-900 rounded-lg p-6 max-w-md w-full mx-4">
               <div className="flex items-center gap-2 text-red-600 mb-4">
                 <AlertCircle className="size-5" />
                 <h3 className="text-lg font-medium">Delete Account</h3>
               </div>
-              <p className="mb-4">This action cannot be undone. This will permanently:</p>
-              <ul className="list-disc list-inside mb-4 text-gray-700 space-y-1">
+              <p className="mb-4 text-neutral-300">
+                This action cannot be undone. This will permanently:
+              </p>
+              <ul className="list-disc *:text-[13px] list-inside mb-4 text-gray-400 space-y-1">
                 <li>Delete your account</li>
                 <li>Remove all your book reviews</li>
                 <li>Delete your reading lists</li>
                 <li>Erase all your data from our servers</li>
               </ul>
-              
+
               <div className="mb-4">
-                <label className="block text-sm font-medium text-neutral-400 mb-1">
-                  To confirm, type <span className="font-mono bg-gray-100 px-2 py-1 rounded">DELETE</span> below:
+                <label className="block text-sm font-medium text-neutral-300 mb-1">
+                  To confirm, type{" "}
+                  <span className="font-mono bg-neutral-800 px-2 py-1 rounded">
+                    DELETE
+                  </span>{" "}
+                  below:
                 </label>
                 <input
                   type="text"
                   value={deleteConfirmText}
                   onChange={(e) => setDeleteConfirmText(e.target.value)}
-                  className="w-full rounded-md border border-gray-600 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full rounded-md text-sm border border-neutral-600 py-2 px-3 focus:outline-none focus:inset-ring-2 focus:inset-ring-red-500"
                   placeholder="DELETE"
                   autoFocus
                 />
@@ -382,14 +380,14 @@ console.log(initialUserData)
                     setDeleteConfirmText("");
                   }}
                   disabled={isDeleting}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md disabled:opacity-70"
+                  className="px-4 py-2 text-sm font-medium bg-neutral-700 hover:brightness-90 rounded-md disabled:opacity-70"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteAccount}
                   disabled={deleteConfirmText !== "DELETE" || isDeleting}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-red-600 text-sm font-medium hover:bg-red-700 text-white rounded-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isDeleting && <Loader2 className="size-4 animate-spin" />}
                   {isDeleting ? "Deleting..." : "Delete Account"}

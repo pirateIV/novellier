@@ -11,6 +11,7 @@ import {
   Edit,
   Trash2,
   ArrowLeft,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -42,6 +43,13 @@ import { getRandomColor } from "@/lib/helpers";
 import { apiClient } from "@/lib/axios";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ReviewDetailProps = {
   bookID: string;
@@ -54,9 +62,12 @@ export default function ReviewDetail({
   reviewID,
   review,
 }: ReviewDetailProps) {
-  // const userID = getCookieValue("user_id");
   const [userID, setUserID] = useState("");
   const router = useRouter();
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editedContent, setEditedContent] = useState(review.content);
+  const [editedRating, setEditedRating] = useState(review.rating);
+  const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
 
   const isAuthor = review?.reviewer?.id === userID;
 
@@ -79,6 +90,31 @@ export default function ReviewDetail({
       setHasMarkedHelpful(!!review.helpful[userID]);
     }
   }, [userID, review.helpful]);
+
+  const handleEditReview = async () => {
+    if (!isAuthor || !userID) return;
+
+    setIsSubmittingEdit(true);
+    try {
+      const { data } = await apiClient.put(`/reviewsv2/${reviewID}`, {
+        content: editedContent,
+        rating: editedRating,
+      });
+
+      toast("Review updated", {
+        description: "Your changes have been saved",
+      });
+
+      // Refresh the page to show updated content
+      window.location.reload();
+    } catch (error) {
+      toast("Something went wrong", {
+        description: "Could not update your review",
+      });
+    } finally {
+      setIsSubmittingEdit(false);
+    }
+  };
 
   const handleMarkHelpful = async () => {
     if (!userID) {
@@ -211,7 +247,6 @@ export default function ReviewDetail({
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <button
-          // href={`/books/${bookID}`}
           className="inline-flex items-center font-semibold text-sm text-gray-100 hover:text-primary transition-colors"
           onClick={() => router.back()}
         >
@@ -280,14 +315,12 @@ export default function ReviewDetail({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link
-                  href={`/books/${bookID}/reviews/${review._id}/edit`}
-                  className="cursor-pointer"
-                >
-                  <Edit className="mr-2 h-4 w-4" />
-                  Edit review
-                </Link>
+              <DropdownMenuItem
+                onClick={() => setEditDialogOpen(true)}
+                className="cursor-pointer"
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                Edit review
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -305,20 +338,6 @@ export default function ReviewDetail({
       <Card className="overflow-hidden border rounded-none sm:rounded-lg py-0.5 gap-3 bg-zinc-900/30 shadow-sm">
         <CardContent className="p-3 sm:p-6">
           <div className="flex items-start gap-4">
-            {/* <Avatar className="h-12 w-12 border">
-              {review.reviewer?.profileImage ? (
-                <AvatarImage
-                  src={review.reviewer.profileImage}
-                  alt={reviewerName}
-                />
-              ) : (
-                <AvatarFallback
-                  className={getRandomColor(review.reviewer?.firstName)}
-                >
-                  {reviewerInitial}
-                </AvatarFallback>
-              )}
-            </Avatar> */}
             <Avatar className="h-10 w-10 border">
               <AvatarFallback
                 className={getRandomColor(review.reviewer?.firstName)}
@@ -421,13 +440,11 @@ export default function ReviewDetail({
                 <Button
                   variant="ghost"
                   size="sm"
-                  asChild
+                  onClick={() => setEditDialogOpen(true)}
                   className="text-gray-400 text-[13px] hover:text-gray-300"
                 >
-                  <Link href={`/books/${bookID}/reviews/${review._id}/edit`}>
-                    <Edit className="size-3.5" />
-                    Edit
-                  </Link>
+                  <Edit className="size-3.5" />
+                  Edit
                 </Button>
               )}
             </div>
@@ -435,32 +452,68 @@ export default function ReviewDetail({
         </CardFooter>
       </Card>
 
-      {/* <div className="bg-gray-50 dark:bg-gray-800/20 rounded-lg p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <MessageSquare className="h-5 w-5 text-primary" />
-          <h3 className="font-medium">About this book</h3>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <img
-            src={bookCover || "/placeholder.svg?height=120&width=80"}
-            alt={title!}
-            className="w-20 h-30 object-cover rounded-md shadow-sm"
-          />
-
-          <div>
-            <h4 className="font-semibold">{title || "Book Title"}</h4>
-            <p className="text-sm text-gray-500">{author || "Author Name"}</p>
-            <Link
-              href={`/books/${bookID}`}
-              className="text-sm text-primary hover:underline mt-2 inline-block"
-            >
-              View book details
-            </Link>
+      {/* Edit Review Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              <span>Edit Review</span>
+              <button
+                onClick={() => setEditDialogOpen(false)}
+                className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </button>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none">
+                Your Rating
+              </label>
+              <div className="flex items-center gap-2">
+                <StarRating
+                  rating={editedRating}
+                  onRatingChange={setEditedRating}
+                  editable
+                />
+                <span className="text-sm text-muted-foreground">
+                  {editedRating}/5
+                </span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none">
+                Review
+              </label>
+              <Textarea
+                value={editedContent}
+                onChange={(e) => setEditedContent(e.target.value)}
+                className="min-h-[200px]"
+                placeholder="Share your thoughts about this book..."
+              />
+            </div>
           </div>
-        </div>
-      </div> */}
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setEditDialogOpen(false)}
+              disabled={isSubmittingEdit}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleEditReview}
+              disabled={isSubmittingEdit || !editedContent.trim()}
+            >
+              {isSubmittingEdit ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
+      {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>

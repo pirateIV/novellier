@@ -44,7 +44,7 @@ const Quotes = () => {
   };
 
   return (
-    <div className="absolute bottom-8 lg:bottom-16 md:bottom-24 left-0 right-0 px-4">
+    <div className="translate-y-14 -bottom-8 lg:-bottom-32 md:bottom-24 left-0 right-0 px-4">
       <AnimatePresence mode="wait">
         <motion.blockquote
           key={currentQuote} // Key ensures animation triggers on quote change

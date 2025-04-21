@@ -2,7 +2,6 @@ import { genres } from "@/lib/books";
 import dbConnect from "@/lib/db";
 import { Review } from "@/shared/models";
 import Genre from "@/shared/models/Genre";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const TOP_GENRES_LIMIT = 6;
@@ -74,7 +73,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       reviews: calculateUserTotalGenreRating()
         .sort((a, b) => b.total_times_rated - a.total_times_rated)
-        .slice(0, TOP_GENRES_LIMIT),
+        .slice(0, totalUserGenres.length > TOP_GENRES_LIMIT ? TOP_GENRES_LIMIT : totalUserGenres.length),
     });
   } catch (error) {
     return NextResponse.json(

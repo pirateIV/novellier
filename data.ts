@@ -207,7 +207,7 @@ const users = [
     },
     {
       username: "uche_money",
-      password: "ucheEgo",
+      password: "ucheEgo1234",
       email: "uche@example.com",
       firstName: "Uche",
       lastName: "Nnaji",

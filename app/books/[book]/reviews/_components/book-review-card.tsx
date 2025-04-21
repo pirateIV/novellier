@@ -29,6 +29,7 @@ export type Review = {
   content: string;
   rating: number;
   reviewer: {
+    _id: boolean;
     id: string;
     firstName: string;
     lastName: string;
@@ -86,7 +87,7 @@ export default function BookReviewCard({
   };
 
   return (
-    <Card className="overflow-hidden -mx-4 sm:-mx-0 rounded-none sm:rounded-xl pb-0 sm:mb-4 bg-white border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800">
+    <Card className="overflow-hidden sm:-mx-0 rounded-none pb-0 border border-neutral-800/50 sm:first-of-type:rounded-t-xl sm:last-of-type:rounded-b-xl bg-transparent">
       <Link
         href={`/books/${book}/reviews/${review.id || review._id}`}
         className="space-y-2 md:space-y-4"
@@ -133,7 +134,7 @@ export default function BookReviewCard({
           {isLongContent && (
             <Button
               variant="link"
-              className="h-auto p-0 text-xs font-medium text-neutral-600 dark:text-neutral-400 relative"
+              className="h-auto p-0 text-xs font-medium text-neutral-600 dark:text-neutral-400 relative z-10"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -145,7 +146,7 @@ export default function BookReviewCard({
           )}
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-between py-1.5 sm:p-3 border-t border-neutral-100 dark:border-neutral-800">
+      <CardFooter className="flex justify-between py-1.5 sm:p-3 border-t border-neutral-100 dark:border-neutral-800 dark:border-t-white/5">
         <div className="flex gap-3">
           <Button
             variant="ghost"

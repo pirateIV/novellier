@@ -15,7 +15,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const heading = path.includes("sign-up") ? "Create an account" : "Sign in";
 
   return (
-    <div className="min-h-[calc(100vh-80px)] relative flex flex-col items-center pt-24 mt-20 md:justify-center md:pt-0 md:mt-0">
+    <div className="min-h-[calc(100vh-80px)] relative flex px-5 flex-col items-center pt-24 mt-20 md:justify-center md:pt-0 md:mt-0">
       <nav className="w-full flex items-center justify-between fixed top-0 px-6 md:px-7 lg:px-8 xl:px-10 py-5 mt-1">
         <div>
           <Link href="/" className="group *:group-hover:not-first:underline text-blue-500 text-sm font-semibold">
