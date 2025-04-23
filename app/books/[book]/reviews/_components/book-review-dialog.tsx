@@ -57,6 +57,8 @@ const BookReviewDialog = forwardRef<BookReviewDialogRef, BookReviewDialogProps>(
     const [hoverRating, setHoverRating] = useState<number | null>(null);
     const router = useRouter();
 
+    console.log(review)
+
     const form = useForm<ReviewFormValues>({
       resolver: zodResolver(reviewFormSchema),
       defaultValues: {
@@ -119,10 +121,15 @@ const BookReviewDialog = forwardRef<BookReviewDialogRef, BookReviewDialogProps>(
     const handleDelete = async () => {
       setIsLoading(true);
       try {
+<<<<<<< HEAD
         const reviewPost = await apiClient.delete(
           `/reviews/delete/${review._id}`
         );
         console.log({ reviewPost });
+=======
+     const reviewPost =   await apiClient.delete(`/reviews/delete/${review._id}`);
+     console.log({reviewPost})
+>>>>>>> bb06684fc4973a436dddd2d91ea1cce7bdaca81d
         toast.success("Review deleted successfully!");
         router.refresh();
         setOpen(false);

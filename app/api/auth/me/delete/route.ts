@@ -11,7 +11,7 @@ export async function DELETE() {
 
   const user = await getUserFromToken(token!);
 
-  const userId = user.id;
+  const userId = user._id;
 
   const session = await mongoose.startSession();
   session.startTransaction();
